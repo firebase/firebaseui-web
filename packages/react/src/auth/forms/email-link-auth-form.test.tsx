@@ -15,7 +15,7 @@
  */
 
 import { describe, it, expect, vi, beforeEach, afterEach } from "vitest";
-import { render, screen, fireEvent, renderHook, cleanup, waitFor } from "@testing-library/react";
+import { render, screen, fireEvent, renderHook, cleanup, waitFor, within } from "@testing-library/react";
 import {
   EmailLinkAuthForm,
   useEmailLinkAuthForm,
@@ -392,5 +392,63 @@ describe("<EmailLinkAuthForm />", () => {
     });
 
     expect(screen.getByText("Please enter a valid email address")).toBeInTheDocument();
+  });
+
+  it("should show the sending label while the sign-in link is being sent", async () => {
+    let resolveSend: () => void = () => {};
+    vi.mocked(sendSignInLinkToEmail).mockReturnValue(new Promise<void>((resolve) => (resolveSend = resolve)));
+    const mockUI = createMockUI({
+      locale: registerLocale("test", {
+        labels: {
+          sendSignInLink: "sendSignInLink",
+          sending: "sending",
+        },
+      }),
+    });
+
+    const { container } = render(
+      <FirebaseUIProvider ui={mockUI}>
+        <EmailLinkAuthForm />
+      </FirebaseUIProvider>
+    );
+    const view = within(container);
+
+    fireEvent.change(container.querySelector("input[type='email']")!, { target: { value: "test@example.com" } });
+    fireEvent.click(view.getByRole("button", { name: "sendSignInLink" }));
+
+    expect(await view.findByRole("button", { name: "sending" })).toBeDisabled();
+
+    await act(async () => resolveSend());
+  });
+
+  it("should restore the normal label once sending the sign-in link fails", async () => {
+    let rejectSend: (error: Error) => void = () => {};
+    vi.mocked(sendSignInLinkToEmail).mockReturnValue(new Promise<void>((_, reject) => (rejectSend = reject)));
+    const mockUI = createMockUI({
+      locale: registerLocale("test", {
+        labels: {
+          sendSignInLink: "sendSignInLink",
+          sending: "sending",
+        },
+      }),
+    });
+
+    const { container } = render(
+      <FirebaseUIProvider ui={mockUI}>
+        <EmailLinkAuthForm />
+      </FirebaseUIProvider>
+    );
+    const view = within(container);
+
+    fireEvent.change(container.querySelector("input[type='email']")!, { target: { value: "test@example.com" } });
+    fireEvent.click(view.getByRole("button", { name: "sendSignInLink" }));
+
+    expect(await view.findByRole("button", { name: "sending" })).toBeDisabled();
+    await waitFor(() => expect(sendSignInLinkToEmail).toHaveBeenCalled());
+
+    await act(async () => rejectSend(new Error("Network error")));
+
+    expect(await view.findByRole("button", { name: "sendSignInLink" })).toBeEnabled();
+    expect(view.queryByRole("button", { name: "sending" })).not.toBeInTheDocument();
   });
 });

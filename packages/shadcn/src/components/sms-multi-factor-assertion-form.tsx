@@ -49,15 +49,19 @@ function SmsMultiFactorAssertionPhoneForm(props: SmsMultiFactorAssertionPhoneFor
   const recaptchaVerifier = useRecaptchaVerifier(recaptchaContainerRef);
   const action = useSmsMultiFactorAssertionPhoneFormAction();
   const [error, setError] = useState<string | null>(null);
+  const [isSending, setIsSending] = useState(false);
 
   const onSubmit = async () => {
     try {
       setError(null);
+      setIsSending(true);
       const verificationId = await action({ hint: props.hint, recaptchaVerifier: recaptchaVerifier! });
       props.onSubmit(verificationId);
     } catch (error) {
       const message = error instanceof FirebaseUIError ? error.message : String(error);
       setError(message);
+    } finally {
+      setIsSending(false);
     }
   };
 
@@ -72,8 +76,8 @@ function SmsMultiFactorAssertionPhoneForm(props: SmsMultiFactorAssertionPhoneFor
         </FieldDescription>
       </Field>
       <div className="fui-recaptcha-container" ref={recaptchaContainerRef} />
-      <Button onClick={onSubmit} disabled={ui.state !== "idle"}>
-        {getTranslation(ui, "labels", "sendCode")}
+      <Button onClick={onSubmit} disabled={ui.state !== "idle"} aria-busy={isSending}>
+        {getTranslation(ui, "labels", isSending ? "sending" : "sendCode")}
       </Button>
       {error && <div className="text-sm text-red-600">{error}</div>}
     </div>

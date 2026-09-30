@@ -77,7 +77,7 @@ export class EmailLinkAuthScreenComponent {
   mfaResolver = computed(() => this.ui().multiFactorResolver);
 
   titleText = injectTranslation("labels", "signIn");
-  subtitleText = injectTranslation("prompts", "signInToAccount");
+  subtitleText = injectTranslation("prompts", "enterEmailForLink");
 
   constructor() {
     injectUserAuthenticated((user) => {

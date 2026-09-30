@@ -15,7 +15,7 @@
  */
 
 import { describe, it, expect, vi, beforeEach, afterEach } from "vitest";
-import { render, screen, renderHook, cleanup } from "@testing-library/react";
+import { render, screen, renderHook, cleanup, fireEvent, waitFor } from "@testing-library/react";
 import {
   SmsMultiFactorEnrollmentForm,
   useSmsMultiFactorEnrollmentPhoneAuthFormAction,
@@ -65,13 +65,18 @@ vi.mock("~/components/form", async (importOriginal) => {
   };
 });
 
-vi.mock("~/components/country-selector", () => ({
-  CountrySelector: ({ ref }: { ref: any }) => (
-    <div data-testid="country-selector" ref={ref}>
-      Country Selector
-    </div>
-  ),
-}));
+vi.mock("~/components/country-selector", async () => {
+  const { useImperativeHandle } = await import("react");
+  return {
+    CountrySelector: ({ ref }: { ref: any }) => {
+      useImperativeHandle(ref, () => ({
+        getCountry: () => ({ code: "US", name: "United States", dialCode: "+1", emoji: "🇺🇸" }),
+        setCountry: () => {},
+      }));
+      return <div data-testid="country-selector">Country Selector</div>;
+    },
+  };
+});
 
 vi.mock("~/hooks", async (importOriginal) => {
   const mod = await importOriginal<typeof import("~/hooks")>();
@@ -331,5 +336,37 @@ describe("<SmsMultiFactorEnrollmentForm />", () => {
     expect(screen.getByRole("textbox", { name: /phoneNumber/i })).toBeInTheDocument();
     expect(screen.getByRole("button", { name: "sendCode" })).toBeInTheDocument();
     expect(screen.getByTestId("country-selector")).toBeInTheDocument();
+  });
+
+  it("should show the sending label while the verification code is being sent", async () => {
+    let resolveVerify: (verificationId: string) => void = () => {};
+    vi.mocked(verifyPhoneNumber).mockReturnValue(new Promise<string>((resolve) => (resolveVerify = resolve)));
+    const mockUI = createMockUI({
+      auth: { currentUser: { uid: "test-user", _onReload: vi.fn() } } as any,
+      locale: registerLocale("test", {
+        labels: {
+          displayName: "displayName",
+          phoneNumber: "phoneNumber",
+          sendCode: "sendCode",
+          sending: "sending",
+        },
+      }),
+    });
+
+    render(
+      createFirebaseUIProvider({
+        children: <SmsMultiFactorEnrollmentForm />,
+        ui: mockUI,
+      })
+    );
+
+    fireEvent.change(screen.getByRole("textbox", { name: /displayName/i }), { target: { value: "My Phone" } });
+    fireEvent.change(screen.getByRole("textbox", { name: /phoneNumber/i }), { target: { value: "1234567890" } });
+    fireEvent.click(screen.getByRole("button", { name: "sendCode" }));
+
+    expect(await screen.findByRole("button", { name: "sending" })).toBeDisabled();
+    await waitFor(() => expect(verifyPhoneNumber).toHaveBeenCalled());
+
+    await act(async () => resolveVerify("test-verification-id"));
   });
 });

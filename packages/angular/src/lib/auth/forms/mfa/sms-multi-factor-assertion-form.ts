@@ -56,7 +56,7 @@ type PhoneMultiFactorInfo = MultiFactorInfo & {
       </fieldset>
       <fieldset>
         <fui-form-submit [state]="state()" [disabled]="!recaptchaVerifier()">
-          {{ sendCodeLabel() }}
+          {{ state().isSubmitting ? sendingLabel() : sendCodeLabel() }}
         </fui-form-submit>
         <fui-form-error-message [state]="state()" />
       </fieldset>
@@ -75,6 +75,7 @@ export class SmsMultiFactorAssertionPhoneFormComponent {
   @Output() onSubmit = new EventEmitter<string>();
 
   sendCodeLabel = injectTranslation("labels", "sendCode");
+  sendingLabel = injectTranslation("labels", "sending");
 
   recaptchaContainer = viewChild.required<ElementRef<HTMLDivElement>>("recaptchaContainer");
 

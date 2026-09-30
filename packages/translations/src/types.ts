@@ -107,7 +107,10 @@ export type Translations = {
     passwordResetEmailSent?: string;
     /** Translation for sign-in link sent confirmation. */
     signInLinkSent?: string;
-    /** Translation for verification code required first. */
+    /**
+     * Translation for verification code required first.
+     * @deprecated Not used by any FirebaseUI component.
+     */
     verificationCodeFirst?: string;
     /** Translation for checking email for reset instructions. */
     checkEmailForReset?: string;

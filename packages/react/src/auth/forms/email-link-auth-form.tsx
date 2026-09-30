@@ -158,7 +158,11 @@ export function EmailLinkAuthForm({ onEmailSent, onSignIn }: EmailLinkAuthFormPr
         </fieldset>
         <Policies />
         <fieldset>
-          <form.SubmitButton>{getTranslation(ui, "labels", "sendSignInLink")}</form.SubmitButton>
+          <form.SubmitButton>
+            <form.Subscribe selector={(state) => state.isSubmitting}>
+              {(isSubmitting) => getTranslation(ui, "labels", isSubmitting ? "sending" : "sendSignInLink")}
+            </form.Subscribe>
+          </form.SubmitButton>
           <form.ErrorMessage />
         </fieldset>
       </form.AppForm>

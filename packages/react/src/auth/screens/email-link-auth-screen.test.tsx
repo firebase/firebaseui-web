@@ -60,7 +60,7 @@ describe("<EmailLinkAuthScreen />", () => {
           signIn: "signIn",
         },
         prompts: {
-          signInToAccount: "signInToAccount",
+          enterEmailForLink: "enterEmailForLink",
         },
       }),
     });
@@ -75,7 +75,7 @@ describe("<EmailLinkAuthScreen />", () => {
     expect(title).toBeInTheDocument();
     expect(title).toHaveClass("fui-card__title");
 
-    const subtitle = screen.getByText("signInToAccount");
+    const subtitle = screen.getByText("enterEmailForLink");
     expect(subtitle).toBeInTheDocument();
     expect(subtitle).toHaveClass("fui-card__subtitle");
   });

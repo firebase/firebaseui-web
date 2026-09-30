@@ -85,7 +85,7 @@ import {
           </fieldset>
           <fieldset>
             <fui-form-submit [state]="phoneState()" [disabled]="!recaptchaVerifier()">
-              {{ sendCodeLabel() }}
+              {{ phoneState().isSubmitting ? sendingLabel() : sendCodeLabel() }}
             </fui-form-submit>
             <fui-form-error-message [state]="phoneState()" />
           </fieldset>
@@ -132,6 +132,7 @@ export class SmsMultiFactorEnrollmentFormComponent {
   displayNameLabel = injectTranslation("labels", "displayName");
   phoneNumberLabel = injectTranslation("labels", "phoneNumber");
   sendCodeLabel = injectTranslation("labels", "sendCode");
+  sendingLabel = injectTranslation("labels", "sending");
   verificationCodeLabel = injectTranslation("labels", "verificationCode");
   verifyCodeLabel = injectTranslation("labels", "verifyCode");
   smsVerificationPrompt = injectTranslation("prompts", "smsVerificationPrompt");

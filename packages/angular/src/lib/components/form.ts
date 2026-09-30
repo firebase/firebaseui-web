@@ -146,7 +146,13 @@ export class FormActionComponent {}
     style: "display: block;",
   },
   template: `
-    <button fui-button class="fui-form__action" [class]="class()" [disabled]="isDisabled()">
+    <button
+      fui-button
+      class="fui-form__action"
+      [class]="class()"
+      [disabled]="isDisabled()"
+      [attr.aria-busy]="isSubmitting()"
+    >
       <ng-content></ng-content>
     </button>
   `,
