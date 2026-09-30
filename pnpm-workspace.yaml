@@ -13,7 +13,7 @@ catalog:
   "@angular/compiler": ^22.1.7
   "@angular/compiler-cli": ^22.1.7
   "@angular/core": ^22.1.7
-  "@angular/fire": ^20.0.1
+  "@angular/fire": ^20.1.0
   "@angular/forms": ^22.1.7
   "@angular/platform-browser": ^22.1.7
   "@angular/platform-browser-dynamic": ^22.0.5
