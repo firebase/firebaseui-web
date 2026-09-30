@@ -16,6 +16,7 @@ import { Form, FormControl, FormField, FormItem, FormLabel, FormMessage } from "
 import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
 import { Policies } from "./policies";
+import { PasswordInput } from "./password-input";
 
 export type { SignUpAuthFormProps };
 
@@ -83,7 +84,12 @@ export function SignUpAuthForm(props: SignUpAuthFormProps) {
             <FormItem>
               <FormLabel>{getTranslation(ui, "labels", "password")}</FormLabel>
               <FormControl>
-                <Input {...field} type="password" autoComplete="new-password" />
+                <PasswordInput
+                  {...field}
+                  autoComplete="new-password"
+                  showPasswordLabel={getTranslation(ui, "labels", "showPassword")}
+                  hidePasswordLabel={getTranslation(ui, "labels", "hidePassword")}
+                />
               </FormControl>
               <FormMessage />
             </FormItem>

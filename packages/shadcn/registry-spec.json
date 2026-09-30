@@ -372,6 +372,23 @@
       ]
     },
     {
+      "name": "password-input",
+      "meta": {
+        "version": "{{ VERSION }}"
+      },
+      "type": "registry:block",
+      "title": "Password Input",
+      "description": "A password input with a button to show or hide the password.",
+      "dependencies": ["lucide-react"],
+      "registryDependencies": ["input", "button"],
+      "files": [
+        {
+          "path": "src/components/password-input.tsx",
+          "type": "registry:component"
+        }
+      ]
+    },
+    {
       "name": "phone-auth-form",
       "meta": {
         "version": "{{ VERSION }}"
@@ -458,7 +475,13 @@
       "title": "Sign In Auth Form",
       "description": "A form allowing users to sign in with email and password.",
       "dependencies": ["{{ DEP | @firebase-oss/ui-react }}", "react-hook-form", "@hookform/resolvers"],
-      "registryDependencies": ["input", "button", "field", "{{ DOMAIN }}/r/policies.json"],
+      "registryDependencies": [
+        "input",
+        "button",
+        "field",
+        "{{ DOMAIN }}/r/policies.json",
+        "{{ DOMAIN }}/r/password-input.json"
+      ],
       "files": [
         {
           "path": "src/components/sign-in-auth-form.tsx",
@@ -497,7 +520,13 @@
       "title": "Sign Up Auth Form",
       "description": "A form allowing users to sign up with email and password.",
       "dependencies": ["{{ DEP | @firebase-oss/ui-react }}", "react-hook-form", "@hookform/resolvers"],
-      "registryDependencies": ["input", "button", "field", "{{ DOMAIN }}/r/policies.json"],
+      "registryDependencies": [
+        "input",
+        "button",
+        "field",
+        "{{ DOMAIN }}/r/policies.json",
+        "{{ DOMAIN }}/r/password-input.json"
+      ],
       "files": [
         {
           "path": "src/components/sign-up-auth-form.tsx",
