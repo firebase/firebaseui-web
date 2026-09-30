@@ -138,6 +138,10 @@ export type Translations = {
     displayName?: string;
     /** Translation for forgot password link. */
     forgotPassword?: string;
+    /** Accessible label for the button that reveals the password. */
+    showPassword?: string;
+    /** Accessible label for the button that hides the password. */
+    hidePassword?: string;
     /** Translation for sign up button/link. */
     signUp?: string;
     /** Translation for sign in button/link. */

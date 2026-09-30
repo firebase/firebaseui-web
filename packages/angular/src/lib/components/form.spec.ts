@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-import { render, screen } from "@testing-library/angular";
+import { fireEvent, render, screen } from "@testing-library/angular";
 import { Component, signal } from "@angular/core";
 import { injectForm, TanStackAppField } from "@tanstack/angular-form";
 
@@ -216,6 +216,130 @@ describe("Form Components", () => {
       placeholder = signal<string | undefined>(undefined);
       maxlength = signal<string | number | undefined>(undefined);
     }
+
+    @Component({
+      template: `
+        <form (submit)="$event.preventDefault()" data-testid="form">
+          <fui-form-input
+            name="password"
+            tanstack-app-field
+            [tanstackField]="form"
+            label="Password"
+            type="password"
+            showPasswordLabel="Show password"
+            hidePasswordLabel="Hide password"
+          ></fui-form-input>
+        </form>
+      `,
+      standalone: true,
+      imports: [FormInputComponent, TanStackAppField],
+    })
+    class TestFormPasswordInputInFormHostComponent {
+      form = injectForm({
+        defaultValues: {
+          password: "secret",
+        },
+      });
+    }
+
+    @Component({
+      template: `
+        <fui-form-input
+          name="password"
+          tanstack-app-field
+          [tanstackField]="form"
+          label="Password"
+          type="password"
+          [showPasswordLabel]="showPasswordLabel()"
+          hidePasswordLabel="Hide password"
+        ></fui-form-input>
+      `,
+      standalone: true,
+      imports: [FormInputComponent, TanStackAppField],
+    })
+    class TestFormPasswordInputHostComponent {
+      form = injectForm({
+        defaultValues: {
+          password: "secret",
+        },
+      });
+      showPasswordLabel = signal<string | undefined>("Show password");
+    }
+
+    it("keeps the action slot outside the label", async () => {
+      const { container } = await render(TestFormInputHostComponent, {
+        imports: [TestFormInputHostComponent],
+      });
+
+      const label = container.querySelector('label[for="test"]');
+      expect(label).toHaveTextContent(/^Test Label$/);
+      expect(label).not.toContainElement(screen.getByTestId("test-action"));
+      expect(label).not.toContainElement(container.querySelector('input[name="test"]') as HTMLElement);
+    });
+
+    it("renders a password toggle that reveals and hides the password", async () => {
+      const component = await render(TestFormPasswordInputHostComponent);
+
+      const input = screen.getByLabelText("Password");
+      expect(input).toHaveAttribute("type", "password");
+
+      const toggle = screen.getByRole("button", { name: "Show password" });
+      expect(toggle).toHaveAttribute("type", "button");
+      expect(toggle).toHaveAttribute("aria-controls", "password");
+
+      toggle.click();
+      component.fixture.detectChanges();
+      expect(input).toHaveAttribute("type", "text");
+      expect(input).toHaveValue("secret");
+
+      screen.getByRole("button", { name: "Hide password" }).click();
+      component.fixture.detectChanges();
+      expect(input).toHaveAttribute("type", "password");
+    });
+
+    it("turns off spellcheck and autocorrect when the toggle is shown", async () => {
+      await render(TestFormPasswordInputHostComponent);
+
+      const input = screen.getByLabelText("Password");
+      expect(input).toHaveAttribute("spellcheck", "false");
+      expect(input).toHaveAttribute("autocapitalize", "off");
+      expect(input).toHaveAttribute("autocorrect", "off");
+    });
+
+    it("hides the password again when the form is submitted", async () => {
+      const component = await render(TestFormPasswordInputInFormHostComponent);
+
+      const input = screen.getByLabelText("Password");
+      screen.getByRole("button", { name: "Show password" }).click();
+      component.fixture.detectChanges();
+      expect(input).toHaveAttribute("type", "text");
+
+      fireEvent.submit(screen.getByTestId("form"));
+      component.fixture.detectChanges();
+      expect(input).toHaveAttribute("type", "password");
+      expect(screen.getByRole("button", { name: "Show password" })).toBeTruthy();
+    });
+
+    it("links the description to the input", async () => {
+      const component = await render(TestFormInputWithDescriptionHostComponent);
+
+      component.fixture.componentInstance.description.set("Enter a code");
+      component.fixture.detectChanges();
+
+      const input = screen.getByLabelText("Test Label");
+      expect(input).toHaveAttribute("aria-describedby", "test-description");
+      expect(input).toHaveAccessibleDescription("Enter a code");
+    });
+
+    it("does not render a password toggle without a show password label", async () => {
+      const component = await render(TestFormPasswordInputHostComponent);
+
+      component.fixture.componentInstance.showPasswordLabel.set(undefined);
+      component.fixture.detectChanges();
+
+      expect(screen.queryByRole("button")).toBeNull();
+      expect(screen.getByLabelText("Password")).toHaveAttribute("type", "password");
+    });
 
     it("renders action content when provided", async () => {
       await render(TestFormInputHostComponent, {
