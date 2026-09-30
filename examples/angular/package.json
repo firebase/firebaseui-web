@@ -26,7 +26,7 @@
     "@angular/common": "catalog:",
     "@angular/compiler": "catalog:",
     "@angular/core": "catalog:",
-    "@angular/fire": "^20.0.1",
+    "@angular/fire": "^20.1.0",
     "@angular/forms": "catalog:",
     "@angular/platform-browser": "catalog:",
     "@angular/platform-browser-dynamic": "catalog:",
