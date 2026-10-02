@@ -26,7 +26,7 @@
     "@radix-ui/react-context-menu": "^2.3.2",
     "@radix-ui/react-dialog": "^1.1.23",
     "@radix-ui/react-dropdown-menu": "^2.1.19",
-    "@radix-ui/react-hover-card": "^1.1.18",
+    "@radix-ui/react-hover-card": "^1.1.23",
     "@radix-ui/react-label": "^2.1.11",
     "@radix-ui/react-menubar": "^1.1.19",
     "@radix-ui/react-navigation-menu": "^1.2.17",
