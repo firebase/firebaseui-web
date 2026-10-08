@@ -63,6 +63,8 @@ export const koKR = {
     password: "비밀번호",
     displayName: "표시 이름",
     forgotPassword: "비밀번호를 잊으셨나요?",
+    showPassword: "비밀번호 표시",
+    hidePassword: "비밀번호 숨기기",
     signUp: "회원가입",
     signIn: "로그인",
     resetPassword: "비밀번호 재설정",

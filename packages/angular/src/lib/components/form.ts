@@ -183,6 +183,7 @@ export class FormInputComponent implements OnChanges, AfterViewInit {
 
   ngAfterViewInit(): void {
     // Hide the password again on submit, so it is not left on screen and password managers see a password field.
+    if (!this.hasPasswordToggle()) return;
     const input = this.inputElement().nativeElement;
     const form = input.form;
     if (!form) return;

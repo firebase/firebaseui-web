@@ -63,6 +63,8 @@ export const ltLT = {
     password: "Slaptažodis",
     displayName: "Rodomas vardas",
     forgotPassword: "Pamiršote slaptažodį?",
+    showPassword: "Rodyti slaptažodį",
+    hidePassword: "Slėpti slaptažodį",
     signUp: "Registruotis",
     signIn: "Prisijungti",
     resetPassword: "Atkurti slaptažodį",

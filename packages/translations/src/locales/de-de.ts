@@ -66,6 +66,8 @@ export const deDE = {
     password: "Passwort",
     displayName: "Anzeigename",
     forgotPassword: "Passwort vergessen?",
+    showPassword: "Passwort anzeigen",
+    hidePassword: "Passwort ausblenden",
     signUp: "Registrieren",
     signIn: "Anmelden",
     resetPassword: "Passwort zurücksetzen",

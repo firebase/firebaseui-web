@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-import { describe, it, expect, afterEach } from "vitest";
+import { describe, it, expect, afterEach, vi } from "vitest";
 import { render, screen, fireEvent, cleanup } from "@testing-library/react";
 import { createRef } from "react";
 import { PasswordInput } from "./password-input";
@@ -91,5 +91,33 @@ describe("<PasswordInput />", () => {
     fireEvent.submit(screen.getByTestId("form"));
     expect(input).toHaveAttribute("type", "password");
     expect(screen.getByRole("button", { name: "Show password" })).toBeInTheDocument();
+  });
+
+  it("removes the submit listener on unmount", () => {
+    const { unmount } = render(
+      <form data-testid="form">
+        <PasswordInput id="password" showPasswordLabel="Show password" hidePasswordLabel="Hide password" />
+      </form>
+    );
+
+    const form = screen.getByTestId("form");
+    const removeEventListener = vi.spyOn(form, "removeEventListener");
+    unmount();
+
+    expect(removeEventListener).toHaveBeenCalledWith("submit", expect.any(Function), { capture: true });
+  });
+
+  it("keeps the same ref callback across renders", () => {
+    const ref = vi.fn();
+    const { rerender } = render(
+      <PasswordInput id="password" ref={ref} showPasswordLabel="Show password" hidePasswordLabel="Hide password" />
+    );
+    rerender(
+      <PasswordInput id="password" ref={ref} showPasswordLabel="Show password" hidePasswordLabel="Hide password" />
+    );
+    fireEvent.click(screen.getByRole("button", { name: "Show password" }));
+
+    expect(ref).toHaveBeenCalledTimes(1);
+    expect(ref).toHaveBeenCalledWith(expect.any(HTMLInputElement));
   });
 });

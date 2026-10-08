@@ -367,6 +367,38 @@ describe("form export", () => {
       expect(screen.getByRole("button", { name: "Show password" })).toBeInTheDocument();
     });
 
+    it("should remove the submit listener on unmount", () => {
+      const { result } = renderHook(() => {
+        return form.useAppForm({
+          defaultValues: { password: "secret" },
+        });
+      });
+
+      const hook = result.current;
+
+      const { unmount } = render(
+        <form data-testid="form">
+          <hook.AppForm>
+            <hook.AppField name="password">
+              {(field) => (
+                <field.PasswordInput
+                  label="Password"
+                  showPasswordLabel="Show password"
+                  hidePasswordLabel="Hide password"
+                />
+              )}
+            </hook.AppField>
+          </hook.AppForm>
+        </form>
+      );
+
+      const formElement = screen.getByTestId("form");
+      const removeEventListener = vi.spyOn(formElement, "removeEventListener");
+      unmount();
+
+      expect(removeEventListener).toHaveBeenCalledWith("submit", expect.any(Function), { capture: true });
+    });
+
     it("should keep the value typed while the password is visible", () => {
       renderPasswordInput();
 

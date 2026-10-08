@@ -64,6 +64,8 @@ export const elGR = {
     password: "Κωδικός πρόσβασης",
     displayName: "Εμφανιζόμενο όνομα",
     forgotPassword: "Ξεχάσατε τον κωδικό πρόσβασης;",
+    showPassword: "Εμφάνιση κωδικού πρόσβασης",
+    hidePassword: "Απόκρυψη κωδικού πρόσβασης",
     signUp: "Εγγραφή",
     signIn: "Σύνδεση",
     resetPassword: "Επαναφορά κωδικού πρόσβασης",

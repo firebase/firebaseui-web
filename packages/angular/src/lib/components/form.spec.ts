@@ -219,6 +219,23 @@ describe("Form Components", () => {
 
     @Component({
       template: `
+        <form>
+          <fui-form-input name="test" tanstack-app-field [tanstackField]="form" label="Test Label"></fui-form-input>
+        </form>
+      `,
+      standalone: true,
+      imports: [FormInputComponent, TanStackAppField],
+    })
+    class TestFormTextInputInFormHostComponent {
+      form = injectForm({
+        defaultValues: {
+          test: "",
+        },
+      });
+    }
+
+    @Component({
+      template: `
         <form (submit)="$event.preventDefault()" data-testid="form">
           <fui-form-input
             name="password"
@@ -318,6 +335,25 @@ describe("Form Components", () => {
       component.fixture.detectChanges();
       expect(input).toHaveAttribute("type", "password");
       expect(screen.getByRole("button", { name: "Show password" })).toBeTruthy();
+    });
+
+    it("removes the submit listener when destroyed", async () => {
+      const component = await render(TestFormPasswordInputInFormHostComponent);
+
+      const form = screen.getByTestId("form");
+      const removeEventListener = jest.spyOn(form, "removeEventListener");
+      component.fixture.destroy();
+
+      expect(removeEventListener).toHaveBeenCalledWith("submit", expect.any(Function), { capture: true });
+    });
+
+    it("does not listen for submit on fields without a password toggle", async () => {
+      const addEventListener = jest.spyOn(HTMLFormElement.prototype, "addEventListener");
+      await render(TestFormTextInputInFormHostComponent);
+
+      expect(screen.getByLabelText("Test Label").closest("form")).not.toBeNull();
+      expect(addEventListener).not.toHaveBeenCalledWith("submit", expect.any(Function), { capture: true });
+      addEventListener.mockRestore();
     });
 
     it("links the description to the input", async () => {

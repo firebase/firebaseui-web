@@ -64,6 +64,8 @@ export const enGB = {
     password: "Password",
     displayName: "Display Name",
     forgotPassword: "Forgot Password?",
+    showPassword: "Show password",
+    hidePassword: "Hide password",
     signUp: "Sign Up",
     signIn: "Sign In",
     resetPassword: "Reset Password",

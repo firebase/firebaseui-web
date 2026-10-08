@@ -141,7 +141,7 @@
   }
 
   :where(.fui-form fieldset [data-input-field] div[data-input-group]:has(.fui-form__password-toggle) input) {
-    @apply pr-10;
+    @apply pe-10;
   }
 
   /* Hide Edge's built-in reveal button so there is only one toggle. */
@@ -150,7 +150,7 @@
   }
 
   :where(.fui-form .fui-form__password-toggle) {
-    @apply absolute right-1 top-1/2 -translate-y-1/2 flex items-center justify-center size-8 rounded text-text-muted hover:text-text hover:cursor-pointer focus-visible:outline-2 focus-visible:outline-primary;
+    @apply absolute end-1 top-1/2 -translate-y-1/2 flex items-center justify-center size-8 rounded text-text-muted hover:text-text hover:cursor-pointer focus-visible:outline-2 focus-visible:outline-primary;
   }
 
   :where(.fui-form .fui-form__password-toggle svg) {
