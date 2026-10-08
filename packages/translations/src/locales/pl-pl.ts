@@ -65,6 +65,8 @@ export const plPL = {
     password: "Hasło",
     displayName: "Nazwa wyświetlana",
     forgotPassword: "Nie pamiętasz hasła?",
+    showPassword: "Pokaż hasło",
+    hidePassword: "Ukryj hasło",
     signUp: "Zarejestruj się",
     signIn: "Zaloguj się",
     resetPassword: "Zresetuj hasło",

@@ -65,6 +65,8 @@ export const ptBR = {
     password: "Senha",
     displayName: "Nome de exibição",
     forgotPassword: "Esqueceu a senha?",
+    showPassword: "Mostrar senha",
+    hidePassword: "Ocultar senha",
     signUp: "Cadastrar-se",
     signIn: "Entrar",
     resetPassword: "Redefinir senha",

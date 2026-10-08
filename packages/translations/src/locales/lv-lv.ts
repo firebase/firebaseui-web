@@ -64,6 +64,8 @@ export const lvLV = {
     password: "Parole",
     displayName: "Parādāmais vārds",
     forgotPassword: "Aizmirsāt paroli?",
+    showPassword: "Rādīt paroli",
+    hidePassword: "Slēpt paroli",
     signUp: "Reģistrēties",
     signIn: "Pieteikties",
     resetPassword: "Atiestatīt paroli",
