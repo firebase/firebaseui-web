@@ -48,7 +48,7 @@ Run in order; do not commit until complete:
 2. `pnpm build`
 3. `pnpm --filter custom-auth-server run build` — if custom-auth-server or firebase-admin/admin deps touched; always safe for deps PRs
 4. `pnpm test`
-5. `pnpm lint:check` && `pnpm format:check` — includes repository style guide ([`.gemini/styleguide.md`](../../.gemini/styleguide.md); e.g. Rule 11: catalog duplicate deps)
+5. `pnpm lint:check` && `pnpm format:check` — ESLint (`eslint.config.ts`) and Prettier (`.prettierrc`); includes repository style rules ([GEMINI.md](../../GEMINI.md); e.g. a dependency present more than once must be in the catalog)
 6. `pnpm test:e2e`
 
 Dependency-only bumps: also follow [dependency-update-verification.md](dependency-update-verification.md) (audit, AD-9).

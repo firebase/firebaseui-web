@@ -93,7 +93,7 @@ Authors (human or agent) **must not commit or push** changes that touch dependen
 
 **Why:** CI runs `pnpm test:e2e` and builds `custom-auth-server` on demand; root `pnpm build` does not. Skipping e2e or custom-auth-server build allowed firebase-admin 14 and jsdom/`localStorage` test drift to land while local `pnpm test` + `pnpm build` passed on a different Node version.
 
-**Includes:** run on the **same Node major as CI** ([LOCAL_DEVELOPMENT.md](../LOCAL_DEVELOPMENT.md)). Use the playbook one-shot script for dependency PRs. **Style guide:** [`.gemini/styleguide.md`](../.gemini/styleguide.md) compliance is part of the bar — not only `pnpm test` / `pnpm test:e2e` (e.g. Rule 11: duplicate workspace deps belong in the pnpm catalog; `pnpm lint:check` && `pnpm format:check` per [change-authoring-verification.md](playbooks/change-authoring-verification.md)).
+**Includes:** run on the **same Node major as CI** ([LOCAL_DEVELOPMENT.md](../LOCAL_DEVELOPMENT.md)). Use the playbook one-shot script for dependency PRs. **Style guide:** [GEMINI.md](../GEMINI.md) compliance is part of the bar — not only `pnpm test` / `pnpm test:e2e` (e.g. a dependency present more than once must be declared in the [pnpm catalog](../pnpm-workspace.yaml); `pnpm lint:check` && `pnpm format:check` per [change-authoring-verification.md](playbooks/change-authoring-verification.md)).
 
 **Does not replace** code review or CI; it is the minimum pre-commit bar for change classes above.
 
@@ -116,5 +116,5 @@ Authors (human or agent) **must not commit or push** changes that touch dependen
 
 **ng-packagr 22:** Update `@firebase-oss/ui-angular` package `exports`/`typings` to `./dist/types/firebase-oss-ui-angular.d.ts` (output path changed from v20).
 
-**Status:** Speculative — held locally until `pnpm build`, `pnpm test`, `pnpm test:e2e`, and [`.gemini/styleguide.md`](../.gemini/styleguide.md) compliance (`pnpm lint:check`, `pnpm format:check`, catalog rules) pass on CI Node. Owner: [pnpm-workspace.yaml](../pnpm-workspace.yaml) catalog + [playbooks/dependency-update-verification.md](playbooks/dependency-update-verification.md).
+**Status:** Speculative — held locally until `pnpm build`, `pnpm test`, `pnpm test:e2e`, and [GEMINI.md](../GEMINI.md) style-rule compliance (`pnpm lint:check`, `pnpm format:check`, catalog rules) pass on CI Node. Owner: [pnpm-workspace.yaml](../pnpm-workspace.yaml) catalog + [playbooks/dependency-update-verification.md](playbooks/dependency-update-verification.md).
 
