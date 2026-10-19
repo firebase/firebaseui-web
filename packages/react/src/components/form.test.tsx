@@ -399,6 +399,38 @@ describe("form export", () => {
       expect(removeEventListener).toHaveBeenCalledWith("submit", expect.any(Function), { capture: true });
     });
 
+    it("should forward the ref to the input and keep it stable across renders", () => {
+      const ref = vi.fn();
+      const { result } = renderHook(() => {
+        return form.useAppForm({
+          defaultValues: { password: "secret" },
+        });
+      });
+
+      const hook = result.current;
+
+      render(
+        <hook.AppForm>
+          <hook.AppField name="password">
+            {(field) => (
+              <field.PasswordInput
+                ref={ref}
+                label="Password"
+                showPasswordLabel="Show password"
+                hidePasswordLabel="Hide password"
+              />
+            )}
+          </hook.AppField>
+        </hook.AppForm>
+      );
+
+      fireEvent.click(screen.getByRole("button", { name: "Show password" }));
+      fireEvent.change(screen.getByLabelText("Password"), { target: { value: "secret123" } });
+
+      expect(ref).toHaveBeenCalledTimes(1);
+      expect(ref).toHaveBeenCalledWith(screen.getByLabelText("Password"));
+    });
+
     it("should keep the value typed while the password is visible", () => {
       renderPasswordInput();
 

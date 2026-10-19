@@ -14,7 +14,15 @@
  * limitations under the License.
  */
 
-import { type ComponentProps, type PropsWithChildren, type ReactNode, useEffect, useRef, useState } from "react";
+import {
+  type ComponentProps,
+  type PropsWithChildren,
+  type ReactNode,
+  useCallback,
+  useEffect,
+  useRef,
+  useState,
+} from "react";
 import { type AnyFieldApi, createFormHook, createFormHookContexts } from "@tanstack/react-form";
 import { Button } from "./button";
 import { cn } from "~/utils/cn";
@@ -142,11 +150,22 @@ function EyeIcon({ off }: { off?: boolean }) {
 function PasswordInput({
   showPasswordLabel,
   hidePasswordLabel,
+  ref,
   ...props
 }: Omit<InputProps, "type" | "after"> & { showPasswordLabel: string; hidePasswordLabel: string }) {
   const field = useFieldContext<string>();
   const [visible, setVisible] = useState(false);
-  const inputRef = useRef<HTMLInputElement>(null);
+  const inputRef = useRef<HTMLInputElement | null>(null);
+
+  // Keep one ref callback across renders, so a caller's ref is not detached on every render.
+  const setRefs = useCallback(
+    (element: HTMLInputElement | null) => {
+      inputRef.current = element;
+      if (typeof ref === "function") ref(element);
+      else if (ref) ref.current = element;
+    },
+    [ref]
+  );
 
   // Hide the password again on submit, so it is not left on screen and password managers see a password field.
   useEffect(() => {
@@ -165,7 +184,7 @@ function PasswordInput({
   return (
     <Input
       {...props}
-      ref={inputRef}
+      ref={setRefs}
       type={visible ? "text" : "password"}
       spellCheck={false}
       autoCapitalize="off"
