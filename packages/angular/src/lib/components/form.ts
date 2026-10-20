@@ -15,11 +15,10 @@
  */
 
 import {
-  AfterViewInit,
   ChangeDetectorRef,
   Component,
   computed,
-  DestroyRef,
+  effect,
   ElementRef,
   inject,
   input,
@@ -148,10 +147,9 @@ export class FormMetadataComponent {
 /**
  * A form input component with label, description, and validation support.
  */
-export class FormInputComponent implements OnChanges, AfterViewInit {
+export class FormInputComponent implements OnChanges {
   field = injectField<string>();
   private cdr = inject(ChangeDetectorRef);
-  private destroyRef = inject(DestroyRef);
   /** The label text for the input field. */
   label = input.required<string>();
   /** The input type (e.g., "text", "email", "password"). */
@@ -164,12 +162,12 @@ export class FormInputComponent implements OnChanges, AfterViewInit {
   placeholder = input<string>();
   /** Optional maximum character count accepted by the input. */
   maxlength = input<string | number>();
-  /** Accessible label for the show password button. With `type="password"`, setting it renders the toggle. */
+  /** Accessible label for the show password button. With `type="password"`, setting both labels renders the toggle. */
   showPasswordLabel = input<string>();
   /** Accessible label for the hide password button. */
   hidePasswordLabel = input<string>();
 
-  private inputElement = viewChild.required<ElementRef<HTMLInputElement>>("inputElement");
+  private inputElement = viewChild<ElementRef<HTMLInputElement>>("inputElement");
 
   passwordVisible = signal(false);
   hasPasswordToggle = computed(
@@ -181,21 +179,22 @@ export class FormInputComponent implements OnChanges, AfterViewInit {
     this.passwordVisible.update((visible) => !visible);
   }
 
-  ngAfterViewInit(): void {
-    // Hide the password again on submit, so it is not left on screen and password managers see a password field.
-    if (!this.hasPasswordToggle()) return;
-    const input = this.inputElement().nativeElement;
-    const form = input.form;
-    if (!form) return;
+  constructor() {
+    // Hide the password again on submit; re-runs if the toggle appears or disappears after first render.
+    effect((onCleanup) => {
+      const input = this.inputElement()?.nativeElement;
+      const form = input?.form;
+      if (!input || !form || !this.hasPasswordToggle()) return;
 
-    const hide = () => {
-      if (!this.passwordVisible()) return;
-      input.type = "password";
-      this.passwordVisible.set(false);
-      this.cdr.markForCheck();
-    };
-    form.addEventListener("submit", hide, { capture: true });
-    this.destroyRef.onDestroy(() => form.removeEventListener("submit", hide, { capture: true }));
+      const hide = () => {
+        if (!this.passwordVisible()) return;
+        input.type = "password";
+        this.passwordVisible.set(false);
+        this.cdr.markForCheck();
+      };
+      form.addEventListener("submit", hide, { capture: true });
+      onCleanup(() => form.removeEventListener("submit", hide, { capture: true }));
+    });
   }
 
   describedBy(): string | null {

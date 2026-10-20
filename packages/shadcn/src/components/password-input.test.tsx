@@ -120,4 +120,13 @@ describe("<PasswordInput />", () => {
     expect(ref).toHaveBeenCalledTimes(1);
     expect(ref).toHaveBeenCalledWith(expect.any(HTMLInputElement));
   });
+
+  it("links the toggle to the input when no id is passed", () => {
+    render(<PasswordInput showPasswordLabel="Show password" hidePasswordLabel="Hide password" />);
+
+    const toggle = screen.getByRole("button", { name: "Show password" });
+    const controlled = toggle.getAttribute("aria-controls");
+    expect(controlled).toBeTruthy();
+    expect(document.getElementById(controlled!)).toBeInstanceOf(HTMLInputElement);
+  });
 });

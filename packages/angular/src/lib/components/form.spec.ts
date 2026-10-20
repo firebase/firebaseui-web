@@ -243,6 +243,33 @@ describe("Form Components", () => {
             [tanstackField]="form"
             label="Password"
             type="password"
+            [showPasswordLabel]="showPasswordLabel()"
+            [hidePasswordLabel]="hidePasswordLabel()"
+          ></fui-form-input>
+        </form>
+      `,
+      standalone: true,
+      imports: [FormInputComponent, TanStackAppField],
+    })
+    class TestFormLateLabelsHostComponent {
+      form = injectForm({
+        defaultValues: {
+          password: "secret",
+        },
+      });
+      showPasswordLabel = signal<string | undefined>(undefined);
+      hidePasswordLabel = signal<string | undefined>(undefined);
+    }
+
+    @Component({
+      template: `
+        <form (submit)="$event.preventDefault()" data-testid="form">
+          <fui-form-input
+            name="password"
+            tanstack-app-field
+            [tanstackField]="form"
+            label="Password"
+            type="password"
             showPasswordLabel="Show password"
             hidePasswordLabel="Hide password"
           ></fui-form-input>
@@ -335,6 +362,24 @@ describe("Form Components", () => {
       component.fixture.detectChanges();
       expect(input).toHaveAttribute("type", "password");
       expect(screen.getByRole("button", { name: "Show password" })).toBeTruthy();
+    });
+
+    it("hides the password on submit when the labels arrive after the first render", async () => {
+      const component = await render(TestFormLateLabelsHostComponent);
+      expect(screen.queryByRole("button")).toBeNull();
+
+      component.fixture.componentInstance.showPasswordLabel.set("Show password");
+      component.fixture.componentInstance.hidePasswordLabel.set("Hide password");
+      component.fixture.detectChanges();
+
+      const input = screen.getByLabelText("Password");
+      screen.getByRole("button", { name: "Show password" }).click();
+      component.fixture.detectChanges();
+      expect(input).toHaveAttribute("type", "text");
+
+      fireEvent.submit(screen.getByTestId("form"));
+      component.fixture.detectChanges();
+      expect(input).toHaveAttribute("type", "password");
     });
 
     it("removes the submit listener when destroyed", async () => {

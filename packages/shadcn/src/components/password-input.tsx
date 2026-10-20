@@ -16,7 +16,7 @@
 
 "use client";
 
-import { useCallback, useEffect, useRef, useState, type ComponentProps } from "react";
+import { useCallback, useEffect, useId, useRef, useState, type ComponentProps } from "react";
 import { EyeIcon, EyeOffIcon } from "lucide-react";
 
 import { Input } from "@/components/ui/input";
@@ -31,6 +31,8 @@ export type PasswordInputProps = Omit<ComponentProps<"input">, "type"> & {
 };
 
 export function PasswordInput({ className, showPasswordLabel, hidePasswordLabel, ref, ...props }: PasswordInputProps) {
+  const generatedId = useId();
+  const id = props.id ?? generatedId;
   const [visible, setVisible] = useState(false);
   const inputRef = useRef<HTMLInputElement | null>(null);
 
@@ -62,6 +64,7 @@ export function PasswordInput({ className, showPasswordLabel, hidePasswordLabel,
     <div className="relative">
       <Input
         {...props}
+        id={id}
         ref={setRefs}
         type={visible ? "text" : "password"}
         spellCheck={false}
@@ -75,7 +78,7 @@ export function PasswordInput({ className, showPasswordLabel, hidePasswordLabel,
         size="icon"
         className="absolute end-0.5 top-1/2 size-8 -translate-y-1/2 text-muted-foreground hover:text-foreground"
         aria-label={visible ? hidePasswordLabel : showPasswordLabel}
-        aria-controls={props.id}
+        aria-controls={id}
         onClick={() => setVisible((v) => !v)}
       >
         {visible ? <EyeOffIcon aria-hidden="true" /> : <EyeIcon aria-hidden="true" />}
