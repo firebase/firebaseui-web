@@ -18,7 +18,7 @@ catalog:
   "@angular/platform-browser": ^22.1.7
   "@angular/platform-browser-dynamic": ^22.0.5
   "@angular/platform-server": ^22.1.7
-  "@angular/router": ^22.1.7
+  "@angular/router": ^22.2.0
   "@angular/ssr": ^22.1.8
   ng-packagr: ^22.1.0
   "@tailwindcss/vite": ^4.3.2
@@ -31,13 +31,13 @@ catalog:
   "@vitest/coverage-v8": ^4.1.10
   "@vitest/ui": ^4.1.10
   "@nanostores/deepmap": ^1.0.0
-  "@playwright/test": 1.62.1
+  "@playwright/test": 1.63.0
   "@vitejs/plugin-react": ^6.1.1
   eslint: ^9.39.4
   firebase: ^11.10.0
   jsdom: ^29.1.1
-  nanostores: ^1.4.0
-  next: 16.3.3
+  nanostores: ^1.5.3
+  next: 16.3.8
   postcss: ^8.5.26
 
   prettier: ^3.9.6
