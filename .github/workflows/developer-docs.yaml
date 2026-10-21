@@ -1,0 +1,33 @@
+name: Developer Docs
+
+on:
+  push:
+    branches:
+      - main
+    paths:
+      - 'developer-docs/**'
+      - '.github/workflows/developer-docs.yaml'
+  pull_request:
+    paths:
+      - 'developer-docs/**'
+      - '.github/workflows/developer-docs.yaml'
+
+permissions:
+  contents: read
+
+jobs:
+  validate:
+    name: Validate OKF bundle
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+        with:
+          persist-credentials: false
+
+      - name: Validate developer-docs
+        uses: galkleinman/okf-toolkit@c7c29e678f37c990fb0b04ca08411bb2e5bdf3bf # v0.2.1
+        with:
+          path: developer-docs
+          command: validate
