@@ -65,6 +65,8 @@ export const trTR = {
     password: "Şifre",
     displayName: "Görünen Ad",
     forgotPassword: "Şifremi Unuttum?",
+    showPassword: "Şifreyi göster",
+    hidePassword: "Şifreyi gizle",
     signUp: "Kayıt Ol",
     signIn: "Oturum Aç",
     resetPassword: "Şifreyi Sıfırla",

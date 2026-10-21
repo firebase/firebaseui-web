@@ -64,6 +64,8 @@ export const faIR = {
     password: "رمز عبور",
     displayName: "نام نمایشی",
     forgotPassword: "رمز عبور را فراموش کردید؟",
+    showPassword: "نمایش رمز عبور",
+    hidePassword: "پنهان کردن رمز عبور",
     signUp: "ثبت‌نام",
     signIn: "ورود",
     resetPassword: "بازنشانی رمز عبور",

@@ -274,12 +274,15 @@ describe("<SignUpAuthForm />", () => {
 
     // Make sure we have an email and password input with translated labels
     expect(screen.getByRole("textbox", { name: /emailAddress/ })).toBeInTheDocument();
-    expect(screen.getByLabelText(/password/)).toBeInTheDocument();
+    expect(screen.getByLabelText(/^password$/)).toBeInTheDocument();
 
     // Autofill hints. The identifier is `username`, matching the sign-in form, so a credential saved
     // here is offered back on sign-in; `new-password` asks for a fresh suggestion rather than a fill.
     expect(screen.getByRole("textbox", { name: /emailAddress/ })).toHaveAttribute("autocomplete", "username");
-    expect(screen.getByLabelText(/password/)).toHaveAttribute("autocomplete", "new-password");
+    expect(screen.getByLabelText(/^password$/)).toHaveAttribute("autocomplete", "new-password");
+
+    // The password can be revealed; untranslated keys fall back to en-US
+    expect(screen.getByRole("button", { name: "Show password" })).toHaveAttribute("aria-controls", "password");
 
     // Ensure the "Create Account" button is present and is a submit button
     const createAccountButton = screen.getByRole("button", { name: "createAccount" });
@@ -370,7 +373,7 @@ describe("<SignUpAuthForm />", () => {
 
     // Make sure we have all three inputs with translated labels
     expect(screen.getByRole("textbox", { name: /emailAddress/ })).toBeInTheDocument();
-    expect(screen.getByLabelText(/password/)).toBeInTheDocument();
+    expect(screen.getByLabelText(/^password$/)).toBeInTheDocument();
     expect(screen.getByRole("textbox", { name: /displayName/ })).toBeInTheDocument();
 
     // Ensure the "Create Account" button is present and is a submit button
@@ -402,7 +405,7 @@ describe("<SignUpAuthForm />", () => {
     expect(form.length).toBe(1);
 
     expect(screen.getByRole("textbox", { name: /email/ })).toBeInTheDocument();
-    expect(screen.getByLabelText(/password/)).toBeInTheDocument();
+    expect(screen.getByLabelText(/^password$/)).toBeInTheDocument();
     expect(screen.queryByRole("textbox", { name: /displayName/ })).not.toBeInTheDocument();
   });
 

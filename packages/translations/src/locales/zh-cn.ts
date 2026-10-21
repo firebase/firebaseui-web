@@ -63,6 +63,8 @@ export const zhCN = {
     password: "密码",
     displayName: "显示名称",
     forgotPassword: "忘记密码？",
+    showPassword: "显示密码",
+    hidePassword: "隐藏密码",
     signUp: "注册",
     signIn: "登录",
     resetPassword: "重置密码",

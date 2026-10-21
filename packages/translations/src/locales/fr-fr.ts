@@ -65,6 +65,8 @@ export const frFR = {
     password: "Mot de passe",
     displayName: "Nom d'affichage",
     forgotPassword: "Mot de passe oublié ?",
+    showPassword: "Afficher le mot de passe",
+    hidePassword: "Masquer le mot de passe",
     signUp: "S'inscrire",
     signIn: "Se connecter",
     resetPassword: "Réinitialiser le mot de passe",

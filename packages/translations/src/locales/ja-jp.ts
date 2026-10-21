@@ -64,6 +64,8 @@ export const jaJP = {
     password: "パスワード",
     displayName: "表示名",
     forgotPassword: "パスワードをお忘れですか？",
+    showPassword: "パスワードを表示",
+    hidePassword: "パスワードを非表示",
     signUp: "登録",
     signIn: "サインイン",
     resetPassword: "パスワードをリセット",

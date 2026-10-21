@@ -64,6 +64,8 @@ export const viVN = {
     password: "Mật khẩu",
     displayName: "Tên hiển thị",
     forgotPassword: "Quên mật khẩu?",
+    showPassword: "Hiện mật khẩu",
+    hidePassword: "Ẩn mật khẩu",
     signUp: "Đăng ký",
     signIn: "Đăng nhập",
     resetPassword: "Đặt lại mật khẩu",

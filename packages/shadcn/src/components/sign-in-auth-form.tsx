@@ -31,6 +31,7 @@ import { Field, FieldLabel, FieldError } from "@/components/ui/field";
 import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
 import { Policies } from "./policies";
+import { PasswordInput } from "./password-input";
 
 export type { SignInAuthFormProps };
 
@@ -77,20 +78,23 @@ export function SignInAuthForm(props: SignInAuthFormProps) {
           name="password"
           render={({ field, fieldState }) => (
             <Field data-invalid={!!fieldState.error}>
-              <FieldLabel htmlFor="password" className="flex items-center gap-2">
-                <span className="grow">{getTranslation(ui, "labels", "password")}</span>
+              <div className="flex items-center gap-2">
+                <FieldLabel htmlFor="password" className="grow">
+                  {getTranslation(ui, "labels", "password")}
+                </FieldLabel>
                 {props.onForgotPasswordClick ? (
                   <Button type="button" variant="link" onClick={props.onForgotPasswordClick} size="sm">
                     <span className="text-xs">{getTranslation(ui, "labels", "forgotPassword")}</span>
                   </Button>
                 ) : null}
-              </FieldLabel>
-              <Input
+              </div>
+              <PasswordInput
                 {...field}
                 id="password"
-                type="password"
                 autoComplete="current-password"
                 aria-invalid={!!fieldState.error}
+                showPasswordLabel={getTranslation(ui, "labels", "showPassword")}
+                hidePasswordLabel={getTranslation(ui, "labels", "hidePassword")}
               />
               {fieldState.error && <FieldError>{fieldState.error.message}</FieldError>}
             </Field>

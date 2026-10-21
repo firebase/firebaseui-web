@@ -64,6 +64,8 @@ export const skSK = {
     password: "Heslo",
     displayName: "Zobrazované meno",
     forgotPassword: "Zabudli ste heslo?",
+    showPassword: "Zobraziť heslo",
+    hidePassword: "Skryť heslo",
     signUp: "Registrovať sa",
     signIn: "Prihlásiť sa",
     resetPassword: "Obnoviť heslo",

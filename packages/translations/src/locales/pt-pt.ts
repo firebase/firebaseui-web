@@ -65,6 +65,8 @@ export const ptPT = {
     password: "Palavra-passe",
     displayName: "Nome a apresentar",
     forgotPassword: "Esqueceu a palavra-passe?",
+    showPassword: "Mostrar palavra-passe",
+    hidePassword: "Ocultar palavra-passe",
     signUp: "Registar",
     signIn: "Iniciar sessão",
     resetPassword: "Redefinir palavra-passe",

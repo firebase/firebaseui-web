@@ -64,6 +64,8 @@ export const huHU = {
     password: "Jelszó",
     displayName: "Megjelenítendő név",
     forgotPassword: "Elfelejtette jelszavát?",
+    showPassword: "Jelszó megjelenítése",
+    hidePassword: "Jelszó elrejtése",
     signUp: "Regisztráció",
     signIn: "Bejelentkezés",
     resetPassword: "Jelszó visszaállítása",

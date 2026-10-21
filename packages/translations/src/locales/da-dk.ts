@@ -64,6 +64,8 @@ export const daDK = {
     password: "Adgangskode",
     displayName: "Visningsnavn",
     forgotPassword: "Glemt adgangskode?",
+    showPassword: "Vis adgangskode",
+    hidePassword: "Skjul adgangskode",
     signUp: "Tilmeld dig",
     signIn: "Log ind",
     resetPassword: "Nulstil adgangskode",

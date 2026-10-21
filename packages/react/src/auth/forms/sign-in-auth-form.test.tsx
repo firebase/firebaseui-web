@@ -193,11 +193,14 @@ describe("<SignInAuthForm />", () => {
 
     // Make sure we have an email and password input
     expect(screen.getByRole("textbox", { name: /email/i })).toBeInTheDocument();
-    expect(screen.getByLabelText(/password/i)).toBeInTheDocument();
+    expect(screen.getByLabelText(/^password$/i)).toBeInTheDocument();
 
     // Autofill hints, so browsers and password managers recognise the credential pair
     expect(screen.getByRole("textbox", { name: /email/i })).toHaveAttribute("autocomplete", "username");
-    expect(screen.getByLabelText(/password/i)).toHaveAttribute("autocomplete", "current-password");
+    expect(screen.getByLabelText(/^password$/i)).toHaveAttribute("autocomplete", "current-password");
+
+    // The password can be revealed; untranslated keys fall back to en-US
+    expect(screen.getByRole("button", { name: "Show password" })).toHaveAttribute("aria-controls", "password");
 
     // Ensure the "Sign In" button is present and is a submit button
     const signInButton = screen.getByRole("button", { name: "signIn" });

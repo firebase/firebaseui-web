@@ -32,6 +32,7 @@ import { Field, FieldLabel, FieldError } from "@/components/ui/field";
 import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
 import { Policies } from "./policies";
+import { PasswordInput } from "./password-input";
 
 export type { SignUpAuthFormProps };
 
@@ -94,12 +95,13 @@ export function SignUpAuthForm(props: SignUpAuthFormProps) {
           render={({ field, fieldState }) => (
             <Field data-invalid={!!fieldState.error}>
               <FieldLabel htmlFor="password">{getTranslation(ui, "labels", "password")}</FieldLabel>
-              <Input
+              <PasswordInput
                 {...field}
                 id="password"
-                type="password"
                 autoComplete="new-password"
                 aria-invalid={!!fieldState.error}
+                showPasswordLabel={getTranslation(ui, "labels", "showPassword")}
+                hidePasswordLabel={getTranslation(ui, "labels", "hidePassword")}
               />
               {fieldState.error && <FieldError>{fieldState.error.message}</FieldError>}
             </Field>

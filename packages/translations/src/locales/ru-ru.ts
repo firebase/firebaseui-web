@@ -65,6 +65,8 @@ export const ruRU = {
     password: "Пароль",
     displayName: "Отображаемое имя",
     forgotPassword: "Забыли пароль?",
+    showPassword: "Показать пароль",
+    hidePassword: "Скрыть пароль",
     signUp: "Зарегистрироваться",
     signIn: "Войти",
     resetPassword: "Сбросить пароль",

@@ -63,6 +63,8 @@ export const zhTW = {
     password: "密碼",
     displayName: "顯示名稱",
     forgotPassword: "忘記密碼？",
+    showPassword: "顯示密碼",
+    hidePassword: "隱藏密碼",
     signUp: "註冊",
     signIn: "登入",
     resetPassword: "重設密碼",

@@ -65,6 +65,8 @@ export const srRS = {
     password: "Лозинка",
     displayName: "Приказано име",
     forgotPassword: "Заборавили сте лозинку?",
+    showPassword: "Прикажи лозинку",
+    hidePassword: "Сакриј лозинку",
     signUp: "Регистрација",
     signIn: "Пријава",
     resetPassword: "Ресетуј лозинку",

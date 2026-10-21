@@ -64,6 +64,8 @@ export const caES = {
     password: "Contrasenya",
     displayName: "Nom per mostrar",
     forgotPassword: "Heu oblidat la contrasenya?",
+    showPassword: "Mostra la contrasenya",
+    hidePassword: "Amaga la contrasenya",
     signUp: "Registreu-vos",
     signIn: "Inicieu sessió",
     resetPassword: "Restabliu la contrasenya",

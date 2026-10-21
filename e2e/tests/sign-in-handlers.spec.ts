@@ -35,7 +35,7 @@ for (const [projectName, meta] of uiExampleEntries) {
       await waitForSignInForm(page);
 
       await expect(page.getByLabel(labels.emailAddress)).toBeVisible();
-      await expect(page.getByLabel(labels.password)).toBeVisible();
+      await expect(page.getByLabel(labels.password, { exact: true })).toBeVisible();
       await expect(page.getByRole("button", { name: labels.signIn, exact: true })).toBeVisible();
     });
 

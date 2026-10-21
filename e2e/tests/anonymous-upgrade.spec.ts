@@ -77,7 +77,7 @@ async function waitForAnonymousUser(page: Page): Promise<string> {
 
 async function submitCredentials(page: Page, email: string): Promise<void> {
   await page.getByLabel(enUs.translations.labels.emailAddress).fill(email);
-  await page.getByLabel(enUs.translations.labels.password).fill(PASSWORD);
+  await page.getByLabel(enUs.translations.labels.password, { exact: true }).fill(PASSWORD);
   await page.getByRole("button", { name: enUs.translations.labels.signIn, exact: true }).click();
 }
 
