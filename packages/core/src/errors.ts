@@ -29,17 +29,49 @@ import { getTranslation } from "./translations";
  * A custom error class that extends FirebaseError and provides a translated error message based on the configured locale.
  */
 export class FirebaseUIError extends FirebaseError {
+  /** The original Firebase error, with its untranslated message. */
+  declare readonly cause: FirebaseError;
+
   constructor(ui: FirebaseUI, error: FirebaseError) {
     // A translation keyed by the error code itself wins over the named key.
     const message =
       getTranslation(ui, "errors", error.code as ErrorCodeKey) ||
       getTranslation(ui, "errors", ERROR_CODE_MAP[error.code as ErrorCode]);
     super(error.code, message || error.message);
+    this.cause = error;
 
     // Ensures that `instanceof FirebaseUIError` works, alongside `instanceof FirebaseError`
     Object.setPrototypeOf(this, FirebaseUIError.prototype);
   }
 }
+
+// Codes caused by app or project misconfiguration rather than the user, which are logged for the developer.
+const CONFIGURATION_ERROR_CODES = [
+  "auth/admin-restricted-operation",
+  "auth/api-key-expired",
+  "auth/app-not-authorized",
+  "auth/auth-domain-config-required",
+  "auth/internal-error",
+  "auth/invalid-api-key",
+  "auth/invalid-app-credential",
+  "auth/invalid-app-id",
+  "auth/invalid-continue-uri",
+  "auth/invalid-dynamic-link-domain",
+  "auth/invalid-hosting-link-domain",
+  "auth/invalid-oauth-client-id",
+  "auth/invalid-oauth-provider",
+  "auth/invalid-tenant-id",
+  "auth/missing-android-pkg-name",
+  "auth/missing-continue-uri",
+  "auth/missing-ios-bundle-id",
+  "auth/operation-not-allowed",
+  "auth/operation-not-supported-in-this-environment",
+  "auth/recaptcha-not-enabled",
+  "auth/tenant-id-mismatch",
+  "auth/unauthorized-continue-uri",
+  "auth/unauthorized-domain",
+  "auth/unsupported-tenant-operation",
+];
 
 /**
  * Handles a Firebase error and throws a FirebaseUIError if it is a Firebase error.
@@ -71,6 +103,11 @@ export async function handleFirebaseError(ui: FirebaseUI, error: unknown): Promi
   if (error.code === "auth/multi-factor-auth-required") {
     const resolver = getMultiFactorResolver(ui.auth, error as MultiFactorError);
     ui.setMultiFactorResolver(resolver);
+  }
+
+  // A translated message would otherwise hide the cause of a configuration issue from the developer.
+  if (CONFIGURATION_ERROR_CODES.includes(error.code)) {
+    console.warn(`[FirebaseUI] Firebase configuration error (${error.code}): ${error.message}`);
   }
 
   throw new FirebaseUIError(ui, error);

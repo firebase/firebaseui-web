@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-import { beforeEach, describe, expect, it, vi } from "vitest";
+import { afterEach, beforeEach, describe, expect, it, vi } from "vitest";
 import { FirebaseError } from "firebase/app";
 import { Auth, AuthCredential, MultiFactorResolver } from "firebase/auth";
 import { ERROR_CODE_MAP } from "@firebase-oss/ui-translations";
@@ -61,6 +61,10 @@ beforeEach(() => {
     },
     writable: true,
   });
+});
+
+afterEach(() => {
+  vi.restoreAllMocks();
 });
 
 describe("FirebaseUIError", () => {
@@ -117,6 +121,19 @@ describe("FirebaseUIError", () => {
     expect(error.code).toBe("auth/api-key-expired");
     expect(error.message).toBe("Firebase: Error (auth/api-key-expired).");
   });
+
+  it("keeps the original Firebase error as the cause", () => {
+    const mockUI = createMockUI();
+    const mockFirebaseError = new FirebaseError("auth/api-key-expired", "Firebase: Error (auth/api-key-expired).");
+
+    vi.mocked(getTranslation).mockReturnValue("There is a configuration issue.");
+
+    const error = new FirebaseUIError(mockUI, mockFirebaseError);
+
+    expect(error.message).toBe("There is a configuration issue.");
+    expect(error.cause).toBe(mockFirebaseError);
+    expect(error.cause.message).toBe("Firebase: Error (auth/api-key-expired).");
+  });
 });
 
 describe("handleFirebaseError", () => {
@@ -151,6 +168,35 @@ describe("handleFirebaseError", () => {
       expect((error as FirebaseUIError).code).toBe("auth/user-not-found");
       expect((error as FirebaseUIError).message).toBe("User not found (translated)");
     }
+  });
+
+  it("warns with the original message for configuration error codes", async () => {
+    const mockUI = createMockUI();
+    const mockFirebaseError = new FirebaseError("auth/api-key-expired", "Firebase: Error (auth/api-key-expired).");
+    const warnSpy = vi.spyOn(console, "warn").mockImplementation(() => {});
+
+    vi.mocked(getTranslation).mockReturnValue("There is a configuration issue.");
+
+    await expect(handleFirebaseError(mockUI, mockFirebaseError)).rejects.toBeInstanceOf(FirebaseUIError);
+    expect(warnSpy).toHaveBeenCalledWith(
+      "[FirebaseUI] Firebase configuration error (auth/api-key-expired): Firebase: Error (auth/api-key-expired)."
+    );
+  });
+
+  it.each([
+    "auth/wrong-password",
+    "auth/multi-factor-auth-required",
+    "auth/popup-closed-by-user",
+    "auth/expired-action-code",
+    "auth/password-does-not-meet-requirements",
+  ])("does not warn for user error code %s", async (code) => {
+    const mockUI = createMockUI();
+    const warnSpy = vi.spyOn(console, "warn").mockImplementation(() => {});
+
+    await expect(handleFirebaseError(mockUI, new FirebaseError(code, "Expected"))).rejects.toBeInstanceOf(
+      FirebaseUIError
+    );
+    expect(warnSpy).not.toHaveBeenCalled();
   });
 
   it("stores credential in sessionStorage for account-exists-with-different-credential by default", async () => {
