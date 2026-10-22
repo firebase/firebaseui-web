@@ -46,7 +46,7 @@ export class FirebaseUIError extends FirebaseError {
 }
 
 // Codes caused by app or project misconfiguration rather than the user, which are logged for the developer.
-const CONFIGURATION_ERROR_CODES = [
+const CONFIGURATION_ERROR_CODES = new Set([
   "auth/admin-restricted-operation",
   "auth/api-key-expired",
   "auth/app-not-authorized",
@@ -71,7 +71,7 @@ const CONFIGURATION_ERROR_CODES = [
   "auth/unauthorized-continue-uri",
   "auth/unauthorized-domain",
   "auth/unsupported-tenant-operation",
-];
+]);
 
 /**
  * Handles a Firebase error and throws a FirebaseUIError if it is a Firebase error.
@@ -87,6 +87,11 @@ const CONFIGURATION_ERROR_CODES = [
 export async function handleFirebaseError(ui: FirebaseUI, error: unknown): Promise<never> {
   // If it's not a Firebase error, then we just throw it and preserve the original error.
   if (!isFirebaseError(error)) {
+    throw error;
+  }
+
+  // Already handled by an inner call, so rethrow as-is rather than wrap and warn again.
+  if (error instanceof FirebaseUIError) {
     throw error;
   }
 
@@ -106,7 +111,7 @@ export async function handleFirebaseError(ui: FirebaseUI, error: unknown): Promi
   }
 
   // A translated message would otherwise hide the cause of a configuration issue from the developer.
-  if (CONFIGURATION_ERROR_CODES.includes(error.code)) {
+  if (CONFIGURATION_ERROR_CODES.has(error.code)) {
     console.warn(`[FirebaseUI] Firebase configuration error (${error.code}): ${error.message}`);
   }
 
