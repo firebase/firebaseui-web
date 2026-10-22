@@ -571,6 +571,8 @@ const enUsCustom = registerLocale('en-US', {
 });
 ```
 
+Firebase errors thrown by FirebaseUI are `FirebaseUIError`s that keep the original Firebase error as `cause`, so you can still log or report the untranslated message. Errors caused by a configuration issue, such as `auth/api-key-expired` or `auth/unauthorized-domain`, are also logged with `console.warn`; errors caused by the user, such as a wrong password, are not.
+
 ## Reference
 
 <details>
