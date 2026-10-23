@@ -16,7 +16,7 @@ Import the prebuilt stylesheet once in your app entry (e.g., `src/main.tsx` or `
 import '@firebase-oss/ui-styles/dist.min.css';
 ```
 
-**Important CSS Reset Note for Non-Tailwind Projects:** `@firebase-oss/ui-styles/dist.min.css` does not bundle Tailwind's Preflight reset. Without a CSS reset, browser-default user-agent styles on `<fieldset>`, `<input>`, and `<button>` will add native grooved borders and padding inside `.fui-form`. In apps without Tailwind CSS, include a minimal reset in your global CSS (e.g., `src/index.css`):
+**Important CSS Reset Note for Non-Tailwind Projects:** `@firebase-oss/ui-styles/dist.min.css` does not bundle Tailwind's Preflight reset. Without a CSS reset, browser-default user-agent styles on `<fieldset>` and `<button>` add native grooved borders and padding inside `.fui-form`, and links such as "Forgot password?" (`.fui-form__action`) render as gray native buttons. In apps without Tailwind CSS, include this minimal reset in your global CSS (e.g., `src/index.css`):
 
 ```css
 *, *::before, *::after {
@@ -26,6 +26,11 @@ import '@firebase-oss/ui-styles/dist.min.css';
   border: 0;
   margin: 0;
   padding: 0;
+}
+.fui-form__action {
+  background: transparent;
+  border: 0;
+  padding-block: 0;
 }
 ```
 
