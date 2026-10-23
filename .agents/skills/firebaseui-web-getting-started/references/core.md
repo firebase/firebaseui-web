@@ -21,15 +21,15 @@ export const ui = initializeUI({
   app,
   // Optional:
   // auth: getAuth(app),
-  // locale: registerLocale('es', spanishTranslations),
+  // locale: a RegisteredLocale from '@firebase-oss/ui-translations' (e.g. esEs),
   behaviors: [
     autoAnonymousLogin(),
     autoUpgradeAnonymousUsers({
-      onUpgrade: (ui, credential) => {
+      onUpgrade: (ui, oldUserId, credential) => {
         // Optional hook when an anonymous user upgrades to a permanent account
       },
-      onUpgradeFailure: async (ui, error, credential) => {
-        // Optional conflict resolution hook (e.g., when auth/credential-already-in-use occurs)
+      onUpgradeFailure: ({ ui, oldUserId, error, credential, provider }) => {
+        // Optional conflict hook (e.g., auth/credential-already-in-use). Return 'handled' to swallow the error.
       },
     }),
     requireDisplayName(),
@@ -43,11 +43,11 @@ export const ui = initializeUI({
 | --- | --- | --- |
 | `app` | `FirebaseApp` | The Firebase `App` instance. |
 | `auth` | `Auth` | The `firebase/auth` `Auth` instance (`ui.get().auth` / `useUI().auth`). |
-| `state` | `'idle' \| 'pending'` | Current operation state (`setState('idle' \| 'pending')`). |
+| `state` | `'idle' \| 'pending' \| 'loading'` | Current operation state (`setState(...)`). |
 | `multiFactorResolver` | `MultiFactorResolver \| undefined` | Populated automatically when `auth/multi-factor-auth-required` is caught during sign-in; cleared once MFA assertion succeeds. |
-| `redirectError` | `Error \| FirebaseError \| undefined` | Populated if a redirect OAuth or email-link flow fails. |
+| `redirectError` | `Error \| undefined` | Populated if a redirect OAuth or email-link flow fails. |
 | `locale` | `RegisteredLocale` | Active locale (defaults to `enUs`). |
-| `behaviors` | `Behavior[]` | Active behaviors registered with `initializeUI`. |
+| `behaviors` | `Behaviors` | Active behaviors registered with `initializeUI`. |
 
 ---
 
@@ -57,8 +57,8 @@ Pass behaviors in the `behaviors: [...]` array of `initializeUI({ app, behaviors
 
 | Behavior Factory | What It Does |
 | --- | --- |
-| `autoAnonymousLogin()` | Automatically signs the user in anonymously via `signInAnonymously(auth)` whenever `onAuthStateChanged` emits `null`. Note: wait to call `autoAnonymousLogin()` or sign out carefully if you want an explicit unauthenticated landing state, or use `signInAnonymously(ui.get())` on demand for a "Continue as guest" button. |
-| `autoUpgradeAnonymousUsers(options?)` | When `auth.currentUser?.isAnonymous` is `true`, automatically intercepts `createUserWithEmailAndPassword`, `signInWithProvider`, `verifyPhoneNumber`, and `signInWithEmailLink` to **link** the new credential to the existing anonymous user (`linkWithCredential` / `linkWithPopup`), **preserving the anonymous user's `uid`**. Accepts `{ onUpgrade?: (ui, credential) => void, onUpgradeFailure?: (ui, error, credential) => Promise<void> \| void }`. |
+| `autoAnonymousLogin()` | Once, when `initializeUI` runs (after `auth.authStateReady()`), signs in anonymously if there is no current user. It does not run again after sign-out. For an explicit signed-out landing state, leave it out and call `signInAnonymously(ui.get())` from a "Continue as guest" button. |
+| `autoUpgradeAnonymousUsers(options?)` | When `auth.currentUser?.isAnonymous` is `true`, automatically intercepts `signInWithEmailAndPassword`, `createUserWithEmailAndPassword`, `confirmPhoneNumber`, `signInWithCredential` (so also `signInWithEmailLink`), and `signInWithProvider` to **link** the new credential to the existing anonymous user (`linkWithCredential` / `linkWithPopup`), **preserving the anonymous user's `uid`**. Accepts `{ onUpgrade?: (ui, oldUserId, credential) => void, onUpgradeFailure?: (context: { ui, oldUserId, error, credential?, provider? }) => 'handled' \| void }` (both may be async). |
 | `requireDisplayName()` | Causes `SignUpAuthScreen` / `SignUpAuthForm` to render a required "Display Name" field and updates the user's profile (`updateProfile`) upon sign-up. |
 | `providerPopupStrategy()` | Default OAuth strategy (`signInWithPopup` / `linkWithPopup`). |
 | `providerRedirectStrategy()` | Switches OAuth buttons to redirect flow (`signInWithRedirect` / `linkWithRedirect`) and handles `getRedirectResult` on page load. |
@@ -74,25 +74,25 @@ Pass behaviors in the `behaviors: [...]` array of `initializeUI({ app, behaviors
 All FirebaseUI screens, forms, and OAuth buttons call these functions under the hood. If you build custom triggers (such as a "Continue as guest" button or a custom upgrade form), call these `@firebase-oss/ui-core` functions with `ui.get()` (or `useUI()` in React) instead of raw `firebase/auth` functions so that registered behaviors (`autoUpgradeAnonymousUsers`, `multiFactorResolver` capture, pending state, and localized error formatting) execute automatically:
 
 - **Email & Password:**
-  - `signInWithEmailAndPassword(ui, email, password): Promise<UserCredential>`
-  - `createUserWithEmailAndPassword(ui, email, password, displayName?): Promise<UserCredential>` — Automatically links `EmailAuthProvider.credential(email, password)` to `auth.currentUser` when `autoUpgradeAnonymousUsers()` is registered and the current user is anonymous!
+  - `signInWithEmailAndPassword(ui, email, password): Promise<UserCredential | void>`
+  - `createUserWithEmailAndPassword(ui, email, password, displayName?): Promise<UserCredential | void>` — Automatically links `EmailAuthProvider.credential(email, password)` to `auth.currentUser` when `autoUpgradeAnonymousUsers()` is registered and the current user is anonymous!
   - `sendPasswordResetEmail(ui, email): Promise<void>`
 - **Email Link:**
   - `sendSignInLinkToEmail(ui, email): Promise<void>` — No `actionCodeSettings` argument. The link always returns to `window.location.href` with `handleCodeInApp: true`, and the email is saved in `localStorage` (`emailForSignIn`).
   - `completeEmailLinkSignIn(ui, currentUrl): Promise<UserCredential | null>` — `currentUrl` is required (pass `window.location.href`). Reads the saved email, signs in, then clears it. Returns `null` if the URL is not a sign-in link or no email is saved.
   - `signInWithEmailLink(ui, email, link): Promise<UserCredential | void>` — `email` and `link` are both required.
 - **OAuth & Anonymous:**
-  - `signInWithProvider(ui, provider): Promise<UserCredential>` — Automatically links the OAuth provider to `auth.currentUser` when `autoUpgradeAnonymousUsers()` is registered and the current user is anonymous!
+  - `signInWithProvider(ui, provider): Promise<UserCredential | void>` — Automatically links the OAuth provider to `auth.currentUser` when `autoUpgradeAnonymousUsers()` is registered and the current user is anonymous!
   - `signInAnonymously(ui): Promise<UserCredential>`
-  - `signInWithCredential(ui, credential): Promise<UserCredential>`
+  - `signInWithCredential(ui, credential): Promise<UserCredential | void>`
   - `signInWithCustomToken(ui, customToken): Promise<UserCredential>`
 - **Phone & Multi-Factor Authentication (MFA):**
   - `verifyPhoneNumber(ui, phoneNumber, appVerifier, mfaUser?, mfaHint?): Promise<string>` (returns `verificationId`)
-  - `confirmPhoneNumber(ui, verificationId, verificationCode): Promise<UserCredential>`
+  - `confirmPhoneNumber(ui, verificationId, verificationCode): Promise<UserCredential | void>`
   - `signInWithMultiFactorAssertion(ui, assertion): Promise<UserCredential>`
   - `enrollWithMultiFactorAssertion(ui, assertion, displayName?): Promise<void>`
   - `generateTotpSecret(ui): Promise<TotpSecret>`
-  - `generateTotpQrCode(ui, secret, accountName?, issuer?): Promise<string>` (returns a data URL image string)
+  - `generateTotpQrCode(ui, secret, accountName?, issuer?): string` (synchronous; returns a data URL image string)
 - **Error Formatting:**
   - `FirebaseUIError`
-  - `formatFirebaseError(error, locale): string`
+  - `handleFirebaseError(ui, error): Promise<never>` — throws a `FirebaseUIError` with a translated message
