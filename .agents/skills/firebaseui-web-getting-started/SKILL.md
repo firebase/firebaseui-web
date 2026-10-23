@@ -1,269 +1,51 @@
 ---
 name: firebaseui-web-getting-started
-description: Set up FirebaseUI Web authentication screens in consumer React, shadcn/ui, or Angular projects. Use when installing FirebaseUI Web, wiring Firebase app configuration, adding predefined auth screens, or checking FirebaseUI dependencies.
+description: Add FirebaseUI Web authentication (sign-in, sign-up, password reset, email link, phone, OAuth, anonymous upgrade, MFA screens, forms, behaviors) to React, shadcn/ui, and Angular apps. This skill's references hold every prop, selector and signature needed, so do not search node_modules, and never glob `**/*` or `src/**/*` from the project root (it matches node_modules); glob with targetDirectory `src`.
 ---
 
 # FirebaseUI Web Getting Started
 
-Use this skill when the user wants FirebaseUI Web added to their own app. The supported targets are React, shadcn/ui React, and Angular only. If the repo is another stack, stop and explain that this skill does not cover it.
+Implement Firebase authentication with FirebaseUI Web (`@firebase-oss/ui-*`). Detect the stack, then read its reference files: setup, `initializeUI` wiring, the Auth emulator recipe and every component's props.
 
-Authoritative docs:
-- FirebaseUI Web README: `https://github.com/firebase/firebaseui-web/blob/main/README.md`
+## 1. Search Rules (Read Before Using Any Search Tool)
 
-## Setup Workflow
+- **Never glob `**/*` or `src/**/*` from the project root.** Glob matches at any depth, so both also match every `node_modules/**/src/` folder and return thousands of paths. Call glob with `targetDirectory: "src"` (or another subfolder) and a narrow pattern such as `**/*.ts`. Give grep `path: "src"`, not `.`.
+- **Never read, grep, or glob inside `node_modules`.** The packages ship minified bundles and huge `.d.ts` files, and greps there return nothing. If something is missing from the references, state your assumption and let the build confirm it.
+- **Read the project's own files under `src/` freely**, including any component source the project already contains.
+- **Check for existing Firebase code** in `package.json` and with a grep scoped to `src`.
 
-1. Identify the stack from `package.json`, framework config, and source layout:
-   - React: `react` plus a Vite/SPA/React app, without shadcn registry components.
-   - shadcn/ui: React app with `components.json` and shadcn aliases such as `@/components`.
-   - Angular: `@angular/core`, Angular CLI config, and preferably `@angular/fire`.
-2. Check the package manager from lockfiles and use it consistently.
-3. Check dependencies before editing. Install missing packages with the repo's package manager.
-4. Find existing Firebase initialization. Reuse it when present. If no Firebase config exists, ask the user for their Firebase web app config or use existing env conventions. Do not copy Firebase config values from examples or docs.
-5. Add the FirebaseUI initialization/provider once near the app root.
-6. Add predefined screen routes/components requested by the user. Default to `SignInAuthScreen` if they did not specify a screen.
-7. Import styles where required.
-8. Run the smallest relevant validation command: typecheck, lint, build, or the repo's existing test script.
+## 2. Detect the Stack and Load the References
 
-## Dependencies
+| Stack | Detect | Read |
+| --- | --- | --- |
+| React | `react` and `react-dom` in `package.json`, no `components.json` | [`references/react.md`](references/react.md), [`references/react-recipes.md`](references/react-recipes.md), [`references/core.md`](references/core.md) |
+| shadcn/ui | `components.json` next to `react` and `tailwindcss` | [`references/shadcn.md`](references/shadcn.md), [`references/shadcn-recipes.md`](references/shadcn-recipes.md), [`references/core.md`](references/core.md) |
+| Angular | `@angular/core` v19+ | [`references/angular.md`](references/angular.md), [`references/angular-recipes.md`](references/angular-recipes.md), [`references/core.md`](references/core.md) |
 
-React:
+Read only your stack's files, in **one parallel batch** with these project files (those that exist): `package.json`, `firebase.json`; React and shadcn/ui `src/main.tsx`, `src/App.tsx` (shadcn/ui also `components.json`); Angular `angular.json`, `src/app/app.config.ts`, `src/app/app.routes.ts`, `src/app/app.ts`. If the stack is ambiguous, ask the user before installing packages.
 
-```bash
-npm install firebase @firebase-oss/ui-core @firebase-oss/ui-react @firebase-oss/ui-styles
-```
+## 3. Workflow
 
-shadcn/ui:
+1. **Read** the stack's files and the project files in one batch (section 2), plus any existing pages and layout wrapper so the new screens fit the app.
+2. **Install** only what is missing, and never change existing versions. Each stack's reference lists the packages.
+3. **Configure** Firebase and `initializeUI` as the stack's reference shows. If the project notes name the Auth emulator, use the emulator recipe in the stack's recipes file with the notes' host, port and project id.
+4. **Build each flow** from a FirebaseUI screen, form or button. Look the flow up in the stack's reference before writing custom `firebase/auth` code.
+5. **Wire** the routes and where each flow goes after sign-in. Edit the router in place: keep the existing routes and pages (the landing page stays), add the new routes next to them, link to the new screens from the existing home page or navigation, and reuse the app's page container for the new pages.
+6. **Validate** with the project's typecheck and production build (for example `npm run build`) and fix every error before finishing.
 
-```bash
-npm install firebase @firebase-oss/ui-core @firebase-oss/ui-react
-```
+## 4. What FirebaseUI Provides
 
-Then add the Firebase registry to `components.json`:
+- **Screens** (card, form, MFA assertion, policies) for sign-in, sign-up, password reset, email link, phone, OAuth and MFA enrollment. The sign-in, sign-up, email link, phone and OAuth screens switch to the MFA assertion step on their own, so sign-in needs no custom MFA code.
+- **Forms**: the same flows without card chrome, for your own layout.
+- **OAuth buttons** (Google, GitHub, Apple, Microsoft, Facebook, Twitter, Yahoo, generic) that go inside a screen.
+- **Behaviors** for `initializeUI` (`autoUpgradeAnonymousUsers()`, `requireDisplayName()`, `autoAnonymousLogin()` and more) and **core actions** in `@firebase-oss/ui-core`. Both are in `core.md`.
 
-```json
-{
-  "registries": {
-    "@firebase": "https://firebaseopensource.com/r/{name}.json"
-  }
-}
-```
+How a stack imports, mounts and configures these is in its reference.
 
-Add only the screens the app needs, for example:
+## 5. Gotchas (All Stacks)
 
-```bash
-npx shadcn@latest add @firebase/sign-in-auth-screen
-```
-
-Angular:
-
-```bash
-npm install firebase @angular/fire @firebase-oss/ui-core @firebase-oss/ui-angular @firebase-oss/ui-styles
-```
-
-Adapt commands for `pnpm`, `yarn`, or `bun` if that is the repo's package manager.
-
-## Firebase Config
-
-FirebaseUI needs a Firebase App instance initialized with the consumer project's Firebase web app config:
-
-```ts
-import { initializeApp } from "firebase/app";
-
-const firebaseApp = initializeApp({
-  apiKey: "...",
-  authDomain: "...",
-  projectId: "...",
-  appId: "...",
-});
-```
-
-Prefer the app's existing env pattern for config values. If using env vars, preserve the framework's prefix rules, such as `VITE_` for Vite and `NEXT_PUBLIC_` for Next.js client code. Firebase web app config is not a service account, but still do not invent or paste example project values.
-
-## React Pattern
-
-Create or update a Firebase module:
-
-```ts
-import { initializeUI } from "@firebase-oss/ui-core";
-import { getApps, initializeApp } from "firebase/app";
-import { getAuth } from "firebase/auth";
-
-// Use the consumer app's Firebase web app config.
-const firebaseConfig = {
-  apiKey: "...",
-  authDomain: "...",
-  projectId: "...",
-  appId: "...",
-};
-const firebaseApp = getApps().length ? getApps()[0] : initializeApp(firebaseConfig);
-
-export const auth = getAuth(firebaseApp);
-export const ui = initializeUI({ app: firebaseApp });
-```
-
-Wrap the app once:
-
-```tsx
-import { FirebaseUIProvider } from "@firebase-oss/ui-react";
-
-root.render(
-  <FirebaseUIProvider ui={ui}>
-    <App />
-  </FirebaseUIProvider>,
-);
-```
-
-Import FirebaseUI styles once, unless the app uses shadcn/ui:
-
-```ts
-import "@firebase-oss/ui-styles/dist.min.css";
-```
-
-For Tailwind projects that want FirebaseUI Tailwind styles:
-
-```css
-@import "tailwindcss";
-@import "@firebase-oss/ui-styles/tailwind";
-```
-
-Add predefined screens by importing from `@firebase-oss/ui-react`:
-
-```tsx
-import { SignInAuthScreen } from "@firebase-oss/ui-react";
-import { useNavigate } from "react-router-dom";
-
-export function SignInPage() {
-  const navigate = useNavigate();
-
-  return <SignInAuthScreen onSignIn={() => navigate("/")} />;
-}
-```
-
-Common React screens: `SignInAuthScreen`, `SignUpAuthScreen`, `ForgotPasswordAuthScreen`, `EmailLinkAuthScreen`, `PhoneAuthScreen`, `OAuthScreen`, `MultiFactorAuthAssertionScreen`, `MultiFactorAuthEnrollmentScreen`.
-
-## shadcn/ui Pattern
-
-Use the same Firebase module and `FirebaseUIProvider` pattern as React. Do not import `@firebase-oss/ui-styles`; shadcn components inherit the app's shadcn/Tailwind theme.
-
-Install registry components instead of importing screens directly from `@firebase-oss/ui-react`:
-
-```bash
-npx shadcn@latest add @firebase/sign-in-auth-screen
-npx shadcn@latest add @firebase/sign-up-auth-screen
-npx shadcn@latest add @firebase/phone-auth-screen
-```
-
-Then import generated components from the local shadcn alias:
-
-```tsx
-import { SignInAuthScreen } from "@/components/sign-in-auth-screen";
-import { useNavigate } from "react-router-dom";
-
-export function SignInPage() {
-  const navigate = useNavigate();
-
-  return <SignInAuthScreen onSignIn={() => navigate("/")} />;
-}
-```
-
-Before adding registry components, verify `components.json` aliases match the app's import style. Fix only the Firebase registry entry and missing shadcn setup needed for the requested screen.
-
-## Angular Pattern
-
-Angular projects should use AngularFire and providers in the app config:
-
-```ts
-import { type ApplicationConfig } from "@angular/core";
-import { provideFirebaseApp, initializeApp } from "@angular/fire/app";
-import { provideAuth, getAuth } from "@angular/fire/auth";
-import { provideFirebaseUI, provideFirebaseUIPolicies } from "@firebase-oss/ui-angular";
-import { initializeUI } from "@firebase-oss/ui-core";
-
-// Use the consumer app's Firebase web app config.
-const firebaseConfig = {
-  apiKey: "...",
-  authDomain: "...",
-  projectId: "...",
-  appId: "...",
-};
-
-export const appConfig: ApplicationConfig = {
-  providers: [
-    provideFirebaseApp(() => initializeApp(firebaseConfig)),
-    provideAuth(() => getAuth()),
-    provideFirebaseUI((apps) => initializeUI({ app: apps[0] })),
-    provideFirebaseUIPolicies(() => ({
-      termsOfServiceUrl: "/terms",
-      privacyPolicyUrl: "/privacy",
-    })),
-  ],
-};
-```
-
-Import styles once in the global stylesheet:
-
-```css
-@import "@firebase-oss/ui-styles/dist.min.css";
-```
-
-Wrap predefined screens in standalone route components:
-
-```ts
-import { Component, inject } from "@angular/core";
-import { CommonModule } from "@angular/common";
-import { Router } from "@angular/router";
-import { SignInAuthScreenComponent } from "@firebase-oss/ui-angular";
-
-@Component({
-  selector: "app-sign-in",
-  standalone: true,
-  imports: [CommonModule, SignInAuthScreenComponent],
-  template: `<fui-sign-in-auth-screen (signIn)="onSignIn()" />`,
-})
-export class SignInPageComponent {
-  private router = inject(Router);
-
-  onSignIn() {
-    this.router.navigate(["/"]);
-  }
-}
-```
-
-Common Angular selectors:
-- `fui-sign-in-auth-screen`
-- `fui-sign-up-auth-screen`
-- `fui-forgot-password-auth-screen`
-- `fui-email-link-auth-screen`
-- `fui-phone-auth-screen`
-- `fui-oauth-screen`
-
-## Screen Defaults
-
-Use Screens for a quick setup with opinionated layout. Use Forms only when the user has an existing custom auth page and asks to embed FirebaseUI logic into that layout.
-
-Default route set for a basic auth setup:
-- `/sign-in` -> sign-in screen
-- `/sign-up` -> sign-up screen
-- `/forgot-password` -> forgot password screen
-
-Add phone, email-link, OAuth, or MFA screens only when the user asks for those flows or the app already has matching routes/providers enabled.
-
-## Gotchas
-
-- Do not set up unsupported frameworks such as Vue, Svelte, Solid, or plain HTML from this skill.
-- Do not copy Firebase config values, OAuth client IDs, emulator hosts, or project IDs from FirebaseUI examples.
-- Ensure the requested Firebase Auth providers are enabled in the user's Firebase project; code alone will not enable Email/Password, Phone, or OAuth providers.
-- shadcn/ui uses local generated components from `@/components/...`; React uses package exports from `@firebase-oss/ui-react`.
-- React and shadcn need `FirebaseUIProvider` above any screen that calls FirebaseUI hooks.
-- Angular needs `provideFirebaseUI`; importing screen components alone is not enough.
-- FirebaseUI CSS applies to React and Angular package screens, but not to shadcn registry components.
-- If a React app runs in SSR, keep FirebaseUI screen usage in client-only components.
-
-## Validation
-
-Before finishing:
-- Confirm dependencies are present in `package.json`.
-- Confirm Firebase config is sourced from the consumer project.
-- Confirm exactly one Firebase App/UI initialization path is used.
-- Confirm routes render the selected predefined screens.
-- Run the repo's relevant validation command and report any skipped checks.
+- **Store vs state:** `initializeUI` returns a store. Give the store to the stack's provider. Give the `FirebaseUI` state object (`ui.get()`, or what the stack's reference names) to `@firebase-oss/ui-core` actions. Mixing them up fails at runtime.
+- **Screen links need handlers:** "Forgot password?", "Sign up", "Sign in" and "Back to sign in" render only when the matching callback or output is wired.
+- **Extra controls go outside the card:** a screen is a self-contained card whose slot is for OAuth buttons. Put other controls (such as "Continue as guest") outside it, or compose a form inside your own card.
+- **Anonymous upgrade:** do not call `linkWithCredential` yourself. With `autoUpgradeAnonymousUsers()` in `initializeUI`, every screen and OAuth button links to the guest and keeps its `uid`.
+- **Core results and sign-out:** core sign-in actions can resolve to `void`, and `ui-core` has no sign-out. See `core.md`.
