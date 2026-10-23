@@ -1,11 +1,17 @@
 ---
 name: firebaseui-web-getting-started
-description: Guide for adding FirebaseUI Web authentication screens, forms, OAuth buttons, and behaviors to React, shadcn/ui, and Angular apps. Use when a user wants to set up FirebaseUI Web, add sign-in/sign-up/forgot-password/phone/email-link/MFA screens or forms, or configure OAuth providers and auth behaviors.
+description: Add FirebaseUI Web authentication (sign-in, sign-up, password reset, email link, phone, OAuth, anonymous upgrade, MFA screens, forms, behaviors) to React, shadcn/ui, and Angular apps. This skill's references hold every prop and signature needed, so do not search node_modules, and never glob `**/*` or `src/**/*` from the project root (it matches node_modules); glob with targetDirectory `src`.
 ---
 
 # FirebaseUI Web Getting Started
 
 Implement Firebase authentication using FirebaseUI Web (`@firebase-oss/ui-*`). Follow the steps below to detect the project stack, configure `@firebase-oss/ui-core`, and load the reference file for your UI framework.
+
+## 0. Search Rules (Read Before Using Any Search Tool)
+
+- **Never glob `**/*` or `src/**/*` from the project root.** The glob tool matches a pattern at any depth, so both also match every `node_modules/**/src/` folder and return thousands of paths (over 160,000 characters), almost all inside `node_modules`. Call glob with `targetDirectory: "src"` (or another specific subfolder) and a narrow pattern such as `**/*.tsx`. Give grep `path: "src"`, not `.`.
+- **Do not read, grep, or glob inside `node_modules`.** The packages ship only minified `dist/` bundles and 150-280 KB `.d.ts` files, and greps there have returned nothing. Every prop, signature, and recipe you need is in the references below; if something is missing, state your assumption and let `npm run build` confirm it.
+- **Read in one parallel batch:** `package.json`, `src/main.tsx`, `src/App.tsx`, and the reference files for your stack (step 1).
 
 ## 1. Detect the Stack & Load the Framework Reference
 
