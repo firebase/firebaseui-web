@@ -78,9 +78,9 @@ All FirebaseUI screens, forms, and OAuth buttons call these functions under the 
   - `createUserWithEmailAndPassword(ui, email, password, displayName?): Promise<UserCredential>` — Automatically links `EmailAuthProvider.credential(email, password)` to `auth.currentUser` when `autoUpgradeAnonymousUsers()` is registered and the current user is anonymous!
   - `sendPasswordResetEmail(ui, email): Promise<void>`
 - **Email Link:**
-  - `sendSignInLinkToEmail(ui, email, actionCodeSettings?): Promise<void>`
-  - `completeEmailLinkSignIn(ui, currentUrl?): Promise<UserCredential | null>`
-  - `signInWithEmailLink(ui, email, emailLink?): Promise<UserCredential>`
+  - `sendSignInLinkToEmail(ui, email): Promise<void>` — No `actionCodeSettings` argument. The link always returns to `window.location.href` with `handleCodeInApp: true`, and the email is saved in `localStorage` (`emailForSignIn`).
+  - `completeEmailLinkSignIn(ui, currentUrl): Promise<UserCredential | null>` — `currentUrl` is required (pass `window.location.href`). Reads the saved email, signs in, then clears it. Returns `null` if the URL is not a sign-in link or no email is saved.
+  - `signInWithEmailLink(ui, email, link): Promise<UserCredential | void>` — `email` and `link` are both required.
 - **OAuth & Anonymous:**
   - `signInWithProvider(ui, provider): Promise<UserCredential>` — Automatically links the OAuth provider to `auth.currentUser` when `autoUpgradeAnonymousUsers()` is registered and the current user is anonymous!
   - `signInAnonymously(ui): Promise<UserCredential>`
