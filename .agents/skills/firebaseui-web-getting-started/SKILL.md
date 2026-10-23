@@ -12,7 +12,7 @@ Implement Firebase authentication using FirebaseUI Web (`@firebase-oss/ui-*`). F
 Inspect `package.json` and project configuration files:
 
 - **shadcn/ui** (`components.json` present alongside `react` and `tailwindcss`): Read [`references/shadcn.md`](references/shadcn.md) and [`references/core.md`](references/core.md).
-- **React** (`react` and `react-dom` in `package.json`): Read [`references/react.md`](references/react.md) and [`references/core.md`](references/core.md).
+- **React** (`react` and `react-dom` in `package.json`): Read [`references/react.md`](references/react.md), [`references/react-recipes.md`](references/react-recipes.md) and [`references/core.md`](references/core.md).
 - **Angular** (`@angular/core` in `package.json`, Angular v19+): Read [`references/angular.md`](references/angular.md) and [`references/core.md`](references/core.md).
 
 If the stack is ambiguous, ask the user before installing packages.
@@ -82,9 +82,9 @@ Check this map before writing custom `firebase/auth` code or inspecting `node_mo
 | Email + Password Sign-Up | `<SignUpAuthScreen onSignUp={...} onSignInClick={...}>` (+ `requireDisplayName()` behavior if display name is needed) | [`references/react.md`](references/react.md) |
 | Password Reset | `<ForgotPasswordAuthScreen onPasswordSent={...} onBackToSignInClick={...} />` | [`references/react.md`](references/react.md) |
 | Social / OAuth Sign-In | `<GoogleSignInButton />` (or `GitHubSignInButton`, `AppleSignInButton`, `OAuthButton`) passed as `children` of `SignInAuthScreen` / `SignUpAuthScreen` or inside `OAuthScreen` | [`references/react.md`](references/react.md) |
-| Anonymous Sign-In & Upgrade | `autoUpgradeAnonymousUsers()` in `initializeUI({ app, behaviors })` + `signInAnonymously(ui.get())` (or `autoAnonymousLogin()`) | [`references/core.md`](references/core.md) |
-| Multi-Factor Auth (MFA) | `<MultiFactorAuthEnrollmentScreen hints={[FactorId.TOTP, FactorId.PHONE]} />` for enrollment; assertion is automatic inside `*AuthScreen` | [`references/react.md`](references/react.md) |
-| Email Link / Phone SMS | `<EmailLinkAuthScreen />` / `<PhoneAuthScreen />` | [`references/react.md`](references/react.md) |
+| Anonymous Sign-In & Upgrade | `autoUpgradeAnonymousUsers()` in `initializeUI({ app, behaviors })` + `signInAnonymously(ui.get())` (or `autoAnonymousLogin()`) | [`references/react-recipes.md`](references/react-recipes.md) (Guest, then add an email), [`references/core.md`](references/core.md) |
+| Multi-Factor Auth (MFA) | `<MultiFactorAuthEnrollmentScreen hints={[FactorId.TOTP, FactorId.PHONE]} />` for enrollment; assertion is automatic inside `*AuthScreen` | [`references/react-recipes.md`](references/react-recipes.md) |
+| Email Link / Phone SMS | `<EmailLinkAuthScreen />` / `<PhoneAuthScreen />` (email link route recipe in react-recipes) | [`references/react-recipes.md`](references/react-recipes.md) / [`references/react.md`](references/react.md) |
 | Terms & Privacy Links | `policies={{ termsOfServiceUrl, privacyPolicyUrl }}` on `<FirebaseUIProvider>` | [`references/react.md`](references/react.md) |
 
 ## 5. Screen Defaults & Composition
