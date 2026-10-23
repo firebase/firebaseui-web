@@ -1,6 +1,6 @@
 # FirebaseUI Web — Core, Behaviors & Auth Actions (`@firebase-oss/ui-core`)
 
-Complete reference for `@firebase-oss/ui-core`, including `initializeUI`, behaviors, and core authentication functions.
+Complete reference for `@firebase-oss/ui-core`, including `initializeUI`, behaviors, and core authentication functions. It is the same for every stack. How a stack gets the `FirebaseUI` state object (hook, injector or `ui.get()`) is in that stack's reference.
 
 ## 1. `initializeUI`
 
@@ -37,12 +37,12 @@ export const ui = initializeUI({
 });
 ```
 
-### `FirebaseUI` State Shape (`ui.get()` or `useUI()`)
+### `FirebaseUI` State Shape (`ui.get()`)
 
 | Property | Type | Description |
 | --- | --- | --- |
 | `app` | `FirebaseApp` | The Firebase `App` instance. |
-| `auth` | `Auth` | The `firebase/auth` `Auth` instance (`ui.get().auth` / `useUI().auth`). |
+| `auth` | `Auth` | The `firebase/auth` `Auth` instance (`ui.get().auth`). |
 | `state` | `'idle' \| 'pending' \| 'loading'` | Current operation state (`setState(...)`). |
 | `multiFactorResolver` | `MultiFactorResolver \| undefined` | Populated automatically when `auth/multi-factor-auth-required` is caught during sign-in; cleared once MFA assertion succeeds. |
 | `redirectError` | `Error \| undefined` | Populated if a redirect OAuth or email-link flow fails. |
@@ -71,7 +71,14 @@ Pass behaviors in the `behaviors: [...]` array of `initializeUI({ app, behaviors
 
 ## 3. Core Auth Actions (`import { ... } from '@firebase-oss/ui-core'`)
 
-All FirebaseUI screens, forms, and OAuth buttons call these functions under the hood. If you build custom triggers (such as a "Continue as guest" button or a custom upgrade form), call these `@firebase-oss/ui-core` functions with `ui.get()` (or `useUI()` in React) instead of raw `firebase/auth` functions so that registered behaviors (`autoUpgradeAnonymousUsers`, `multiFactorResolver` capture, pending state, and localized error formatting) execute automatically:
+All FirebaseUI screens, forms, and OAuth buttons call these functions under the hood. If you build custom triggers (such as a "Continue as guest" button or a custom upgrade form), call these `@firebase-oss/ui-core` functions with the `FirebaseUI` state object (`ui.get()`, or the hook or injector your stack's reference names; never the store `ui` itself) instead of raw `firebase/auth` functions so that registered behaviors (`autoUpgradeAnonymousUsers`, `multiFactorResolver` capture, pending state, and localized error formatting) execute automatically.
+
+**The result can be `void`.** `signInWithEmailAndPassword`, `createUserWithEmailAndPassword`, `signInWithProvider`, `signInWithCredential`, `signInWithEmailLink` and `confirmPhoneNumber` return `Promise<UserCredential | void>`: `void` means no credential came back (for example a multi-factor challenge is pending), so guard before using it (`if (credential) ...`).
+
+**Sign-out is not in `ui-core`.** The sign-out call is `signOut(ui.get().auth)` from `firebase/auth`.
+
+**Anonymous sign-in does not fire `onSignIn`.** Screen callbacks that follow auth state (`onSignIn` and friends) run for non-anonymous users only, and linking a credential to a guest emits no auth-state change, so they do not fire when `autoUpgradeAnonymousUsers()` upgrades a guest either. Navigate yourself after `signInAnonymously`. Which outputs receive the credential directly is in the stack's reference.
+
 
 - **Email & Password:**
   - `signInWithEmailAndPassword(ui, email, password): Promise<UserCredential | void>`

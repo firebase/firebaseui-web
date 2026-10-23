@@ -1,30 +1,40 @@
 # FirebaseUI Web — React Recipes (`@firebase-oss/ui-react`)
 
-Companion to [`react.md`](react.md): multi-factor screens, the email link recipe, headless forms, hooks, and copy-paste setup recipes.
+Companion to [`react.md`](react.md): flow lookup, multi-factor screens, the email link recipe, headless forms, hooks, and copy-paste setup recipes.
+
+## 0. Flow-to-Component Lookup
+
+| Flow | Building block | Where |
+| --- | --- | --- |
+| Email + password sign-in | `<SignInAuthScreen onSignIn onForgotPasswordClick onSignUpClick>` | `react.md` |
+| Email + password sign-up | `<SignUpAuthScreen onSignUp onSignInClick>` (`requireDisplayName()` adds a name field) | `react.md` |
+| Password reset | `<ForgotPasswordAuthScreen onPasswordSent onBackToSignInClick />` | `react.md` |
+| Social / OAuth | `<GoogleSignInButton />` etc. as `children` of `SignInAuthScreen` / `SignUpAuthScreen`, or inside `OAuthScreen` | `react.md` |
+| Phone SMS | `<PhoneAuthScreen />` | `react.md` |
+| Email link | one `<EmailLinkAuthScreen />` on the route the link returns to | section 2 |
+| Anonymous sign-in and upgrade | `autoUpgradeAnonymousUsers()` + `signInAnonymously(useUI())`, then `SignUpAuthScreen` keeps the `uid` | section 5 |
+| Multi-factor | `<MultiFactorAuthEnrollmentScreen hints={[FactorId.PHONE]} />`; assertion is automatic inside the screens | section 1 |
+| Terms and privacy links | `policies={{ termsOfServiceUrl, privacyPolicyUrl }}` on `<FirebaseUIProvider>` | `react.md` section 2 |
+| Sign-out | `signOut(useUI().auth)` from `firebase/auth` (`ui-core` has no sign-out) | n/a |
+
+The "Forgot password?", "Sign up", "Sign in" and "Back to sign in" links render only when their handler prop is set. Do not call `linkWithCredential` yourself: with `autoUpgradeAnonymousUsers()` every screen and OAuth button links to the guest.
 
 ## 1. Multi-Factor Auth Screens
 
 ### `MultiFactorAuthEnrollmentScreen`
 
-Allows a signed-in user to enroll a second factor (TOTP authenticator app and/or SMS phone verification). Note: Firebase Auth requires an authenticated, non-anonymous user session to enroll MFA factors.
+Allows a signed-in user to enroll a second factor (TOTP authenticator app and/or SMS phone verification). Note: Firebase Auth requires an authenticated, non-anonymous user session to enroll MFA factors. The Auth emulator cannot complete TOTP, so against it pass `hints={[FactorId.PHONE]}`.
 
 ```tsx
 import { FactorId } from 'firebase/auth';
 import { MultiFactorAuthEnrollmentScreen } from '@firebase-oss/ui-react';
 
-export function MfaEnrollmentSection({ onComplete }: { onComplete?: () => void }) {
-  return (
-    <MultiFactorAuthEnrollmentScreen
-      hints={[FactorId.TOTP, FactorId.PHONE]}
-      onEnrollment={() => onComplete?.()}
-    />
-  );
-}
+<MultiFactorAuthEnrollmentScreen hints={[FactorId.PHONE]} onEnrollment={() => navigate('/account')} />
 ```
 
 | Prop | Type | Description |
 | --- | --- | --- |
-| `hints` | `Hint[]` (`(typeof FactorId.PHONE \| typeof FactorId.TOTP)[]`) | Optional list of factor types to offer. Defaults to `[FactorId.TOTP, FactorId.PHONE]`. |
+| `hints` | `Hint[]` (`(typeof FactorId.PHONE \| typeof FactorId.TOTP)[]`) | Optional list of factor types to offer. Defaults to `[FactorId.TOTP, FactorId.PHONE]`; an empty list throws. |
 | `onEnrollment` | `() => void` | Called when the user finishes enrolling the factor. |
 
 ### `MultiFactorAuthAssertionScreen`
@@ -36,8 +46,6 @@ import { MultiFactorAuthAssertionScreen } from '@firebase-oss/ui-react';
 
 <MultiFactorAuthAssertionScreen onSuccess={(credential) => console.log(credential.user)} />
 ```
-
----
 
 ## 2. Email Link Recipe
 
@@ -54,8 +62,6 @@ export function EmailLinkPage() {
 ```
 
 `onSignIn` follows auth-state changes, so it does not fire when the link upgrades an anonymous user (linking emits no auth-state event). In that case use `<EmailLinkAuthForm onSignIn={(credential) => ...} />`, which receives the credential directly.
-
----
 
 ## 3. Headless `*AuthForm` Components
 
@@ -75,17 +81,13 @@ Use `*AuthForm` components when you want FirebaseUI's form state, validation, lo
 | `TotpMultiFactorEnrollmentForm` | `{ onEnrollment?: () => void }` |
 | `TotpMultiFactorAssertionForm` | `{ hint: MultiFactorInfo, onSuccess?: (credential: UserCredential) => void }` |
 
----
-
 ## 4. Hooks & UI Utilities
 
-- **`useUI(): FirebaseUI`** — Returns the current `FirebaseUI` state object (`{ app, auth, state, multiFactorResolver, redirectError, locale, behaviors }`).
-- **`useOnUserAuthenticated(callback: (user: User) => void)`** — Runs `callback` when a non-anonymous user authenticates (`!user.isAnonymous`).
-- **`useRedirectError(): string | undefined`** — Returns a formatted error message if a redirect sign-in failed.
-- **`useRecaptchaVerifier(containerRef: RefObject<HTMLDivElement | null>)`** — Renders and manages a Firebase `RecaptchaVerifier` instance.
-- **`<RedirectError />`**, **`<Policies />`**, **`<Divider />`**, **`<CountrySelector />`** — Standalone UI primitives used inside screens and custom layouts.
-
----
+- `useUI(): FirebaseUI`: the state object (`{ app, auth, state, multiFactorResolver, redirectError, locale, behaviors }`).
+- `useOnUserAuthenticated((user: User) => void)`: runs when a non-anonymous user authenticates.
+- `useRedirectError(): string | undefined`: message when a redirect sign-in failed.
+- `useRecaptchaVerifier(containerRef)`: renders and manages a `RecaptchaVerifier`.
+- `<RedirectError />`, `<Policies />`, `<Divider />`, `<CountrySelector />`: primitives used inside screens and custom layouts.
 
 ## 5. Recipes
 
@@ -115,11 +117,24 @@ With `autoUpgradeAnonymousUsers()` registered, sign-up (and OAuth and phone) lin
 ```tsx
 import { useNavigate } from 'react-router-dom';
 import { signInAnonymously } from '@firebase-oss/ui-core';
-import { Button, SignUpAuthScreen, useUI } from '@firebase-oss/ui-react';
+import { Button, Card, CardContent, CardHeader, CardSubtitle, CardTitle, SignUpAuthScreen, useUI } from '@firebase-oss/ui-react';
 
-export function GuestButton() {
+export function GuestPage() {
   const ui = useUI();
-  return <Button onClick={() => signInAnonymously(ui)}>Continue as guest</Button>;
+  const navigate = useNavigate();
+  return (
+    <div className="fui-screen">
+      <Card>
+        <CardHeader>
+          <CardTitle>Continue as guest</CardTitle>
+          <CardSubtitle>Try the app without an account. You can add an email later and keep your data.</CardSubtitle>
+        </CardHeader>
+        <CardContent>
+          <Button onClick={async () => { await signInAnonymously(ui); navigate('/account'); }}>Continue as guest</Button>
+        </CardContent>
+      </Card>
+    </div>
+  );
 }
 
 export function AddEmailPage() {
@@ -130,24 +145,48 @@ export function AddEmailPage() {
 
 ### `Button` and `Card`
 
-Both come from `@firebase-oss/ui-react` and use the FirebaseUI styles. `Button` accepts normal `<button>` props plus `variant?: 'primary' | 'secondary'` (default `'primary'`) and `asChild`. Wrap a `Card` in `.fui-screen` (`max-w-sm mx-auto`) to match the screens' width and centring.
+Both come from `@firebase-oss/ui-react` (usage in the guest page above). `Button` takes normal `<button>` props plus `variant?: 'primary' | 'secondary'` and `asChild`. `Card` pieces: `CardHeader`, `CardTitle`, `CardSubtitle`, `CardContent`. Wrap a `Card` in `.fui-screen` to match the screens' width and centring.
+
+### Auth state, guarded routes and the account page
+
+`useUI().auth` is the Firebase `Auth`. Keep the user `undefined` until the first auth-state answer so a guard does not redirect too early. Sign-out is `signOut` from `firebase/auth`. Wrap any page that needs a signed-in user (`/account`, MFA enrollment, adding an email to a guest) in `RequireAuth`.
 
 ```tsx
-import { Button, Card, CardHeader, CardTitle, CardSubtitle, CardContent } from '@firebase-oss/ui-react';
+import { useEffect, useState, type ReactNode } from 'react';
+import { Navigate, useNavigate } from 'react-router-dom';
+import { onAuthStateChanged, signOut, type User } from 'firebase/auth';
+import { Button, Card, CardContent, CardHeader, CardTitle, useUI } from '@firebase-oss/ui-react';
 
-export function Panel() {
+export function useAuthUser() {
+  const { auth } = useUI();
+  const [user, setUser] = useState<User | null | undefined>(undefined);
+  useEffect(() => onAuthStateChanged(auth, setUser), [auth]);
+  return user;
+}
+
+export function RequireAuth({ children }: { children: ReactNode }) {
+  const user = useAuthUser();
+  if (user === undefined) return null;
+  return user ? children : <Navigate to="/sign-in" replace />;
+}
+
+export function AccountPage() {
+  const { auth } = useUI();
+  const user = useAuthUser();
+  const navigate = useNavigate();
   return (
-    <div className="fui-screen">
-      <Card>
-        <CardHeader>
-          <CardTitle>Title</CardTitle>
-          <CardSubtitle>Optional subtitle</CardSubtitle>
-        </CardHeader>
-        <CardContent>
-          <Button variant="secondary">Action</Button>
-        </CardContent>
-      </Card>
-    </div>
+    <RequireAuth>
+      <div className="fui-screen">
+        <Card>
+          <CardHeader><CardTitle>Account</CardTitle></CardHeader>
+          <CardContent>
+            <p>uid: {user?.uid}</p>
+            <p>email: {user?.email ?? ''}</p>
+            <Button variant="secondary" onClick={async () => { await signOut(auth); navigate('/sign-in'); }}>Sign out</Button>
+          </CardContent>
+        </Card>
+      </div>
+    </RequireAuth>
   );
 }
 ```

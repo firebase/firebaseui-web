@@ -1,6 +1,12 @@
 # FirebaseUI Web — React Reference (`@firebase-oss/ui-react`)
 
-Complete reference for `@firebase-oss/ui-react` and `@firebase-oss/ui-styles`.
+Complete reference for `@firebase-oss/ui-react` and `@firebase-oss/ui-styles`. The flow-to-component table, multi-factor screens, email link, headless forms, hooks and the emulator `src/firebase.ts` are in [`react-recipes.md`](react-recipes.md). `initializeUI`, behaviors and core actions are in [`core.md`](core.md).
+
+## 0. Read First
+
+In one parallel batch: `package.json`, `src/main.tsx`, `src/App.tsx` (and the router file if it is elsewhere), `react-recipes.md` and `core.md`. List files with a glob scoped to `src` (`targetDirectory: "src"`), never the project root.
+
+You do not need `tsconfig*.json`, `vite.config.ts` or `index.html`. In a default Vite + TypeScript project the compiler runs `strict`, `verbatimModuleSyntax` (use `import type` for type-only imports), `noUnusedLocals` and `noUnusedParameters` (no unused imports or parameters), and `import.meta.env.DEV` is typed. Firebase config values and the emulator host come from the project notes and `firebase.json`.
 
 ## 1. Installation & Styling Setup
 
@@ -47,7 +53,7 @@ In your main CSS file (where `@import "tailwindcss";` is loaded), import the Fir
 
 ## 2. `FirebaseUIProvider` & Policies
 
-Wrap your application (or auth route tree) in `<FirebaseUIProvider ui={ui}>`:
+Wrap your application (or auth route tree) in `<FirebaseUIProvider ui={ui}>`. Every `*AuthScreen`, `*AuthForm` and OAuth button must be inside it, and `FirebaseUIProvider` takes the **store** `ui` (`useUI()` gives the state object for core actions):
 
 ```tsx
 import { FirebaseUIProvider } from '@firebase-oss/ui-react';
@@ -80,7 +86,7 @@ export function AppProviders({ children }: { children: React.ReactNode }) {
 
 ## 3. Predefined `*AuthScreen` Components
 
-Every `*AuthScreen` renders a complete `.fui-screen` card with header, localized title/subtitle, form/content, `<RedirectError />`, and `<Policies />`.
+Every `*AuthScreen` renders a complete `.fui-screen` card with header, localized title/subtitle, form/content, `<RedirectError />`, and `<Policies />`. Put extra controls (such as "Continue as guest") outside the card; `children` is the slot for OAuth buttons.
 
 **Automatic MFA Assertion Handling:** `SignInAuthScreen`, `SignUpAuthScreen`, `EmailLinkAuthScreen`, `PhoneAuthScreen`, and `OAuthScreen` automatically render `<MultiFactorAuthAssertionScreen />` whenever `ui.multiFactorResolver` is active (e.g., when a user with MFA enabled signs in and Firebase throws `auth/multi-factor-auth-required`). You do **not** need custom conditional logic to switch to MFA assertion during sign-in.
 
@@ -109,7 +115,7 @@ export function SignInPage() {
 
 | Prop | Type | Description |
 | --- | --- | --- |
-| `onSignIn` | `(user: User) => void` | Called whenever a user is authenticated (via email/password or child OAuth buttons) when no MFA challenge is pending. |
+| `onSignIn` | `(user: User) => void` | Called when a non-anonymous user is authenticated (via email/password or child OAuth buttons) and no MFA challenge is pending. It follows auth state, so it does not fire after `signInAnonymously` or when a credential upgrades a guest. |
 | `onForgotPasswordClick` | `() => void` | When provided, renders the "Forgot password?" button and invokes this callback on click. |
 | `onSignUpClick` | `() => void` | When provided, renders the "Don't have an account? Sign up" action and invokes this callback on click. |
 | `showLegacySignInRecovery` | `boolean` | Defaults to `false`. Set `true` alongside `legacyFetchSignInWithEmail()` behavior to show account recovery hints. |
