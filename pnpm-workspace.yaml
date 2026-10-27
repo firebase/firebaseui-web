@@ -37,7 +37,7 @@ catalog:
   firebase: ^11.10.0
   jsdom: ^29.1.1
   nanostores: ^1.5.3
-  next: 16.3.8
+  next: 16.4.1
   postcss: ^8.5.26
 
   prettier: ^3.9.6
