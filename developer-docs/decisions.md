@@ -60,17 +60,19 @@ MVP validates **dev-server runtime only**. Validating built/deployed artifacts �
 
 ---
 
-## AD-9: Firebase JS SDK version policy (v11 resolved, v12 for consumers)
+## AD-9: Firebase JS SDK version policy (v11 resolved, v12/v13 for consumers)
 
 The monorepo **resolves** `firebase` **11.x** in the pnpm catalog (`^11.10.0` today). That is **not a regression** from a stable v12 baseline: catalog `^12.2.1` existed only briefly during the Sep 2025 catalog migration and was reverted; main has used catalog **11.x since Sep 2025** ([commit a275905a](https://github.com/firebase/firebaseui-web/commit/a275905a7598cb9d9e1be2250befc840334e8ab2) — peer range widened to `^11 || ^12` while keeping catalog 11 for AngularFire).
 
 **Why catalog 11:** `@angular/fire@20.0.1` depends on `firebase ^11.8.0` and `rxfire ^6.1.0` (rxfire peers firebase through **^11**). `@firebase-oss/ui-angular` imports both `@angular/fire/auth` and `firebase/auth` directly; forcing catalog **12** duplicates SDK types at compile time (e.g. `RecaptchaVerifier`, `TotpSecret`) — same class of failure as [angular/angularfire#3666](https://github.com/angular/angularfire/issues/3666).
 
-**Consumer policy:** package **peer** catalog stays **`firebase: ^11 || ^12`** — apps embedding `@firebase-oss/ui-*` may install firebase 12; published packages must remain compatible with both majors where types overlap.
+**Consumer policy:** package **peer** catalog is **`firebase: ^11 || ^12 || ^13`** — apps embedding `@firebase-oss/ui-*` may install firebase 12 or 13; published packages must remain compatible with all listed majors where types overlap.
 
 **Angular paths (explicit pin):** `packages/angular` and `examples/angular` keep a **non-catalog** devDependency pin (e.g. `"firebase": "^11.10.0"`) aligned with `@angular/fire`, not the workspace catalog entry.
 
 **Optional internal split (prove v12 sooner):** bump catalog `firebase` to **12.x** for core/react/shadcn and non-angular examples (`"firebase": "catalog:"`); leave angular packages on explicit **11.x** pins so pnpm can install both majors. Validate with `pnpm build`, `pnpm test`, and `pnpm test:e2e` (especially `@firebase-oss/ui-angular` and the angular example). Do **not** use a workspace-wide `pnpm.overrides` forcing firebase 12 — that breaks AngularFire immediately.
+
+**Split does not build as-is:** with catalog **13.x**, core/react build and unit-test cleanly, but `@firebase-oss/ui-angular` fails to compile: `ui-core` types resolve the catalog firebase while `@angular/fire` resolves 11.x (duplicate `TotpSecret`, `RecaptchaVerifier`). The split needs `ui-angular` to see `ui-core` typed against its own firebase pin first.
 
 **Upstream to track (harmonize on v12 later):**
 
