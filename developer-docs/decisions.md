@@ -60,28 +60,29 @@ MVP validates **dev-server runtime only**. Validating built/deployed artifacts �
 
 ---
 
-## AD-9: Firebase JS SDK version policy (v11 resolved, v12 for consumers)
+## AD-9: Firebase JS SDK version policy (v11 resolved, v12/v13 for consumers)
 
 The monorepo **resolves** `firebase` **11.x** in the pnpm catalog (`^11.10.0` today). That is **not a regression** from a stable v12 baseline: catalog `^12.2.1` existed only briefly during the Sep 2025 catalog migration and was reverted; main has used catalog **11.x since Sep 2025** ([commit a275905a](https://github.com/firebase/firebaseui-web/commit/a275905a7598cb9d9e1be2250befc840334e8ab2) — peer range widened to `^11 || ^12` while keeping catalog 11 for AngularFire).
 
 **Why catalog 11:** `@angular/fire@20.0.1` depends on `firebase ^11.8.0` and `rxfire ^6.1.0` (rxfire peers firebase through **^11**). `@firebase-oss/ui-angular` imports both `@angular/fire/auth` and `firebase/auth` directly; forcing catalog **12** duplicates SDK types at compile time (e.g. `RecaptchaVerifier`, `TotpSecret`) — same class of failure as [angular/angularfire#3666](https://github.com/angular/angularfire/issues/3666).
 
-**Consumer policy:** package **peer** catalog stays **`firebase: ^11 || ^12`** — apps embedding `@firebase-oss/ui-*` may install firebase 12; published packages must remain compatible with both majors where types overlap.
+**Consumer policy:** package **peer** catalog is **`firebase: ^11 || ^12 || ^13`** — apps embedding `@firebase-oss/ui-*` may install firebase 12 or 13. Published dist is built and type-checked against **11.x** only; 12/13 compatibility is verified per change, not in CI.
 
 **Angular paths (explicit pin):** `packages/angular` and `examples/angular` keep a **non-catalog** devDependency pin (e.g. `"firebase": "^11.10.0"`) aligned with `@angular/fire`, not the workspace catalog entry.
 
-**Optional internal split (prove v12 sooner):** bump catalog `firebase` to **12.x** for core/react/shadcn and non-angular examples (`"firebase": "catalog:"`); leave angular packages on explicit **11.x** pins so pnpm can install both majors. Validate with `pnpm build`, `pnpm test`, and `pnpm test:e2e` (especially `@firebase-oss/ui-angular` and the angular example). Do **not** use a workspace-wide `pnpm.overrides` forcing firebase 12 — that breaks AngularFire immediately.
+**Internal split (blocked):** bumping catalog `firebase` for core/react/shadcn and non-angular examples while angular keeps its **11.x** pin does not build. Tried with catalog **13.x**: core/react build and pass unit tests cleanly, but `@firebase-oss/ui-angular` fails to compile because `ui-core` types resolve the catalog's firebase while `@angular/fire` resolves 11.x (duplicate `TotpSecret`, `RecaptchaVerifier`). Prerequisite: `ui-angular` must see `ui-core` typed against its own firebase pin. Do **not** use a workspace-wide `pnpm.overrides` forcing a newer firebase — that breaks AngularFire immediately.
 
-**Upstream to track (harmonize on v12 later):**
+**Upstream to track (harmonize later):**
 
 | Track | Link |
 |-------|------|
 | Firebase 12 on AngularFire v20 | [angular/angularfire#3666](https://github.com/angular/angularfire/issues/3666) |
 | AngularFire v21 (Angular 21 + firebase 12) | [21.0.0-rc.0 release](https://github.com/angular/angularfire/releases/tag/21.0.0-rc.0), [angular/angularfire#3689](https://github.com/angular/angularfire/issues/3689) |
 | rxfire firebase 12 (blocks AngularFire 21) | [FirebaseExtended/rxfire#123](https://github.com/FirebaseExtended/rxfire/pull/123) |
+| AngularFire on firebase 13 (`21.0.0` still depends on `firebase ^12.18.0`) | [AngularFire releases](https://github.com/angular/angularfire/releases) |
 | Firebase JS SDK releases | [firebase-js-sdk releases](https://github.com/firebase/firebase-js-sdk/releases), [Firebase JS release notes](https://firebase.google.com/support/release-notes/js) |
 
-**Unlock:** when **AngularFire 21 stable** (and rxfire firebase 12) ships, bump `@angular/fire`, angular pins, and catalog together in one verified change.
+**Unlock:** when an AngularFire release supports the target firebase major (12 via AngularFire 21, or 13), bump `@angular/fire`, angular pins, and catalog together in one verified change.
 
 Owner for catalog/peer fields: [pnpm-workspace.yaml](../pnpm-workspace.yaml). Verification steps: [playbooks/change-authoring-verification.md](playbooks/change-authoring-verification.md), [playbooks/dependency-update-verification.md](playbooks/dependency-update-verification.md).
 
