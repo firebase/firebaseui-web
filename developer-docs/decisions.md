@@ -70,7 +70,7 @@ The monorepo **resolves** `firebase` **11.x** in the pnpm catalog (`^11.10.0` to
 
 **Angular paths (explicit pin):** `packages/angular` and `examples/angular` keep a **non-catalog** devDependency pin (e.g. `"firebase": "^11.10.0"`) aligned with `@angular/fire`, not the workspace catalog entry.
 
-**Internal split (blocked):** bumping catalog `firebase` for core/react/shadcn and non-angular examples while angular keeps its **11.x** pin does not build. Tried with catalog **13.x**: core/react build and unit-test cleanly, but `@firebase-oss/ui-angular` fails to compile because `ui-core` types resolve the catalog firebase while `@angular/fire` resolves 11.x (duplicate `TotpSecret`, `RecaptchaVerifier`). Prerequisite: `ui-angular` must see `ui-core` typed against its own firebase pin. Do **not** use a workspace-wide `pnpm.overrides` forcing a newer firebase — that breaks AngularFire immediately.
+**Internal split (blocked):** bumping catalog `firebase` for core/react/shadcn and non-angular examples while angular keeps its **11.x** pin does not build. Tried with catalog **13.x**: core/react build and pass unit tests cleanly, but `@firebase-oss/ui-angular` fails to compile because `ui-core` types resolve the catalog's firebase while `@angular/fire` resolves 11.x (duplicate `TotpSecret`, `RecaptchaVerifier`). Prerequisite: `ui-angular` must see `ui-core` typed against its own firebase pin. Do **not** use a workspace-wide `pnpm.overrides` forcing a newer firebase — that breaks AngularFire immediately.
 
 **Upstream to track (harmonize later):**
 
