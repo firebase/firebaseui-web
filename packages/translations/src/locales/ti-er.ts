@@ -51,7 +51,7 @@ export const tiER = {
   messages: {
     passwordResetEmailSent: "ኢመይል ምዕራር ፓስወርድ ብዓወት ተላኢኹ",
     signInLinkSent: "ሊንክ ምእታው ብዓወት ተላኢኹ",
-    verificationCodeFirst: "እባኻ ቅድሚ ኹሉ ኮድ ምርግጋጽ ሓቶ",
+    verificationCodeFirst: "እባኻ ቅድሚ ኹሉ ኮድ ምርግгаጽ ሓቶ",
     checkEmailForReset: "ናይ ፓስወርድ ምዕራር ኣገዳስነት ንምርካብ ኢመይልካ ርአ",
     dividerOr: "ወይ",
     termsAndPrivacy: "ምቕጻል ብምባል፡ ብ{tos} ከምኡ'ውን ብ{privacy} ተሰማማዕ።",
