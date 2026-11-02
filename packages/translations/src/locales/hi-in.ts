@@ -81,7 +81,6 @@ export const hiIN = {
     signInWithYahoo: "Yahoo से साइन इन करें",
     signInWithTwitter: "X से साइन इन करें",
     signInWithEmailLink: "ईमेल लिंक से साइन इन करें",
-    signInWithEmail: "ईमेल से साइन इन करें",
     sendSignInLink: "साइन-इन लिंक भेजें",
     termsOfService: "सेवा की शर्तें",
     privacyPolicy: "गोपनीयता नीति",

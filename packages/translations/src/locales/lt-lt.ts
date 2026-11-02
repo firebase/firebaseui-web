@@ -81,7 +81,6 @@ export const ltLT = {
     signInWithYahoo: "Prisijungti su Yahoo",
     signInWithTwitter: "Prisijungti su X",
     signInWithEmailLink: "Prisijungti su el. pašto nuoroda",
-    signInWithEmail: "Prisijungti su el. paštu",
     sendSignInLink: "Siųsti prisijungimo nuorodą",
     termsOfService: "Paslaugų teikimo sąlygos",
     privacyPolicy: "Privatumo politika",

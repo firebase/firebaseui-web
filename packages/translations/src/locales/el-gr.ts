@@ -82,7 +82,6 @@ export const elGR = {
     signInWithYahoo: "Σύνδεση με Yahoo",
     signInWithTwitter: "Σύνδεση με X",
     signInWithEmailLink: "Σύνδεση με σύνδεσμο email",
-    signInWithEmail: "Σύνδεση με email",
     sendSignInLink: "Αποστολή συνδέσμου σύνδεσης",
     termsOfService: "Όροι Υπηρεσίας",
     privacyPolicy: "Πολιτική Απορρήτου",

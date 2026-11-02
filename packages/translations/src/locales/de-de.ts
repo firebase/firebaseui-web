@@ -84,7 +84,6 @@ export const deDE = {
     signInWithYahoo: "Mit Yahoo anmelden",
     signInWithTwitter: "Mit X anmelden",
     signInWithEmailLink: "Mit E-Mail-Link anmelden",
-    signInWithEmail: "Mit E-Mail anmelden",
     sendSignInLink: "Anmeldelink senden",
     termsOfService: "Nutzungsbedingungen",
     privacyPolicy: "Datenschutzrichtlinie",

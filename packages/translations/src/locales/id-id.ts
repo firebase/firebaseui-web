@@ -81,7 +81,6 @@ export const idID = {
     signInWithYahoo: "Masuk dengan Yahoo",
     signInWithTwitter: "Masuk dengan X",
     signInWithEmailLink: "Masuk dengan Tautan Email",
-    signInWithEmail: "Masuk dengan Email",
     sendSignInLink: "Kirim Tautan Masuk",
     termsOfService: "Ketentuan Layanan",
     privacyPolicy: "Kebijakan Privasi",

@@ -83,7 +83,6 @@ export const ptBR = {
     signInWithYahoo: "Entrar com Yahoo",
     signInWithTwitter: "Entrar com X",
     signInWithEmailLink: "Entrar com link de e-mail",
-    signInWithEmail: "Entrar com e-mail",
     sendSignInLink: "Enviar link de login",
     termsOfService: "Termos de Serviço",
     privacyPolicy: "Política de Privacidade",

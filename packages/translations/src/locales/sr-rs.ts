@@ -83,7 +83,6 @@ export const srRS = {
     signInWithYahoo: "Пријава преко Yahoo-а",
     signInWithTwitter: "Пријава преко X-а",
     signInWithEmailLink: "Пријава везом е-поште",
-    signInWithEmail: "Пријава е-поштом",
     sendSignInLink: "Пошаљи везу за пријаву",
     termsOfService: "Услови коришћења",
     privacyPolicy: "Политика приватности",

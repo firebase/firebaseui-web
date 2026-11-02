@@ -82,7 +82,6 @@ export const faIR = {
     signInWithYahoo: "ورود با Yahoo",
     signInWithTwitter: "ورود با X",
     signInWithEmailLink: "ورود با لینک ایمیل",
-    signInWithEmail: "ورود با ایمیل",
     sendSignInLink: "ارسال لینک ورود",
     termsOfService: "شرایط خدمات",
     privacyPolicy: "سیاست حریم خصوصی",

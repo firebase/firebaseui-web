@@ -82,7 +82,6 @@ export const jaJP = {
     signInWithYahoo: "Yahoo でサインイン",
     signInWithTwitter: "X でサインイン",
     signInWithEmailLink: "メールリンクでサインイン",
-    signInWithEmail: "メールでサインイン",
     sendSignInLink: "サインインリンクを送信",
     termsOfService: "利用規約",
     privacyPolicy: "プライバシーポリシー",

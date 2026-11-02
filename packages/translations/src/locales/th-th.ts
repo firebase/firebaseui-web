@@ -81,7 +81,6 @@ export const thTH = {
     signInWithYahoo: "ลงชื่อเข้าใช้ด้วย Yahoo",
     signInWithTwitter: "ลงชื่อเข้าใช้ด้วย X",
     signInWithEmailLink: "ลงชื่อเข้าใช้ด้วยลิงก์อีเมล",
-    signInWithEmail: "ลงชื่อเข้าใช้ด้วยอีเมล",
     sendSignInLink: "ส่งลิงก์ลงชื่อเข้าใช้",
     termsOfService: "ข้อกำหนดการให้บริการ",
     privacyPolicy: "นโยบายความเป็นส่วนตัว",

@@ -82,7 +82,6 @@ export const lvLV = {
     signInWithYahoo: "Pieteikties ar Yahoo",
     signInWithTwitter: "Pieteikties ar X",
     signInWithEmailLink: "Pieteikties ar e-pasta saiti",
-    signInWithEmail: "Pieteikties ar e-pastu",
     sendSignInLink: "Nosūtīt pieteikšanās saiti",
     termsOfService: "Pakalpojumu noteikumi",
     privacyPolicy: "Privātuma politika",

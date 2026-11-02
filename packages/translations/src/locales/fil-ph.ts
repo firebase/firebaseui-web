@@ -84,7 +84,6 @@ export const filPH = {
     signInWithYahoo: "Mag-sign in gamit ang Yahoo",
     signInWithTwitter: "Mag-sign in gamit ang X",
     signInWithEmailLink: "Mag-sign in gamit ang Email Link",
-    signInWithEmail: "Mag-sign in gamit ang Email",
     sendSignInLink: "Magpadala ng Sign-in Link",
     termsOfService: "Mga Tuntunin ng Serbisyo",
     privacyPolicy: "Patakaran sa Privacy",

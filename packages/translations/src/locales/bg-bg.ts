@@ -82,7 +82,6 @@ export const bgBG = {
     signInWithYahoo: "Вход с Yahoo",
     signInWithTwitter: "Вход с X",
     signInWithEmailLink: "Вход с имейл връзка",
-    signInWithEmail: "Вход с имейл",
     sendSignInLink: "Изпращане на връзка за вход",
     termsOfService: "Условия за ползване",
     privacyPolicy: "Политика за поверителност",

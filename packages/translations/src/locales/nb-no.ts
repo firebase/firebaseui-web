@@ -83,7 +83,6 @@ export const nbNO = {
     signInWithYahoo: "Logg inn med Yahoo",
     signInWithTwitter: "Logg inn med X",
     signInWithEmailLink: "Logg inn med e-postlenke",
-    signInWithEmail: "Logg inn med e-post",
     sendSignInLink: "Send innloggingslenke",
     termsOfService: "Vilkår for bruk",
     privacyPolicy: "Personvernerklæring",

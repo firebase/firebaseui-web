@@ -82,7 +82,6 @@ export const viVN = {
     signInWithYahoo: "Đăng nhập bằng Yahoo",
     signInWithTwitter: "Đăng nhập bằng X",
     signInWithEmailLink: "Đăng nhập bằng liên kết email",
-    signInWithEmail: "Đăng nhập bằng email",
     sendSignInLink: "Gửi liên kết đăng nhập",
     termsOfService: "Điều khoản dịch vụ",
     privacyPolicy: "Chính sách quyền riêng tư",

@@ -81,7 +81,6 @@ export const heIL = {
     signInWithYahoo: "כניסה עם Yahoo",
     signInWithTwitter: "כניסה עם X",
     signInWithEmailLink: "כניסה עם קישור אימייל",
-    signInWithEmail: "כניסה עם אימייל",
     sendSignInLink: "שלח קישור כניסה",
     termsOfService: "תנאי שירות",
     privacyPolicy: "מדיניות פרטיות",

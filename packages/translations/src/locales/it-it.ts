@@ -83,7 +83,6 @@ export const itIT = {
     signInWithYahoo: "Accedi con Yahoo",
     signInWithTwitter: "Accedi con X",
     signInWithEmailLink: "Accedi con link email",
-    signInWithEmail: "Accedi con email",
     sendSignInLink: "Invia link di accesso",
     termsOfService: "Termini di servizio",
     privacyPolicy: "Informativa sulla privacy",

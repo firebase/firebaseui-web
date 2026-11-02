@@ -84,7 +84,6 @@ export const es419 = {
     signInWithYahoo: "Iniciar sesión con Yahoo",
     signInWithTwitter: "Iniciar sesión con X",
     signInWithEmailLink: "Iniciar sesión con enlace de correo electrónico",
-    signInWithEmail: "Iniciar sesión con correo electrónico",
     sendSignInLink: "Enviar enlace de inicio de sesión",
     termsOfService: "Términos de servicio",
     privacyPolicy: "Política de privacidad",

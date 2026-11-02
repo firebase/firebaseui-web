@@ -81,7 +81,6 @@ export const koKR = {
     signInWithYahoo: "Yahoo로 로그인",
     signInWithTwitter: "X로 로그인",
     signInWithEmailLink: "이메일 링크로 로그인",
-    signInWithEmail: "이메일로 로그인",
     sendSignInLink: "로그인 링크 전송",
     termsOfService: "서비스 약관",
     privacyPolicy: "개인정보 처리방침",

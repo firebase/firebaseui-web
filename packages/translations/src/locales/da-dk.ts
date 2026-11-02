@@ -82,7 +82,6 @@ export const daDK = {
     signInWithYahoo: "Log ind med Yahoo",
     signInWithTwitter: "Log ind med X",
     signInWithEmailLink: "Log ind med e-maillink",
-    signInWithEmail: "Log ind med e-mail",
     sendSignInLink: "Send login-link",
     termsOfService: "Servicevilkår",
     privacyPolicy: "Privatlivspolitik",

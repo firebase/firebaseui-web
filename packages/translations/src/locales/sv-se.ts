@@ -82,7 +82,6 @@ export const svSE = {
     signInWithYahoo: "Logga in med Yahoo",
     signInWithTwitter: "Logga in med X",
     signInWithEmailLink: "Logga in med e-postlänk",
-    signInWithEmail: "Logga in med e-post",
     sendSignInLink: "Skicka inloggningslänk",
     termsOfService: "Användarvillkor",
     privacyPolicy: "Integritetspolicy",

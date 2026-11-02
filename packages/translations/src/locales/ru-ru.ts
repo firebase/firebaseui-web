@@ -83,7 +83,6 @@ export const ruRU = {
     signInWithYahoo: "Войти через Yahoo",
     signInWithTwitter: "Войти через X",
     signInWithEmailLink: "Войти по ссылке из письма",
-    signInWithEmail: "Войти через электронную почту",
     sendSignInLink: "Отправить ссылку для входа",
     termsOfService: "Условия использования",
     privacyPolicy: "Политика конфиденциальности",

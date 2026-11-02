@@ -83,7 +83,6 @@ export const ptPT = {
     signInWithYahoo: "Iniciar sessão com Yahoo",
     signInWithTwitter: "Iniciar sessão com X",
     signInWithEmailLink: "Iniciar sessão com ligação de e-mail",
-    signInWithEmail: "Iniciar sessão com e-mail",
     sendSignInLink: "Enviar ligação de início de sessão",
     termsOfService: "Termos de Serviço",
     privacyPolicy: "Política de Privacidade",

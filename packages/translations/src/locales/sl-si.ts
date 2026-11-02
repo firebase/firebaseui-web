@@ -83,7 +83,6 @@ export const slSI = {
     signInWithYahoo: "Prijava z Yahoojem",
     signInWithTwitter: "Prijava z X-om",
     signInWithEmailLink: "Prijava s e-poštno povezavo",
-    signInWithEmail: "Prijava z e-pošto",
     sendSignInLink: "Pošlji povezavo za prijavo",
     termsOfService: "Pogoji storitve",
     privacyPolicy: "Pravilnik o zasebnosti",

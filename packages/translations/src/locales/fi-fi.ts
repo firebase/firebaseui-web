@@ -82,7 +82,6 @@ export const fiFI = {
     signInWithYahoo: "Kirjaudu Yahoolla",
     signInWithTwitter: "Kirjaudu X:llä",
     signInWithEmailLink: "Kirjaudu sähköpostilinkin avulla",
-    signInWithEmail: "Kirjaudu sähköpostilla",
     sendSignInLink: "Lähetä kirjautumislinkki",
     termsOfService: "Käyttöehdot",
     privacyPolicy: "Tietosuojakäytäntö",

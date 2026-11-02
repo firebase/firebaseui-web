@@ -83,7 +83,6 @@ export const ukUA = {
     signInWithYahoo: "Увійти через Yahoo",
     signInWithTwitter: "Увійти через X",
     signInWithEmailLink: "Увійти за посиланням з електронної пошти",
-    signInWithEmail: "Увійти через електронну пошту",
     sendSignInLink: "Надіслати посилання для входу",
     termsOfService: "Умови використання",
     privacyPolicy: "Політика конфіденційності",

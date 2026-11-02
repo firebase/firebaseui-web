@@ -81,7 +81,6 @@ export const zhCN = {
     signInWithYahoo: "使用 Yahoo 登录",
     signInWithTwitter: "使用 X 登录",
     signInWithEmailLink: "使用电子邮件链接登录",
-    signInWithEmail: "使用电子邮件登录",
     sendSignInLink: "发送登录链接",
     termsOfService: "服务条款",
     privacyPolicy: "隐私政策",

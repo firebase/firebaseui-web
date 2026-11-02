@@ -81,7 +81,6 @@ export const hrHR = {
     signInWithYahoo: "Prijava s Yahooom",
     signInWithTwitter: "Prijava s X-om",
     signInWithEmailLink: "Prijava vezom e-pošte",
-    signInWithEmail: "Prijava e-poštom",
     sendSignInLink: "Pošalji vezu za prijavu",
     termsOfService: "Uvjeti usluge",
     privacyPolicy: "Pravila o privatnosti",

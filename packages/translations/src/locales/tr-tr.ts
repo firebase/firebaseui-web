@@ -83,7 +83,6 @@ export const trTR = {
     signInWithYahoo: "Yahoo ile Oturum Aç",
     signInWithTwitter: "X ile Oturum Aç",
     signInWithEmailLink: "E-posta Bağlantısıyla Oturum Aç",
-    signInWithEmail: "E-posta ile Oturum Aç",
     sendSignInLink: "Oturum Açma Bağlantısı Gönder",
     termsOfService: "Hizmet Şartları",
     privacyPolicy: "Gizlilik Politikası",

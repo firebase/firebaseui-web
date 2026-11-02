@@ -82,7 +82,6 @@ export const caES = {
     signInWithYahoo: "Inicieu sessió amb Yahoo",
     signInWithTwitter: "Inicieu sessió amb X",
     signInWithEmailLink: "Inicieu sessió amb un enllaç de correu electrònic",
-    signInWithEmail: "Inicieu sessió amb correu electrònic",
     sendSignInLink: "Envieu l'enllaç d'inici de sessió",
     termsOfService: "Condicions del servei",
     privacyPolicy: "Política de privadesa",

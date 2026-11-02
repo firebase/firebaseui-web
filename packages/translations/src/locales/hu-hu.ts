@@ -82,7 +82,6 @@ export const huHU = {
     signInWithYahoo: "Bejelentkezés Yahoóval",
     signInWithTwitter: "Bejelentkezés X-szel",
     signInWithEmailLink: "Bejelentkezés e-mail-hivatkozással",
-    signInWithEmail: "Bejelentkezés e-maillel",
     sendSignInLink: "Bejelentkezési hivatkozás küldése",
     termsOfService: "Szolgáltatási feltételek",
     privacyPolicy: "Adatvédelmi irányelvek",

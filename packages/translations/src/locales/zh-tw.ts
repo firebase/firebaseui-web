@@ -81,7 +81,6 @@ export const zhTW = {
     signInWithYahoo: "使用 Yahoo 登入",
     signInWithTwitter: "使用 X 登入",
     signInWithEmailLink: "使用電子郵件連結登入",
-    signInWithEmail: "使用電子郵件登入",
     sendSignInLink: "傳送登入連結",
     termsOfService: "服務條款",
     privacyPolicy: "隱私權政策",

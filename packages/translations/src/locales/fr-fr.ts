@@ -83,7 +83,6 @@ export const frFR = {
     signInWithYahoo: "Se connecter avec Yahoo",
     signInWithTwitter: "Se connecter avec X",
     signInWithEmailLink: "Se connecter avec un lien e-mail",
-    signInWithEmail: "Se connecter avec e-mail",
     sendSignInLink: "Envoyer le lien de connexion",
     termsOfService: "Conditions d'utilisation",
     privacyPolicy: "Politique de confidentialité",

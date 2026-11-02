@@ -82,7 +82,6 @@ export const roRO = {
     signInWithYahoo: "Conectați-vă cu Yahoo",
     signInWithTwitter: "Conectați-vă cu X",
     signInWithEmailLink: "Conectați-vă cu link de e-mail",
-    signInWithEmail: "Conectați-vă cu e-mail",
     sendSignInLink: "Trimiteți linkul de conectare",
     termsOfService: "Termeni de serviciu",
     privacyPolicy: "Politica de confidențialitate",

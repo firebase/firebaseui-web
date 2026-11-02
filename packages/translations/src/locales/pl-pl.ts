@@ -83,7 +83,6 @@ export const plPL = {
     signInWithYahoo: "Zaloguj się przez Yahoo",
     signInWithTwitter: "Zaloguj się przez X",
     signInWithEmailLink: "Zaloguj się przez link e-mail",
-    signInWithEmail: "Zaloguj się przez e-mail",
     sendSignInLink: "Wyślij link do logowania",
     termsOfService: "Warunki korzystania z usługi",
     privacyPolicy: "Polityka prywatności",

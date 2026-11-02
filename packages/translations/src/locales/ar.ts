@@ -81,7 +81,6 @@ export const ar = {
     signInWithYahoo: "تسجيل الدخول بـ Yahoo",
     signInWithTwitter: "تسجيل الدخول بـ X",
     signInWithEmailLink: "تسجيل الدخول برابط البريد الإلكتروني",
-    signInWithEmail: "تسجيل الدخول بالبريد الإلكتروني",
     sendSignInLink: "إرسال رابط تسجيل الدخول",
     termsOfService: "شروط الخدمة",
     privacyPolicy: "سياسة الخصوصية",

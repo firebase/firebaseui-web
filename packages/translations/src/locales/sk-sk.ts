@@ -82,7 +82,6 @@ export const skSK = {
     signInWithYahoo: "Prihlásiť sa cez Yahoo",
     signInWithTwitter: "Prihlásiť sa cez X",
     signInWithEmailLink: "Prihlásiť sa pomocou e-mailového odkazu",
-    signInWithEmail: "Prihlásiť sa pomocou e-mailu",
     sendSignInLink: "Odoslať prihlasovací odkaz",
     termsOfService: "Podmienky používania",
     privacyPolicy: "Zásady ochrany osobných údajov",

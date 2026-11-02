@@ -83,7 +83,6 @@ export const nlNL = {
     signInWithYahoo: "Inloggen met Yahoo",
     signInWithTwitter: "Inloggen met X",
     signInWithEmailLink: "Inloggen met e-mailkoppeling",
-    signInWithEmail: "Inloggen met e-mail",
     sendSignInLink: "Aanmeldingskoppeling verzenden",
     termsOfService: "Servicevoorwaarden",
     privacyPolicy: "Privacybeleid",
