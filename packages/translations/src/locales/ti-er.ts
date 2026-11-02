@@ -35,7 +35,7 @@ export const tiER = {
     quotaExceeded: "ኮታ SMS ኣኺሉ። እባኻ ድሕሪኡ ደጊምካ ፈትን",
     codeExpired: "ናይ ምርግጋጽ ኮድ ግዜኡ ኣሕሊፉ",
     captchaCheckFailed: "ምርግጋጽ reCAPTCHA ኣይሰረሓን። እባኻ ደጊምካ ፈትን።",
-    missingVerificationId: "እባኻ ቅድሚ ኹሉ ምርግጋጽ reCAPTCHA ፈጽም።",
+    missingVerificationId: "እባኻ ቅድሚ ኹሉ ምርግгаጽ reCAPTCHA ፈጽም።",
     missingEmail: "እባኻ ኢመይል ኣድራሻ ኣእቱ",
     invalidActionCode: "ናይ ፓስወርድ ምዕራር ሊንክ ጌጋ እዩ ወይ ግዜኡ ኣሕሊፉ",
     credentialAlreadyInUse: "ብዚ ኢመይል ቀዲሙ ሕሳብ ኣሎ። እባኻ ብዚ ሕሳብ ኣቲኻ እተ።",
