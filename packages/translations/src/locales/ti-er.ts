@@ -38,7 +38,7 @@ export const tiER = {
     missingVerificationId: "እባኻ ቅድሚ ኹሉ ምርግгаጽ reCAPTCHA ፈጽም።",
     missingEmail: "እባኻ ኢመይል ኣድራሻ ኣእቱ",
     invalidActionCode: "ናይ ፓስወርድ ምዕራር ሊንክ ጌጋ እዩ ወይ ግዜኡ ኣሕሊፉ",
-    credentialAlreadyInUse: "ብዚ ኢመይል ቀዲሙ ሕሳብ ኣሎ። እባኻ ብዚ ሕሳብ ኣቲኻ እተ።",
+    credentialAlreadyInUse: "ብዚ ኢመይል ቀድሚ ሕዚ ሕሳብ ኣሎ። እባኻ ብዚ ሕሳብ ኣቲኻ እተ።",
     requiresRecentLogin: "እዚ ስራሕ ሓድሽ ምእታው ይሓትት። እባኻ ደጊምካ ኣቲኻ እተ።",
     providerAlreadyLinked: "እዚ ቁጽሪ ቴሌፎን ቀዲሙ ምስ ካልእ ሕሳብ ተተሓሒዙ ኣሎ",
     invalidVerificationCode: "ጌጋ ኮድ ምርግጋጽ። እባኻ ደጊምካ ፈትን",
