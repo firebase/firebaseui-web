@@ -44,7 +44,7 @@ export const tiER = {
     invalidVerificationCode: "ጌጋ ኮድ ምርግጋጽ። እባኻ ደጊምካ ፈትን",
     unknownError: "ዘይተጸበየ ጌጋ ተፈጺሙ",
     popupClosed: "መስኮት ምእታው ተዓጺዉ ኣሎ። እባኻ ደጊምካ ፈትን።",
-    accountExistsWithDifferentCredential: "ብዚ ኢመይል ቀዲሙ ሕሳብ ኣሎ። እባኻ ብቀዳማይ ኣቕራቢ ኣቲኻ እተ።",
+    accountExistsWithDifferentCredential: "ብዚ ኢመይል ቀድሚ ሕሳብ ኣሎ። እባኻ ብቀዳማይ ኣቕራቢ ኣቲኻ እተ።",
     displayNameRequired: "እባኻ ዝርኢ ስም ኣእቱ",
     secondFactorAlreadyInUse: "እዚ ቁጽሪ ቴሌፎን ቀዲሙ ብዚ ሕሳብ ተመዝጊቡ ኣሎ።",
   },
