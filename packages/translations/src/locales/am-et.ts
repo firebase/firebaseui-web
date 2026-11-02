@@ -22,7 +22,7 @@ export const amET = {
     wrongPassword: "የተሳሳተ የይለፍ ቃል",
     invalidEmail: "እባክዎ ትክክለኛ የኢሜይል አድራሻ ያስገቡ",
     userDisabled: "ይህ መለያ ተሰናክሏል",
-    networkRequestFailed: "ከአገልጋዩ ጋር መገናኘት አልተቻለም። እባክዎ የኢንተርኔት ግንኙነትዎን ይፈትሹ",
+    networkRequestFailed: "ከአገልጋዩ ጋር መገናኘት አልተቻለም። እဘክዎ የኢንተርኔት ግንኙነትዎን ይፈትሹ",
     tooManyRequests: "ብዙ ያልተሳኩ ሙከራዎች። እባክዎ ቆይተው እንደገና ይሞክሩ",
     missingVerificationCode: "እባክዎ የማረጋገጫ ኮዱን ያስገቡ",
     emailAlreadyInUse: "በዚህ ኢሜይል ያለ መለያ አለ",
