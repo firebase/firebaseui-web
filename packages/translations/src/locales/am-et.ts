@@ -37,7 +37,7 @@ export const amET = {
     captchaCheckFailed: "የreCAPTCHA ማረጋገጫ አልተሳካም። እባክዎ እንደገና ይሞክሩ።",
     missingVerificationId: "እባክዎ መጀመሪያ የreCAPTCHA ማረጋገጫውን ያጠናቅቁ።",
     missingEmail: "እባክዎ የኢሜይል አድራሻ ያስገቡ",
-    invalidActionCode: "የይለፍ ቃል ዳግም ማስጀመሪያ አገናኙ ትክክል አይደለም ወይም ጊዜው አልፎበታል",
+    invalidActionCode: "የይለፍ ቃል ዳግм ማስጀመሪያ አገናኙ ትክክል አይደለም ወይም ጊዜው አልፎበታል",
     credentialAlreadyInUse: "በዚህ ኢሜይል ያለ መለያ አለ። እባክዎ በዚያ መለያ ይግቡ።",
     requiresRecentLogin: "ይህ ተግባር የቅርብ ጊዜ መግባት ይጠይቃል። እባክዎ እንደገና ይግቡ።",
     providerAlreadyLinked: "ይህ ስልክ ቁጥር ከሌላ መለያ ጋር ተገናኝቷል",
