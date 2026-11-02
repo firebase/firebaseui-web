@@ -102,7 +102,6 @@ export const tiER = {
     enterVerificationCode: "ኮድ ምርግጋጽ ኣእቱ",
     enterEmailForLink: "ሊንክ ምእታው ንምርካብ ኢመይልካ ኣእቱ",
     mfaEnrollmentPrompt: "ሓድሽ ናይ ምምዝጋብ ኣገባብ ብዙሕ-ኣገባብ ምረጽ",
-    mfaEnrollmentPrompt: "ሓድш ናይ ምምዝጋብ ኣገባብ ብዙሕ-ኣገባብ ምረጽ",
     mfaAssertionFactorPrompt: "እባኻ ኣገባብ ብዙሕ-ኣገባብ ምርግጋጽ ምረጽ",
     mfaTotpQrCodePrompt: "እዚ QR ኮድ ብ መተግበሪ ኣረጋጋጺኻ ስካን ግበር",
     mfaTotpEnrollmentVerificationPrompt: "ብ መተግበሪ ኣረጋጋጺኻ ዝተፈጠረ ኮድ ወስኽ",
