@@ -44,7 +44,7 @@ export function useForgotPasswordAuthFormAction() {
         return await sendPasswordResetEmail(ui, email);
       } catch (error) {
         if (error instanceof FirebaseUIError) {
-          throw new Error(error.message);
+          throw error;
         }
 
         console.error(error);

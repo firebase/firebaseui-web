@@ -22,7 +22,8 @@ import {
   useForgotPasswordAuthFormAction,
 } from "./forgot-password-auth-form";
 import { act } from "react";
-import { sendPasswordResetEmail } from "@firebase-oss/ui-core";
+import { FirebaseUIError, sendPasswordResetEmail } from "@firebase-oss/ui-core";
+import { FirebaseError } from "firebase/app";
 import { createFirebaseUIProvider, createMockUI } from "~/tests/utils";
 import { registerLocale } from "@firebase-oss/ui-translations";
 import { FirebaseUIProvider } from "~/context";
@@ -61,6 +62,25 @@ describe("useForgotPasswordAuthFormAction", () => {
     });
 
     expect(sendPasswordResetEmailMock).toHaveBeenCalledWith(expect.any(Object), "test@example.com");
+  });
+
+  it("should rethrow a FirebaseUIError with its code and cause", async () => {
+    const mockUI = createMockUI();
+    const firebaseError = new FirebaseError("auth/api-key-expired", "Firebase: Error (auth/api-key-expired).");
+    const uiError = new FirebaseUIError(mockUI.get(), firebaseError);
+    vi.mocked(sendPasswordResetEmail).mockRejectedValue(uiError);
+
+    const { result } = renderHook(() => useForgotPasswordAuthFormAction(), {
+      wrapper: ({ children }) => createFirebaseUIProvider({ children, ui: mockUI }),
+    });
+
+    await expect(
+      act(async () => {
+        await result.current({ email: "test@example.com" });
+      })
+    ).rejects.toBe(uiError);
+    expect(uiError.code).toBe("auth/api-key-expired");
+    expect(uiError.cause).toBe(firebaseError);
   });
 
   it("should throw an unknown error when its not a FirebaseUIError", async () => {

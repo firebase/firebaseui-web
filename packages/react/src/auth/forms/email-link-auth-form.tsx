@@ -45,7 +45,7 @@ export function useEmailLinkAuthFormAction() {
         return await sendSignInLinkToEmail(ui, email);
       } catch (error) {
         if (error instanceof FirebaseUIError) {
-          throw new Error(error.message);
+          throw error;
         }
 
         console.error(error);

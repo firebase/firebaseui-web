@@ -47,7 +47,7 @@ export function useSignInAuthFormAction() {
         return await signInWithEmailAndPassword(ui, email, password);
       } catch (error) {
         if (error instanceof FirebaseUIError) {
-          throw new Error(error.message);
+          throw error;
         }
 
         console.error(error);

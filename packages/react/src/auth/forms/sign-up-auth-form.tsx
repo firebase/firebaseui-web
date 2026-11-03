@@ -56,7 +56,7 @@ export function useSignUpAuthFormAction() {
         return await createUserWithEmailAndPassword(ui, email, password, displayName);
       } catch (error) {
         if (error instanceof FirebaseUIError) {
-          throw new Error(error.message);
+          throw error;
         }
 
         console.error(error);
