@@ -33,6 +33,10 @@ updates:
           - 'firebase'
           - '@angular/fire'
           - 'rxfire'
+      npm-minor-patch:
+        update-types:
+          - 'minor'
+          - 'patch'
     # TypeScript 7.0 is the native Go rewrite and does not ship a compiler API.
     # Angular 22 compiler-cli requires typescript >=6.0 <6.1, and typescript-eslint 8
     # requires >=4.8.4 <6.1.0. Remove this ignore when those peer ranges include 7.x
@@ -51,3 +55,8 @@ updates:
       default-days: 7
     labels:
       - 'dependencies'
+    groups:
+      github-actions-minor-patch:
+        update-types:
+          - 'minor'
+          - 'patch'
