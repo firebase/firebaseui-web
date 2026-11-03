@@ -10,7 +10,7 @@ timestamp: 2026-07-03T00:00:00Z
 
 After bumping dependencies in the monorepo root, `packages/*`, `examples/*`, or `pnpm-workspace.yaml` catalog.
 
-**Gate:** complete [change-authoring-verification.md](change-authoring-verification.md) first (required before commit/push — [AD-10](../decisions.md#ad-10-change-authoring-requires-ci-parity-verification-before-commit)). For **Firebase JS SDK** major/minor policy (catalog 11 vs consumer 12, angular pins, upstream tracking), see [decisions.md](../decisions.md) **AD-9**.
+**Gate:** complete [change-authoring-verification.md](change-authoring-verification.md) first (required before commit/push — [AD-10](../decisions.md#ad-10-change-authoring-requires-ci-parity-verification-before-commit)). For **Firebase JS SDK** major/minor policy (catalog 11 vs consumer 12/13, angular pins, upstream tracking), see [decisions.md](../decisions.md) **AD-9**.
 
 # Steps
 
