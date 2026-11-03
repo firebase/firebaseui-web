@@ -189,7 +189,9 @@ describe("handleFirebaseError", () => {
     "auth/popup-closed-by-user",
     "auth/expired-action-code",
     "auth/password-does-not-meet-requirements",
-  ])("does not warn for user error code %s", async (code) => {
+    "auth/internal-error",
+    "auth/invalid-app-credential",
+  ])("does not warn for non-configuration error code %s", async (code) => {
     const mockUI = createMockUI();
     const warnSpy = vi.spyOn(console, "warn").mockImplementation(() => {});
 
