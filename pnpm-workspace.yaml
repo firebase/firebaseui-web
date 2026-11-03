@@ -17,7 +17,7 @@ catalog:
   "@angular/forms": ^22.1.7
   "@angular/platform-browser": ^22.1.7
   "@angular/platform-browser-dynamic": ^22.0.5
-  "@angular/platform-server": ^22.1.7
+  "@angular/platform-server": ^22.2.1
   "@angular/router": ^22.2.0
   "@angular/ssr": ^22.1.8
   ng-packagr: ^22.1.0
@@ -31,13 +31,13 @@ catalog:
   "@vitest/coverage-v8": ^4.1.10
   "@vitest/ui": ^4.1.10
   "@nanostores/deepmap": ^1.0.0
-  "@playwright/test": 1.63.0
+  "@playwright/test": 1.64.1
   "@vitejs/plugin-react": ^6.1.1
   eslint: ^9.39.4
   firebase: ^11.10.0
   jsdom: ^29.1.1
   nanostores: ^1.5.3
-  next: 16.3.8
+  next: 16.4.1
   postcss: ^8.5.26
 
   prettier: ^3.9.6
@@ -49,7 +49,7 @@ catalog:
   tailwindcss: ^4.3.2
   tsup: 8.5.1
   typescript: ^6.0.3
-  vite: ^8.2.1
+  vite: ^8.2.4
   vitest: ^4.1.10
   vitest-tsconfig-paths: ^3.4.1
   zod: 4.4.3
