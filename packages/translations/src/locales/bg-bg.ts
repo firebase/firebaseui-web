@@ -64,6 +64,8 @@ export const bgBG = {
     password: "Парола",
     displayName: "Показвано име",
     forgotPassword: "Забравена парола?",
+    showPassword: "Показване на паролата",
+    hidePassword: "Скриване на паролата",
     signUp: "Регистрация",
     signIn: "Вход",
     resetPassword: "Нулиране на парола",

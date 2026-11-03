@@ -64,6 +64,8 @@ export const svSE = {
     password: "Lösenord",
     displayName: "Visningsnamn",
     forgotPassword: "Glömt lösenordet?",
+    showPassword: "Visa lösenord",
+    hidePassword: "Dölj lösenord",
     signUp: "Registrera dig",
     signIn: "Logga in",
     resetPassword: "Återställ lösenord",

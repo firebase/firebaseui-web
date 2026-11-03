@@ -64,6 +64,8 @@ export const csCZ = {
     password: "Heslo",
     displayName: "Jméno",
     forgotPassword: "Zapomněli jste heslo?",
+    showPassword: "Zobrazit heslo",
+    hidePassword: "Skrýt heslo",
     signUp: "Registrovat se",
     signIn: "Přihlásit se",
     resetPassword: "Obnovit heslo",

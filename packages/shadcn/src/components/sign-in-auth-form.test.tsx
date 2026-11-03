@@ -69,6 +69,7 @@ describe("<SignInAuthForm />", () => {
     // Autofill hints, so browsers and password managers recognise the credential pair
     expect(container.querySelector("input[name='email']")).toHaveAttribute("autocomplete", "username");
     expect(container.querySelector("input[name='password']")).toHaveAttribute("autocomplete", "current-password");
+    expect(screen.getByRole("button", { name: "Show password" })).toHaveAttribute("aria-controls", "password");
   });
 
   it("should render with forgot password callback", () => {
@@ -113,15 +114,14 @@ describe("<SignInAuthForm />", () => {
       }),
     });
 
-    const { container } = render(
+    render(
       <FirebaseUIProvider ui={mockUI}>
         <SignInAuthForm onSignUpClick={onSignUpClickMock} />
       </FirebaseUIProvider>
     );
 
-    const button = container.querySelector("button[type='button']");
-    expect(button).toBeInTheDocument();
-    expect(button).toHaveTextContent("noAccount register");
+    const button = screen.getByRole("button", { name: "noAccount register" });
+    expect(button).toHaveAttribute("type", "button");
 
     act(() => {
       fireEvent.click(button!);

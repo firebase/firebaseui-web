@@ -63,6 +63,8 @@ export const hrHR = {
     password: "Lozinka",
     displayName: "Ime za prikaz",
     forgotPassword: "Zaboravili ste lozinku?",
+    showPassword: "Prikaži lozinku",
+    hidePassword: "Sakrij lozinku",
     signUp: "Registracija",
     signIn: "Prijava",
     resetPassword: "Poništi lozinku",

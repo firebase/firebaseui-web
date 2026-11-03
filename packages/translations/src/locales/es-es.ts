@@ -66,6 +66,8 @@ export const esES = {
     password: "Contraseña",
     displayName: "Nombre para mostrar",
     forgotPassword: "¿Olvidaste tu contraseña?",
+    showPassword: "Mostrar contraseña",
+    hidePassword: "Ocultar contraseña",
     signUp: "Registrarse",
     signIn: "Iniciar sesión",
     resetPassword: "Restablecer contraseña",

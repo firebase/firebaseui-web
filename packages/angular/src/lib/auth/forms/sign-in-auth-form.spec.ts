@@ -95,6 +95,7 @@ describe("<fui-sign-in-auth-form />", () => {
       "autocomplete",
       "current-password"
     );
+    expect(screen.getByRole("button", { name: "Show password" })).toHaveAttribute("aria-controls", "password");
     expect(screen.getByRole("button", { name: "Forgot Password" })).toBeInTheDocument();
     expect(screen.getByRole("button", { name: "Don't have an account? Sign Up" })).toBeInTheDocument();
   });

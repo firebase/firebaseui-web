@@ -65,6 +65,8 @@ export const slSI = {
     password: "Geslo",
     displayName: "Prikazano ime",
     forgotPassword: "Ste pozabili geslo?",
+    showPassword: "Pokaži geslo",
+    hidePassword: "Skrij geslo",
     signUp: "Registracija",
     signIn: "Prijava",
     resetPassword: "Ponastavi geslo",

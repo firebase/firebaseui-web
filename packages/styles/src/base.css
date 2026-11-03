@@ -107,19 +107,20 @@
   }
 
   :where(.fui-form fieldset),
-  :where(.fui-form fieldset label) {
+  :where(.fui-form fieldset > label),
+  :where(.fui-form fieldset [data-input-field]) {
     @apply flex flex-col gap-2 text-text;
   }
 
-  :where(.fui-form fieldset label div[data-input-label]) {
+  :where(.fui-form fieldset div[data-input-label]) {
     @apply flex gap-3 text-sm font-medium;
   }
 
-  :where(.fui-form fieldset label div[data-input-label] > div:first-child) {
+  :where(.fui-form fieldset div[data-input-label] > :first-child) {
     @apply grow;
   }
 
-  :where(.fui-form fieldset label div[data-input-description]) {
+  :where(.fui-form fieldset div[data-input-description]) {
     @apply text-xs text-text-muted;
   }
 
@@ -127,16 +128,33 @@
     @apply px-1 hover:underline text-xs text-text-muted;
   }
 
-  :where(.fui-form fieldset label input) {
+  :where(.fui-form fieldset [data-input-field] input) {
     @apply w-full border border-input rounded px-2 py-2 text-sm focus:outline-2 focus:outline-primary shadow-xs bg-transparent;
   }
 
-  :where(.fui-form fieldset label input[aria-invalid="true"]) {
+  :where(.fui-form fieldset [data-input-field] input[aria-invalid="true"]) {
     @apply border-error outline-error outline-2;
   }
 
-  :where(.fui-form fieldset label div[data-input-group]) {
-    @apply flex items-center gap-2;
+  :where(.fui-form fieldset [data-input-field] div[data-input-group]) {
+    @apply relative flex items-center gap-2;
+  }
+
+  :where(.fui-form fieldset [data-input-field] div[data-input-group]:has(.fui-form__password-toggle) input) {
+    @apply pe-10;
+  }
+
+  /* Hide Edge's built-in reveal button so there is only one toggle. */
+  :where(.fui-form [data-input-group]:has(.fui-form__password-toggle) input)::-ms-reveal {
+    display: none;
+  }
+
+  :where(.fui-form .fui-form__password-toggle) {
+    @apply absolute end-1 top-1/2 -translate-y-1/2 flex items-center justify-center size-8 rounded text-text-muted hover:text-text hover:cursor-pointer focus-visible:outline-2 focus-visible:outline-primary;
+  }
+
+  :where(.fui-form .fui-form__password-toggle svg) {
+    @apply size-4;
   }
 
   :where(.fui-form .fui-qr-code-container) {
@@ -218,11 +236,11 @@
     @apply absolute left-8 top-1/2 -translate-y-1/2 text-sm pointer-events-none text-text;
   }
 
-  :where(.fui-form fieldset label div[data-input-group]:has(input[aria-invalid="true"]) .fui-country-selector) {
+  :where(.fui-form fieldset [data-input-field] div[data-input-group]:has(input[aria-invalid="true"]) .fui-country-selector) {
     @apply outline-error outline-2 rounded;
   }
 
-  :where(.fui-form fieldset label div[data-input-group]:has(input[aria-invalid="true"]) .fui-country-selector .fui-country-selector__wrapper) {
+  :where(.fui-form fieldset [data-input-field] div[data-input-group]:has(input[aria-invalid="true"]) .fui-country-selector .fui-country-selector__wrapper) {
     @apply outline-error outline-2 rounded;
   }
   

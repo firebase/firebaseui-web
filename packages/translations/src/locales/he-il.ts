@@ -63,6 +63,8 @@ export const heIL = {
     password: "סיסמה",
     displayName: "שם תצוגה",
     forgotPassword: "שכחת סיסמה?",
+    showPassword: "הצגת הסיסמה",
+    hidePassword: "הסתרת הסיסמה",
     signUp: "הרשמה",
     signIn: "כניסה",
     resetPassword: "איפוס סיסמה",

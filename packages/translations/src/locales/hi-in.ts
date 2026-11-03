@@ -63,6 +63,8 @@ export const hiIN = {
     password: "पासवर्ड",
     displayName: "प्रदर्शन नाम",
     forgotPassword: "पासवर्ड भूल गए?",
+    showPassword: "पासवर्ड दिखाएं",
+    hidePassword: "पासवर्ड छिपाएं",
     signUp: "साइन अप करें",
     signIn: "साइन इन करें",
     resetPassword: "पासवर्ड रीसेट करें",

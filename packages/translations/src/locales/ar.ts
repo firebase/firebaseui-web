@@ -63,6 +63,8 @@ export const ar = {
     password: "كلمة المرور",
     displayName: "الاسم المعروض",
     forgotPassword: "نسيت كلمة المرور؟",
+    showPassword: "إظهار كلمة المرور",
+    hidePassword: "إخفاء كلمة المرور",
     signUp: "إنشاء حساب",
     signIn: "تسجيل الدخول",
     resetPassword: "إعادة تعيين كلمة المرور",

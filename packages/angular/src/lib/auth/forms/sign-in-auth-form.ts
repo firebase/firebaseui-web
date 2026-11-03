@@ -63,6 +63,8 @@ import {
           tanstack-app-field
           [tanstackField]="form"
           [label]="passwordLabel()"
+          [showPasswordLabel]="showPasswordLabel()"
+          [hidePasswordLabel]="hidePasswordLabel()"
           type="password"
           autocomplete="current-password"
         >
@@ -98,6 +100,8 @@ export class SignInAuthFormComponent {
 
   emailLabel = injectTranslation("labels", "emailAddress");
   passwordLabel = injectTranslation("labels", "password");
+  showPasswordLabel = injectTranslation("labels", "showPassword");
+  hidePasswordLabel = injectTranslation("labels", "hidePassword");
   forgotPasswordLabel = injectTranslation("labels", "forgotPassword");
   signInLabel = injectTranslation("labels", "signIn");
   noAccountLabel = injectTranslation("prompts", "noAccount");

@@ -15,6 +15,7 @@ import { Form, FormControl, FormField, FormItem, FormLabel, FormMessage } from "
 import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
 import { Policies } from "./policies";
+import { PasswordInput } from "./password-input";
 
 export type { SignInAuthFormProps };
 
@@ -63,16 +64,21 @@ export function SignInAuthForm(props: SignInAuthFormProps) {
           name="password"
           render={({ field }) => (
             <FormItem>
-              <FormLabel className="flex items-center gap-2">
-                <span className="grow">{getTranslation(ui, "labels", "password")}</span>
+              <div className="flex items-center gap-2">
+                <FormLabel className="grow">{getTranslation(ui, "labels", "password")}</FormLabel>
                 {props.onForgotPasswordClick ? (
                   <Button type="button" variant="link" onClick={props.onForgotPasswordClick} size="sm">
                     <span className="text-xs">{getTranslation(ui, "labels", "forgotPassword")}</span>
                   </Button>
                 ) : null}
-              </FormLabel>
+              </div>
               <FormControl>
-                <Input {...field} type="password" autoComplete="current-password" />
+                <PasswordInput
+                  {...field}
+                  autoComplete="current-password"
+                  showPasswordLabel={getTranslation(ui, "labels", "showPassword")}
+                  hidePasswordLabel={getTranslation(ui, "labels", "hidePassword")}
+                />
               </FormControl>
               <FormMessage />
             </FormItem>
