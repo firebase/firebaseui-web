@@ -66,11 +66,11 @@ The monorepo **resolves** `firebase` **11.x** in the pnpm catalog (`^11.10.0` to
 
 **Why catalog 11:** `@angular/fire@20.0.1` depends on `firebase ^11.8.0` and `rxfire ^6.1.0` (rxfire peers firebase through **^11**). `@firebase-oss/ui-angular` imports both `@angular/fire/auth` and `firebase/auth` directly; forcing catalog **12** duplicates SDK types at compile time (e.g. `RecaptchaVerifier`, `TotpSecret`) — same class of failure as [angular/angularfire#3666](https://github.com/angular/angularfire/issues/3666).
 
-**Consumer policy:** package **peer** catalog is **`firebase: ^11 || ^12 || ^13`** — apps embedding `@firebase-oss/ui-*` may install firebase 12 or 13. Published dist is built and type-checked against **11.x** only; 12/13 compatibility is verified per change, not in CI.
+**Consumer policy:** package **peer** catalog is **`firebase: ^11 || ^12 || ^13`** — apps embedding `@firebase-oss/ui-*` may install firebase 12 or 13 (except `ui-angular`, which follows `@angular/fire`). Published dist is built and type-checked against **11.x** only; 13 was last checked manually against **13.1.0** (core/react build + unit tests), not in CI.
 
 **Angular paths (explicit pin):** `packages/angular` and `examples/angular` keep a **non-catalog** devDependency pin (e.g. `"firebase": "^11.10.0"`) aligned with `@angular/fire`, not the workspace catalog entry.
 
-**Internal split (blocked):** bumping catalog `firebase` for core/react/shadcn and non-angular examples while angular keeps its **11.x** pin does not build. Tried with catalog **13.x**: core/react build and pass unit tests cleanly, but `@firebase-oss/ui-angular` fails to compile because `ui-core` types resolve the catalog's firebase while `@angular/fire` resolves 11.x (duplicate `TotpSecret`, `RecaptchaVerifier`). Prerequisite: `ui-angular` must see `ui-core` typed against its own firebase pin. Do **not** use a workspace-wide `pnpm.overrides` forcing a newer firebase — that breaks AngularFire immediately.
+**Internal split (blocked):** bumping catalog `firebase` for core/react/shadcn and non-angular examples while angular keeps its **11.x** pin does not build. Tried with catalog **13.x**: core/react build and pass unit tests cleanly, but `@firebase-oss/ui-angular` fails to compile because `ui-core` types resolve the catalog's firebase while `@angular/fire` resolves 11.x (duplicate `TotpSecret`, `RecaptchaVerifier`). Cause: [packages/angular/tsconfig.json](../packages/angular/tsconfig.json) maps `@firebase-oss/ui-core` to `../core/src/index.ts`, so core's `firebase/auth` imports resolve from `packages/core/node_modules`. Prerequisite: `ui-angular` must see `ui-core` typed against its own firebase pin (e.g. resolve core through its built types instead of source). Do **not** use a workspace-wide `pnpm.overrides` forcing a newer firebase — that breaks AngularFire immediately.
 
 **Upstream to track (harmonize later):**
 
@@ -78,8 +78,7 @@ The monorepo **resolves** `firebase` **11.x** in the pnpm catalog (`^11.10.0` to
 |-------|------|
 | Firebase 12 on AngularFire v20 | [angular/angularfire#3666](https://github.com/angular/angularfire/issues/3666) |
 | AngularFire v21 (Angular 21 + firebase 12) | [21.0.0-rc.0 release](https://github.com/angular/angularfire/releases/tag/21.0.0-rc.0), [angular/angularfire#3689](https://github.com/angular/angularfire/issues/3689) |
-| rxfire firebase 12 (blocks AngularFire 21) | [FirebaseExtended/rxfire#123](https://github.com/FirebaseExtended/rxfire/pull/123) |
-| AngularFire on firebase 13 (`21.0.0` still depends on `firebase ^12.18.0`) | [AngularFire releases](https://github.com/angular/angularfire/releases) |
+| AngularFire on firebase 13 (`21.0.0` depends on and `22.0.0-rc.0` peers `firebase ^12.18.0`; rxfire 6.3.0 already peers through `^13`) | [AngularFire releases](https://github.com/angular/angularfire/releases) |
 | Firebase JS SDK releases | [firebase-js-sdk releases](https://github.com/firebase/firebase-js-sdk/releases), [Firebase JS release notes](https://firebase.google.com/support/release-notes/js) |
 
 **Unlock:** when an AngularFire release supports the target firebase major (12 via AngularFire 21, or 13), bump `@angular/fire`, angular pins, and catalog together in one verified change.
