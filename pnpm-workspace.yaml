@@ -50,7 +50,7 @@ catalog:
   tsup: 8.5.1
   typescript: ^6.0.3
   vite: ^8.2.4
-  vitest: ^4.1.10
+  vitest: ^5.0.5
   vitest-tsconfig-paths: ^3.4.1
   zod: 4.4.3
   zone.js: ^0.15.1
