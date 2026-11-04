@@ -18,6 +18,7 @@
 
 import { FirebaseUIError, getTranslation, sendPasswordResetEmail } from "@firebase-oss/ui-core";
 import { useForgotPasswordAuthFormSchema, useUI } from "~/hooks";
+import { createUnknownFirebaseUIError } from "~/utils/errors";
 import { form } from "~/components/form";
 import { Policies } from "~/components/policies";
 import { useCallback, useState } from "react";
@@ -48,7 +49,7 @@ export function useForgotPasswordAuthFormAction() {
         }
 
         console.error(error);
-        throw new Error(getTranslation(ui, "errors", "unknownError"));
+        throw createUnknownFirebaseUIError(ui, error);
       }
     },
     [ui]

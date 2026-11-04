@@ -103,7 +103,7 @@ describe("useSignUpAuthFormAction", () => {
     );
   });
 
-  it("should rethrow a FirebaseUIError with its code and cause", async () => {
+  it("should rethrow a FirebaseUIError as-is", async () => {
     const mockUI = createMockUI();
     const firebaseError = new FirebaseError("auth/api-key-expired", "Firebase: Error (auth/api-key-expired).");
     const uiError = new FirebaseUIError(mockUI.get(), firebaseError);
@@ -118,11 +118,9 @@ describe("useSignUpAuthFormAction", () => {
         await result.current({ email: "test@example.com", password: "password123" });
       })
     ).rejects.toBe(uiError);
-    expect(uiError.code).toBe("auth/api-key-expired");
-    expect(uiError.cause).toBe(firebaseError);
   });
 
-  it("should throw an unknown error when its not a FirebaseUIError", async () => {
+  it("should throw a FirebaseUIError with the unknown error message when its not a FirebaseUIError", async () => {
     const createUserWithEmailAndPasswordMock = vi
       .mocked(createUserWithEmailAndPassword)
       .mockRejectedValue(new Error("Unknown error"));
@@ -143,7 +141,11 @@ describe("useSignUpAuthFormAction", () => {
       await act(async () => {
         await result.current({ email: "test@example.com", password: "password123" });
       });
-    }).rejects.toThrow("unknownError");
+    }).rejects.toMatchObject({
+      code: "ui/unknown-error",
+      message: "unknownError",
+      cause: { cause: expect.objectContaining({ message: "Unknown error" }) },
+    });
 
     expect(createUserWithEmailAndPasswordMock).toHaveBeenCalledWith(
       mockUI.get(),
@@ -213,6 +215,30 @@ describe("useSignUpAuthForm", () => {
       "password123",
       undefined
     );
+  });
+
+  it("should set the FirebaseUIError message as the submit error", async () => {
+    const mockUI = createMockUI();
+    const uiError = new FirebaseUIError(
+      mockUI.get(),
+      new FirebaseError("auth/wrong-password", "Firebase: Error (auth/wrong-password).")
+    );
+    vi.mocked(createUserWithEmailAndPassword).mockRejectedValue(uiError);
+
+    const { result } = renderHook(() => useSignUpAuthForm(), {
+      wrapper: ({ children }) => createFirebaseUIProvider({ children, ui: mockUI }),
+    });
+
+    act(() => {
+      result.current.setFieldValue("email", "test@example.com");
+      result.current.setFieldValue("password", "password123");
+    });
+
+    await act(async () => {
+      await result.current.handleSubmit();
+    });
+
+    expect(result.current.state.errorMap.onSubmit).toBe(uiError.message);
   });
 
   it("should not allow the form to be submitted if the form is invalid", async () => {

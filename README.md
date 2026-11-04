@@ -1422,7 +1422,7 @@ Firebase errors thrown by FirebaseUI are `FirebaseUIError`s that keep the origin
 
   Hook for sign-in form submission action.
 
-  Returns async action handler.
+  Returns async action handler, which rejects with a `FirebaseUIError` (code `ui/unknown-error` for errors that are not from Firebase).
 
   **`useSignUpAuthForm`**
 
@@ -1434,7 +1434,7 @@ Firebase errors thrown by FirebaseUI are `FirebaseUIError`s that keep the origin
 
   Hook for sign-up form submission action.
 
-  Returns async action handler.
+  Returns async action handler, which rejects with a `FirebaseUIError` (code `ui/unknown-error` for errors that are not from Firebase).
 
   **`useRequireDisplayName`**
 
@@ -1452,7 +1452,7 @@ Firebase errors thrown by FirebaseUI are `FirebaseUIError`s that keep the origin
 
   Hook for forgot password form submission action.
 
-  Returns async action handler.
+  Returns async action handler, which rejects with a `FirebaseUIError` (code `ui/unknown-error` for errors that are not from Firebase).
 
   **`useEmailLinkAuthForm`**
 
@@ -1464,7 +1464,7 @@ Firebase errors thrown by FirebaseUI are `FirebaseUIError`s that keep the origin
 
   Hook for email link auth form submission action.
 
-  Returns async action handler.
+  Returns async action handler, which rejects with a `FirebaseUIError` (code `ui/unknown-error` for errors that are not from Firebase).
 
   **`useEmailLinkAuthFormCompleteSignIn`**
 
