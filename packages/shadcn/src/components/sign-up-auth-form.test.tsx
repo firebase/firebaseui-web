@@ -19,6 +19,8 @@ import { render, screen, fireEvent, cleanup, waitFor } from "@testing-library/re
 import { SignUpAuthForm } from "./sign-up-auth-form";
 import { act } from "react";
 import { useSignUpAuthFormAction, useRequireDisplayName } from "@firebase-oss/ui-react";
+import { FirebaseUIError } from "@firebase-oss/ui-core";
+import { FirebaseError } from "firebase/app";
 import { createMockUI } from "../../tests/utils";
 import { registerLocale } from "@firebase-oss/ui-translations";
 import { FirebaseUIProvider } from "@firebase-oss/ui-react";
@@ -187,6 +189,45 @@ describe("<SignUpAuthForm />", () => {
     });
 
     expect(await screen.findByText("Error: foo")).toBeInTheDocument();
+  });
+
+  it("should display a FirebaseUIError message without an Error prefix", async () => {
+    const mockUI = createMockUI({
+      locale: registerLocale("test", {
+        labels: {
+          emailAddress: "Email Address",
+          password: "Password",
+          createAccount: "Create Account",
+        },
+      }),
+    });
+
+    const uiError = new FirebaseUIError(
+      mockUI.get(),
+      new FirebaseError("auth/wrong-password", "Firebase: Error (auth/wrong-password).")
+    );
+    const mockAction = vi.fn().mockRejectedValue(uiError);
+    vi.mocked(useSignUpAuthFormAction).mockReturnValue(mockAction);
+
+    const { container } = render(
+      <FirebaseUIProvider ui={mockUI}>
+        <SignUpAuthForm />
+      </FirebaseUIProvider>
+    );
+
+    const emailInput = container.querySelector("input[name='email']")!;
+    const passwordInput = container.querySelector("input[name='password']")!;
+    const submitButton = container.querySelector("button[type='submit']")!;
+
+    fireEvent.change(emailInput, { target: { value: "test@example.com" } });
+    fireEvent.change(passwordInput, { target: { value: "somepassword" } });
+
+    await act(async () => {
+      fireEvent.click(submitButton);
+    });
+
+    expect(await screen.findByText(uiError.message)).toBeInTheDocument();
+    expect(screen.queryByText(`Error: ${uiError.message}`)).not.toBeInTheDocument();
   });
 
   it("should render displayName field when requireDisplayName is true", () => {

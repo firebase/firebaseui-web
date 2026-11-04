@@ -23,7 +23,8 @@ import {
   useEmailLinkAuthFormCompleteSignIn,
 } from "./email-link-auth-form";
 import { act, StrictMode } from "react";
-import { sendSignInLinkToEmail, completeEmailLinkSignIn } from "@firebase-oss/ui-core";
+import { FirebaseUIError, sendSignInLinkToEmail, completeEmailLinkSignIn } from "@firebase-oss/ui-core";
+import { FirebaseError } from "firebase/app";
 import { createFirebaseUIProvider, createMockUI } from "~/tests/utils";
 import { registerLocale } from "@firebase-oss/ui-translations";
 import { FirebaseUIProvider } from "~/context";
@@ -131,7 +132,24 @@ describe("useEmailLinkAuthFormAction", () => {
     expect(sendSignInLinkToEmailMock).toHaveBeenCalledWith(expect.any(Object), "test@example.com");
   });
 
-  it("should throw an unknown error when its not a FirebaseUIError", async () => {
+  it("should rethrow a FirebaseUIError as-is", async () => {
+    const mockUI = createMockUI();
+    const firebaseError = new FirebaseError("auth/api-key-expired", "Firebase: Error (auth/api-key-expired).");
+    const uiError = new FirebaseUIError(mockUI.get(), firebaseError);
+    vi.mocked(sendSignInLinkToEmail).mockRejectedValue(uiError);
+
+    const { result } = renderHook(() => useEmailLinkAuthFormAction(), {
+      wrapper: ({ children }) => createFirebaseUIProvider({ children, ui: mockUI }),
+    });
+
+    await expect(
+      act(async () => {
+        await result.current({ email: "test@example.com" });
+      })
+    ).rejects.toBe(uiError);
+  });
+
+  it("should throw a FirebaseUIError with the unknown error message when its not a FirebaseUIError", async () => {
     const sendSignInLinkToEmailMock = vi.mocked(sendSignInLinkToEmail).mockRejectedValue(new Error("Unknown error"));
 
     const mockUI = createMockUI({
@@ -150,7 +168,11 @@ describe("useEmailLinkAuthFormAction", () => {
       await act(async () => {
         await result.current({ email: "test@example.com" });
       });
-    }).rejects.toThrow("unknownError");
+    }).rejects.toMatchObject({
+      code: "ui/unknown-error",
+      message: "unknownError",
+      cause: { cause: expect.objectContaining({ message: "Unknown error" }) },
+    });
 
     expect(sendSignInLinkToEmailMock).toHaveBeenCalledWith(mockUI.get(), "test@example.com");
   });
@@ -182,6 +204,29 @@ describe("useEmailLinkAuthForm", () => {
     });
 
     expect(sendSignInLinkToEmailMock).toHaveBeenCalledWith(mockUI.get(), "test@example.com");
+  });
+
+  it("should set the FirebaseUIError message as the submit error", async () => {
+    const mockUI = createMockUI();
+    const uiError = new FirebaseUIError(
+      mockUI.get(),
+      new FirebaseError("auth/wrong-password", "Firebase: Error (auth/wrong-password).")
+    );
+    vi.mocked(sendSignInLinkToEmail).mockRejectedValue(uiError);
+
+    const { result } = renderHook(() => useEmailLinkAuthForm(), {
+      wrapper: ({ children }) => createFirebaseUIProvider({ children, ui: mockUI }),
+    });
+
+    act(() => {
+      result.current.setFieldValue("email", "test@example.com");
+    });
+
+    await act(async () => {
+      await result.current.handleSubmit();
+    });
+
+    expect(result.current.state.errorMap.onSubmit).toBe(uiError.message);
   });
 
   it("should not allow the form to be submitted if the form is invalid", async () => {

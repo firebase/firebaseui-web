@@ -19,6 +19,7 @@
 import { FirebaseUIError, completeEmailLinkSignIn, getTranslation, sendSignInLinkToEmail } from "@firebase-oss/ui-core";
 import type { UserCredential } from "firebase/auth";
 import { useEmailLinkAuthFormSchema, useUI } from "~/hooks";
+import { createUnknownFirebaseUIError } from "~/utils/errors";
 import { form } from "~/components/form";
 import { Policies } from "~/components/policies";
 import { useCallback, useEffect, useRef, useState } from "react";
@@ -45,11 +46,11 @@ export function useEmailLinkAuthFormAction() {
         return await sendSignInLinkToEmail(ui, email);
       } catch (error) {
         if (error instanceof FirebaseUIError) {
-          throw new Error(error.message);
+          throw error;
         }
 
         console.error(error);
-        throw new Error(getTranslation(ui, "errors", "unknownError"));
+        throw createUnknownFirebaseUIError(ui, error);
       }
     },
     [ui]
