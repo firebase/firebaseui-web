@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-import { type Translations } from "../types";
+import { type CompleteTranslationsWithoutLegacy } from "../types";
 
 /** Filipino PH (fil-PH) translation set. */
 export const filPH = {
@@ -84,12 +84,12 @@ export const filPH = {
     signInWithYahoo: "Mag-sign in gamit ang Yahoo",
     signInWithTwitter: "Mag-sign in gamit ang X",
     signInWithEmailLink: "Mag-sign in gamit ang Email Link",
-    signInWithEmail: "Mag-sign in gamit ang Email",
     sendSignInLink: "Magpadala ng Sign-in Link",
     termsOfService: "Mga Tuntunin ng Serbisyo",
     privacyPolicy: "Patakaran sa Privacy",
     resendCode: "Muling Ipadala ang Code",
     sending: "Nagpapadala...",
+    dismiss: "Isara",
     multiFactorEnrollment: "Multi-factor Enrollment",
     multiFactorAssertion: "Multi-factor Authentication",
     mfaTotpVerification: "TOTP Verification",
@@ -112,4 +112,4 @@ export const filPH = {
     mfaTotpQrCodePrompt: "I-scan ang QR code na ito gamit ang iyong authenticator app",
     mfaTotpEnrollmentVerificationPrompt: "Idagdag ang code na nabuo ng iyong authenticator app",
   },
-} satisfies Translations;
+} satisfies CompleteTranslationsWithoutLegacy;

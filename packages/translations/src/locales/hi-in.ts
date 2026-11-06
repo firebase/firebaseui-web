@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-import { type Translations } from "../types";
+import { type CompleteTranslationsWithoutLegacy } from "../types";
 
 /** Hindi IN (hi-IN) translation set. */
 export const hiIN = {
@@ -81,12 +81,12 @@ export const hiIN = {
     signInWithYahoo: "Yahoo से साइन इन करें",
     signInWithTwitter: "X से साइन इन करें",
     signInWithEmailLink: "ईमेल लिंक से साइन इन करें",
-    signInWithEmail: "ईमेल से साइन इन करें",
     sendSignInLink: "साइन-इन लिंक भेजें",
     termsOfService: "सेवा की शर्तें",
     privacyPolicy: "गोपनीयता नीति",
     resendCode: "कोड पुनः भेजें",
     sending: "भेजा जा रहा है...",
+    dismiss: "बंद करें",
     multiFactorEnrollment: "बहु-कारक नामांकन",
     multiFactorAssertion: "बहु-कारक प्रमाणीकरण",
     mfaTotpVerification: "TOTP सत्यापन",
@@ -109,4 +109,4 @@ export const hiIN = {
     mfaTotpQrCodePrompt: "अपने प्रमाणक ऐप से इस QR कोड को स्कैन करें",
     mfaTotpEnrollmentVerificationPrompt: "अपने प्रमाणक ऐप द्वारा जनरेट किया गया कोड जोड़ें",
   },
-} satisfies Translations;
+} satisfies CompleteTranslationsWithoutLegacy;

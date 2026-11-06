@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-import { type Translations } from "../types";
+import { type CompleteTranslationsWithoutLegacy } from "../types";
 
 /** Chinese Simplified CN (zh-CN) translation set. */
 export const zhCN = {
@@ -81,12 +81,12 @@ export const zhCN = {
     signInWithYahoo: "使用 Yahoo 登录",
     signInWithTwitter: "使用 X 登录",
     signInWithEmailLink: "使用电子邮件链接登录",
-    signInWithEmail: "使用电子邮件登录",
     sendSignInLink: "发送登录链接",
     termsOfService: "服务条款",
     privacyPolicy: "隐私政策",
     resendCode: "重新发送验证码",
     sending: "发送中...",
+    dismiss: "关闭",
     multiFactorEnrollment: "多因素注册",
     multiFactorAssertion: "多因素身份验证",
     mfaTotpVerification: "TOTP 验证",
@@ -109,4 +109,4 @@ export const zhCN = {
     mfaTotpQrCodePrompt: "使用您的身份验证器应用扫描此二维码",
     mfaTotpEnrollmentVerificationPrompt: "添加您的身份验证器应用生成的验证码",
   },
-} satisfies Translations;
+} satisfies CompleteTranslationsWithoutLegacy;

@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-import { type Translations } from "../types";
+import { type CompleteTranslationsWithoutLegacy } from "../types";
 
 /** Thai TH (th-TH) translation set. */
 export const thTH = {
@@ -81,12 +81,12 @@ export const thTH = {
     signInWithYahoo: "ลงชื่อเข้าใช้ด้วย Yahoo",
     signInWithTwitter: "ลงชื่อเข้าใช้ด้วย X",
     signInWithEmailLink: "ลงชื่อเข้าใช้ด้วยลิงก์อีเมล",
-    signInWithEmail: "ลงชื่อเข้าใช้ด้วยอีเมล",
     sendSignInLink: "ส่งลิงก์ลงชื่อเข้าใช้",
     termsOfService: "ข้อกำหนดการให้บริการ",
     privacyPolicy: "นโยบายความเป็นส่วนตัว",
     resendCode: "ส่งรหัสอีกครั้ง",
     sending: "กำลังส่ง...",
+    dismiss: "ปิด",
     multiFactorEnrollment: "การลงทะเบียนหลายปัจจัย",
     multiFactorAssertion: "การตรวจสอบสิทธิ์หลายปัจจัย",
     mfaTotpVerification: "การยืนยัน TOTP",
@@ -109,4 +109,4 @@ export const thTH = {
     mfaTotpQrCodePrompt: "สแกนรหัส QR นี้ด้วยแอปตรวจสอบสิทธิ์ของคุณ",
     mfaTotpEnrollmentVerificationPrompt: "เพิ่มรหัสที่สร้างโดยแอปตรวจสอบสิทธิ์ของคุณ",
   },
-} satisfies Translations;
+} satisfies CompleteTranslationsWithoutLegacy;

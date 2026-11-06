@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-import { type Translations } from "../types";
+import { type CompleteTranslationsWithoutLegacy } from "../types";
 
 /** Danish DK (da-DK) translation set. */
 export const daDK = {
@@ -82,12 +82,12 @@ export const daDK = {
     signInWithYahoo: "Log ind med Yahoo",
     signInWithTwitter: "Log ind med X",
     signInWithEmailLink: "Log ind med e-maillink",
-    signInWithEmail: "Log ind med e-mail",
     sendSignInLink: "Send login-link",
     termsOfService: "Servicevilkår",
     privacyPolicy: "Privatlivspolitik",
     resendCode: "Send kode igen",
     sending: "Sender...",
+    dismiss: "Luk",
     multiFactorEnrollment: "Flerfaktorregistrering",
     multiFactorAssertion: "Flerfaktorgodkendelse",
     mfaTotpVerification: "TOTP-bekræftelse",
@@ -110,4 +110,4 @@ export const daDK = {
     mfaTotpQrCodePrompt: "Scan denne QR-kode med din godkendelsesapp",
     mfaTotpEnrollmentVerificationPrompt: "Tilføj koden genereret af din godkendelsesapp",
   },
-} satisfies Translations;
+} satisfies CompleteTranslationsWithoutLegacy;

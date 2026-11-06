@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-import { type Translations } from "../types";
+import { type CompleteTranslationsWithoutLegacy } from "../types";
 
 /** Latvian LV (lv-LV) translation set. */
 export const lvLV = {
@@ -53,7 +53,7 @@ export const lvLV = {
   messages: {
     passwordResetEmailSent: "Paroles atiestatīšanas e-pasts veiksmīgi nosūtīts",
     signInLinkSent: "Pieteikšanās saite veiksmīgi nosūtīta",
-    verificationCodeFirst: "Lūdzu, vispirms pieprасiet verifikācijas kodu",
+    verificationCodeFirst: "Lūdzu, vispirms pieprasiet verifikācijas kodu",
     checkEmailForReset: "Pārbaudiet e-pastu paroles atiestatīšanas instrukcijām",
     dividerOr: "vai",
     termsAndPrivacy: "Turpinot, jūs piekrītat mūsu {tos} un {privacy}.",
@@ -82,12 +82,12 @@ export const lvLV = {
     signInWithYahoo: "Pieteikties ar Yahoo",
     signInWithTwitter: "Pieteikties ar X",
     signInWithEmailLink: "Pieteikties ar e-pasta saiti",
-    signInWithEmail: "Pieteikties ar e-pastu",
     sendSignInLink: "Nosūtīt pieteikšanās saiti",
     termsOfService: "Pakalpojumu noteikumi",
     privacyPolicy: "Privātuma politika",
     resendCode: "Nosūtīt kodu atkārtoti",
     sending: "Notiek sūtīšana...",
+    dismiss: "Aizvērt",
     multiFactorEnrollment: "Daudzfaktoru reģistrācija",
     multiFactorAssertion: "Daudzfaktoru autentifikācija",
     mfaTotpVerification: "TOTP verifikācija",
@@ -110,4 +110,4 @@ export const lvLV = {
     mfaTotpQrCodePrompt: "Skenējiet šo QR kodu ar savu autentifikatora lietotni",
     mfaTotpEnrollmentVerificationPrompt: "Pievienojiet kodu, ko ģenerē jūsu autentifikatora lietotne",
   },
-} satisfies Translations;
+} satisfies CompleteTranslationsWithoutLegacy;

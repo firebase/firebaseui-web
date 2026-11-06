@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-import { type Translations } from "../types";
+import { type CompleteTranslationsWithoutLegacy } from "../types";
 
 /** Persian IR (fa-IR) translation set. */
 export const faIR = {
@@ -82,12 +82,12 @@ export const faIR = {
     signInWithYahoo: "ورود با Yahoo",
     signInWithTwitter: "ورود با X",
     signInWithEmailLink: "ورود با لینک ایمیل",
-    signInWithEmail: "ورود با ایمیل",
     sendSignInLink: "ارسال لینک ورود",
     termsOfService: "شرایط خدمات",
     privacyPolicy: "سیاست حریم خصوصی",
     resendCode: "ارسال مجدد کد",
     sending: "در حال ارسال...",
+    dismiss: "بستن",
     multiFactorEnrollment: "ثبت‌نام چندعاملی",
     multiFactorAssertion: "احراز هویت چندعاملی",
     mfaTotpVerification: "تأیید TOTP",
@@ -110,4 +110,4 @@ export const faIR = {
     mfaTotpQrCodePrompt: "این کد QR را با برنامه احراز هویت خود اسکن کنید",
     mfaTotpEnrollmentVerificationPrompt: "کد تولیدشده توسط برنامه احراز هویت را وارد کنید",
   },
-} satisfies Translations;
+} satisfies CompleteTranslationsWithoutLegacy;

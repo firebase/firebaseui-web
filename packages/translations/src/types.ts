@@ -238,3 +238,17 @@ export type Translations = {
     mfaTotpEnrollmentVerificationPrompt?: string;
   };
 };
+
+export type CompleteTranslationsWithoutLegacy = {
+  [K in keyof Translations]-?: {
+    [P in keyof NonNullable<Translations[K]> as P extends `legacy${string}` ? never : P]-?: NonNullable<
+      NonNullable<Translations[K]>[P]
+    >;
+  };
+};
+
+export type CompleteTranslationsWithLegacy = {
+  [K in keyof Translations]-?: {
+    [P in keyof NonNullable<Translations[K]>]-?: NonNullable<NonNullable<Translations[K]>[P]>;
+  };
+};

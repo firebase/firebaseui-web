@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-import { type Translations } from "../types";
+import { type CompleteTranslationsWithoutLegacy } from "../types";
 
 /** Lithuanian LT (lt-LT) translation set. */
 export const ltLT = {
@@ -81,12 +81,12 @@ export const ltLT = {
     signInWithYahoo: "Prisijungti su Yahoo",
     signInWithTwitter: "Prisijungti su X",
     signInWithEmailLink: "Prisijungti su el. pašto nuoroda",
-    signInWithEmail: "Prisijungti su el. paštu",
     sendSignInLink: "Siųsti prisijungimo nuorodą",
     termsOfService: "Paslaugų teikimo sąlygos",
     privacyPolicy: "Privatumo politika",
     resendCode: "Siųsti kodą iš naujo",
     sending: "Siunčiama...",
+    dismiss: "Uždaryti",
     multiFactorEnrollment: "Kelių veiksnių registracija",
     multiFactorAssertion: "Kelių veiksnių autentifikavimas",
     mfaTotpVerification: "TOTP patvirtinimas",
@@ -109,4 +109,4 @@ export const ltLT = {
     mfaTotpQrCodePrompt: "Nuskenuokite šį QR kodą savo autentifikatoriaus programa",
     mfaTotpEnrollmentVerificationPrompt: "Pridėkite jūsų autentifikatoriaus programos sugeneruotą kodą",
   },
-} satisfies Translations;
+} satisfies CompleteTranslationsWithoutLegacy;

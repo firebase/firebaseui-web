@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-import { type Translations } from "../types";
+import { type CompleteTranslationsWithoutLegacy } from "../types";
 
 /** Arabic (ar) translation set. */
 export const ar = {
@@ -81,12 +81,12 @@ export const ar = {
     signInWithYahoo: "تسجيل الدخول بـ Yahoo",
     signInWithTwitter: "تسجيل الدخول بـ X",
     signInWithEmailLink: "تسجيل الدخول برابط البريد الإلكتروني",
-    signInWithEmail: "تسجيل الدخول بالبريد الإلكتروني",
     sendSignInLink: "إرسال رابط تسجيل الدخول",
     termsOfService: "شروط الخدمة",
     privacyPolicy: "سياسة الخصوصية",
     resendCode: "إعادة إرسال الرمز",
     sending: "جارٍ الإرسال...",
+    dismiss: "إغلاق",
     multiFactorEnrollment: "تسجيل المصادقة متعددة العوامل",
     multiFactorAssertion: "المصادقة متعددة العوامل",
     mfaTotpVerification: "التحقق عبر TOTP",
@@ -109,4 +109,4 @@ export const ar = {
     mfaTotpQrCodePrompt: "امسح رمز QR هذا باستخدام تطبيق المصادقة الخاص بك",
     mfaTotpEnrollmentVerificationPrompt: "أضف الرمز الذي تم إنشاؤه بواسطة تطبيق المصادقة الخاص بك",
   },
-} satisfies Translations;
+} satisfies CompleteTranslationsWithoutLegacy;

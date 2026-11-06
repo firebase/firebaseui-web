@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-import { type Translations } from "../types";
+import { type CompleteTranslationsWithoutLegacy } from "../types";
 
 /** Serbian RS (sr-RS) translation set. */
 export const srRS = {
@@ -83,12 +83,12 @@ export const srRS = {
     signInWithYahoo: "Пријава преко Yahoo-а",
     signInWithTwitter: "Пријава преко X-а",
     signInWithEmailLink: "Пријава везом е-поште",
-    signInWithEmail: "Пријава е-поштом",
     sendSignInLink: "Пошаљи везу за пријаву",
     termsOfService: "Услови коришћења",
     privacyPolicy: "Политика приватности",
     resendCode: "Поново пошаљи код",
     sending: "Слање...",
+    dismiss: "Затвори",
     multiFactorEnrollment: "Вишефакторска регистрација",
     multiFactorAssertion: "Вишефакторска аутентификација",
     mfaTotpVerification: "TOTP верификација",
@@ -111,4 +111,4 @@ export const srRS = {
     mfaTotpQrCodePrompt: "Скенирајте овај QR код помоћу апликације за аутентификацију",
     mfaTotpEnrollmentVerificationPrompt: "Додајте код генерисан вашом апликацијом за аутентификацију",
   },
-} satisfies Translations;
+} satisfies CompleteTranslationsWithoutLegacy;

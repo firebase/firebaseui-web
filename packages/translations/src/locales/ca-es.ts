@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-import { type Translations } from "../types";
+import { type CompleteTranslationsWithoutLegacy } from "../types";
 
 /** Catalan ES (ca-ES) translation set. */
 export const caES = {
@@ -82,12 +82,12 @@ export const caES = {
     signInWithYahoo: "Inicieu sessió amb Yahoo",
     signInWithTwitter: "Inicieu sessió amb X",
     signInWithEmailLink: "Inicieu sessió amb un enllaç de correu electrònic",
-    signInWithEmail: "Inicieu sessió amb correu electrònic",
     sendSignInLink: "Envieu l'enllaç d'inici de sessió",
     termsOfService: "Condicions del servei",
     privacyPolicy: "Política de privadesa",
     resendCode: "Torneu a enviar el codi",
     sending: "S'està enviant...",
+    dismiss: "Tanca",
     multiFactorEnrollment: "Inscripció multifactor",
     multiFactorAssertion: "Autenticació multifactor",
     mfaTotpVerification: "Verificació TOTP",
@@ -110,4 +110,4 @@ export const caES = {
     mfaTotpQrCodePrompt: "Escanegeu aquest codi QR amb la vostra aplicació d'autenticació",
     mfaTotpEnrollmentVerificationPrompt: "Afegiu el codi generat per la vostra aplicació d'autenticació",
   },
-} satisfies Translations;
+} satisfies CompleteTranslationsWithoutLegacy;

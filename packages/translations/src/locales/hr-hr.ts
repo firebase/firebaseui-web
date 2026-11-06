@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-import { type Translations } from "../types";
+import { type CompleteTranslationsWithoutLegacy } from "../types";
 
 /** Croatian HR (hr-HR) translation set. */
 export const hrHR = {
@@ -81,12 +81,12 @@ export const hrHR = {
     signInWithYahoo: "Prijava s Yahooom",
     signInWithTwitter: "Prijava s X-om",
     signInWithEmailLink: "Prijava vezom e-pošte",
-    signInWithEmail: "Prijava e-poštom",
     sendSignInLink: "Pošalji vezu za prijavu",
     termsOfService: "Uvjeti usluge",
     privacyPolicy: "Pravila o privatnosti",
     resendCode: "Pošalji kôd ponovo",
     sending: "Slanje...",
+    dismiss: "Zatvori",
     multiFactorEnrollment: "Višefaktorska registracija",
     multiFactorAssertion: "Višefaktorska autentifikacija",
     mfaTotpVerification: "TOTP provjera",
@@ -109,4 +109,4 @@ export const hrHR = {
     mfaTotpQrCodePrompt: "Skenirajte ovaj QR kôd svojom aplikacijom za autentifikaciju",
     mfaTotpEnrollmentVerificationPrompt: "Dodajte kôd koji je generirala vaša aplikacija za autentifikaciju",
   },
-} satisfies Translations;
+} satisfies CompleteTranslationsWithoutLegacy;

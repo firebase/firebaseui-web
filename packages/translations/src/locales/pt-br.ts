@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-import { type Translations } from "../types";
+import { type CompleteTranslationsWithoutLegacy } from "../types";
 
 /** Portuguese BR (pt-BR) translation set. */
 export const ptBR = {
@@ -83,12 +83,12 @@ export const ptBR = {
     signInWithYahoo: "Entrar com Yahoo",
     signInWithTwitter: "Entrar com X",
     signInWithEmailLink: "Entrar com link de e-mail",
-    signInWithEmail: "Entrar com e-mail",
     sendSignInLink: "Enviar link de login",
     termsOfService: "Termos de Serviço",
     privacyPolicy: "Política de Privacidade",
     resendCode: "Reenviar código",
     sending: "Enviando...",
+    dismiss: "Fechar",
     multiFactorEnrollment: "Cadastro multifator",
     multiFactorAssertion: "Autenticação multifator",
     mfaTotpVerification: "Verificação TOTP",
@@ -111,4 +111,4 @@ export const ptBR = {
     mfaTotpQrCodePrompt: "Escaneie este código QR com seu aplicativo autenticador",
     mfaTotpEnrollmentVerificationPrompt: "Adicione o código gerado pelo seu aplicativo autenticador",
   },
-} satisfies Translations;
+} satisfies CompleteTranslationsWithoutLegacy;

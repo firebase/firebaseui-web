@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-import { type Translations } from "../types";
+import { type CompleteTranslationsWithoutLegacy } from "../types";
 
 /** Slovak SK (sk-SK) translation set. */
 export const skSK = {
@@ -82,12 +82,12 @@ export const skSK = {
     signInWithYahoo: "Prihlásiť sa cez Yahoo",
     signInWithTwitter: "Prihlásiť sa cez X",
     signInWithEmailLink: "Prihlásiť sa pomocou e-mailového odkazu",
-    signInWithEmail: "Prihlásiť sa pomocou e-mailu",
     sendSignInLink: "Odoslať prihlasovací odkaz",
     termsOfService: "Podmienky používania",
     privacyPolicy: "Zásady ochrany osobných údajov",
     resendCode: "Znovu odoslať kód",
     sending: "Odosielanie...",
+    dismiss: "Zavrieť",
     multiFactorEnrollment: "Registrácia viacfaktorového overenia",
     multiFactorAssertion: "Viacfaktorové overenie",
     mfaTotpVerification: "Overenie TOTP",
@@ -110,4 +110,4 @@ export const skSK = {
     mfaTotpQrCodePrompt: "Naskenujte tento QR kód pomocou svojej autentifikačnej aplikácie",
     mfaTotpEnrollmentVerificationPrompt: "Pridajte kód vygenerovaný vašou autentifikačnou aplikáciou",
   },
-} satisfies Translations;
+} satisfies CompleteTranslationsWithoutLegacy;

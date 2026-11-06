@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-import { type Translations } from "../types";
+import { type CompleteTranslationsWithoutLegacy } from "../types";
 
 /** Finnish FI (fi-FI) translation set. */
 export const fiFI = {
@@ -82,12 +82,12 @@ export const fiFI = {
     signInWithYahoo: "Kirjaudu Yahoolla",
     signInWithTwitter: "Kirjaudu X:llä",
     signInWithEmailLink: "Kirjaudu sähköpostilinkin avulla",
-    signInWithEmail: "Kirjaudu sähköpostilla",
     sendSignInLink: "Lähetä kirjautumislinkki",
     termsOfService: "Käyttöehdot",
     privacyPolicy: "Tietosuojakäytäntö",
     resendCode: "Lähetä koodi uudelleen",
     sending: "Lähetetään...",
+    dismiss: "Sulje",
     multiFactorEnrollment: "Monivaiheinen rekisteröinti",
     multiFactorAssertion: "Monivaiheinen todennus",
     mfaTotpVerification: "TOTP-vahvistus",
@@ -110,4 +110,4 @@ export const fiFI = {
     mfaTotpQrCodePrompt: "Skannaa tämä QR-koodi todennussovelluksellasi",
     mfaTotpEnrollmentVerificationPrompt: "Lisää todennussovelluksesi luoma koodi",
   },
-} satisfies Translations;
+} satisfies CompleteTranslationsWithoutLegacy;

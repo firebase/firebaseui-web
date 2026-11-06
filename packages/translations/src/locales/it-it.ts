@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-import { type Translations } from "../types";
+import { type CompleteTranslationsWithoutLegacy } from "../types";
 
 /** Italian IT (it-IT) translation set. */
 export const itIT = {
@@ -83,12 +83,12 @@ export const itIT = {
     signInWithYahoo: "Accedi con Yahoo",
     signInWithTwitter: "Accedi con X",
     signInWithEmailLink: "Accedi con link email",
-    signInWithEmail: "Accedi con email",
     sendSignInLink: "Invia link di accesso",
     termsOfService: "Termini di servizio",
     privacyPolicy: "Informativa sulla privacy",
     resendCode: "Invia di nuovo il codice",
     sending: "Invio in corso...",
+    dismiss: "Chiudi",
     multiFactorEnrollment: "Registrazione a più fattori",
     multiFactorAssertion: "Autenticazione a più fattori",
     mfaTotpVerification: "Verifica TOTP",
@@ -111,4 +111,4 @@ export const itIT = {
     mfaTotpQrCodePrompt: "Scansiona questo codice QR con la tua app di autenticazione",
     mfaTotpEnrollmentVerificationPrompt: "Aggiungi il codice generato dalla tua app di autenticazione",
   },
-} satisfies Translations;
+} satisfies CompleteTranslationsWithoutLegacy;

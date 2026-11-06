@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-import { type Translations } from "../types";
+import { type CompleteTranslationsWithoutLegacy } from "../types";
 
 /** Korean KR (ko-KR) translation set. */
 export const koKR = {
@@ -81,12 +81,12 @@ export const koKR = {
     signInWithYahoo: "Yahoo로 로그인",
     signInWithTwitter: "X로 로그인",
     signInWithEmailLink: "이메일 링크로 로그인",
-    signInWithEmail: "이메일로 로그인",
     sendSignInLink: "로그인 링크 전송",
     termsOfService: "서비스 약관",
     privacyPolicy: "개인정보 처리방침",
     resendCode: "코드 재전송",
     sending: "전송 중...",
+    dismiss: "닫기",
     multiFactorEnrollment: "다중 인증 등록",
     multiFactorAssertion: "다중 인증",
     mfaTotpVerification: "TOTP 인증",
@@ -109,4 +109,4 @@ export const koKR = {
     mfaTotpQrCodePrompt: "인증 앱으로 이 QR 코드를 스캔해 주세요",
     mfaTotpEnrollmentVerificationPrompt: "인증 앱에서 생성된 코드를 추가해 주세요",
   },
-} satisfies Translations;
+} satisfies CompleteTranslationsWithoutLegacy;

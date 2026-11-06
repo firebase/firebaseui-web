@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-import { type Translations } from "../types";
+import { type CompleteTranslationsWithoutLegacy } from "../types";
 
 /** Chinese Traditional TW (zh-TW) translation set. */
 export const zhTW = {
@@ -81,12 +81,12 @@ export const zhTW = {
     signInWithYahoo: "使用 Yahoo 登入",
     signInWithTwitter: "使用 X 登入",
     signInWithEmailLink: "使用電子郵件連結登入",
-    signInWithEmail: "使用電子郵件登入",
     sendSignInLink: "傳送登入連結",
     termsOfService: "服務條款",
     privacyPolicy: "隱私權政策",
     resendCode: "重新傳送驗證碼",
     sending: "傳送中...",
+    dismiss: "關閉",
     multiFactorEnrollment: "多重要素註冊",
     multiFactorAssertion: "多重要素驗證",
     mfaTotpVerification: "TOTP 驗證",
@@ -109,4 +109,4 @@ export const zhTW = {
     mfaTotpQrCodePrompt: "使用您的驗證器應用程式掃描此 QR 碼",
     mfaTotpEnrollmentVerificationPrompt: "新增您的驗證器應用程式所產生的驗證碼",
   },
-} satisfies Translations;
+} satisfies CompleteTranslationsWithoutLegacy;

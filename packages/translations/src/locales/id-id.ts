@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-import { type Translations } from "../types";
+import { type CompleteTranslationsWithoutLegacy } from "../types";
 
 /** Indonesian ID (id-ID) translation set. */
 export const idID = {
@@ -81,12 +81,12 @@ export const idID = {
     signInWithYahoo: "Masuk dengan Yahoo",
     signInWithTwitter: "Masuk dengan X",
     signInWithEmailLink: "Masuk dengan Tautan Email",
-    signInWithEmail: "Masuk dengan Email",
     sendSignInLink: "Kirim Tautan Masuk",
     termsOfService: "Ketentuan Layanan",
     privacyPolicy: "Kebijakan Privasi",
     resendCode: "Kirim Ulang Kode",
     sending: "Mengirim...",
+    dismiss: "Tutup",
     multiFactorEnrollment: "Pendaftaran Multi-faktor",
     multiFactorAssertion: "Autentikasi Multi-faktor",
     mfaTotpVerification: "Verifikasi TOTP",
@@ -109,4 +109,4 @@ export const idID = {
     mfaTotpQrCodePrompt: "Pindai kode QR ini dengan aplikasi autentikator Anda",
     mfaTotpEnrollmentVerificationPrompt: "Tambahkan kode yang dihasilkan oleh aplikasi autentikator Anda",
   },
-} satisfies Translations;
+} satisfies CompleteTranslationsWithoutLegacy;

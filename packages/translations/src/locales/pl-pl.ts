@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-import { type Translations } from "../types";
+import { type CompleteTranslationsWithoutLegacy } from "../types";
 
 /** Polish PL (pl-PL) translation set. */
 export const plPL = {
@@ -83,12 +83,12 @@ export const plPL = {
     signInWithYahoo: "Zaloguj się przez Yahoo",
     signInWithTwitter: "Zaloguj się przez X",
     signInWithEmailLink: "Zaloguj się przez link e-mail",
-    signInWithEmail: "Zaloguj się przez e-mail",
     sendSignInLink: "Wyślij link do logowania",
     termsOfService: "Warunki korzystania z usługi",
     privacyPolicy: "Polityka prywatności",
     resendCode: "Wyślij kod ponownie",
     sending: "Wysyłanie...",
+    dismiss: "Zamknij",
     multiFactorEnrollment: "Rejestracja wieloskładnikowa",
     multiFactorAssertion: "Uwierzytelnianie wieloskładnikowe",
     mfaTotpVerification: "Weryfikacja TOTP",
@@ -111,4 +111,4 @@ export const plPL = {
     mfaTotpQrCodePrompt: "Zeskanuj ten kod QR aplikacją uwierzytelniającą",
     mfaTotpEnrollmentVerificationPrompt: "Dodaj kod wygenerowany przez aplikację uwierzytelniającą",
   },
-} satisfies Translations;
+} satisfies CompleteTranslationsWithoutLegacy;

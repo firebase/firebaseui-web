@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-import { type Translations } from "../types";
+import { type CompleteTranslationsWithoutLegacy } from "../types";
 
 /** German DE (de-DE) translation set. */
 export const deDE = {
@@ -84,12 +84,12 @@ export const deDE = {
     signInWithYahoo: "Mit Yahoo anmelden",
     signInWithTwitter: "Mit X anmelden",
     signInWithEmailLink: "Mit E-Mail-Link anmelden",
-    signInWithEmail: "Mit E-Mail anmelden",
     sendSignInLink: "Anmeldelink senden",
     termsOfService: "Nutzungsbedingungen",
     privacyPolicy: "Datenschutzrichtlinie",
     resendCode: "Code erneut senden",
     sending: "Wird gesendet...",
+    dismiss: "Schließen",
     multiFactorEnrollment: "Multi-Faktor-Registrierung",
     multiFactorAssertion: "Multi-Faktor-Authentifizierung",
     mfaTotpVerification: "TOTP-Verifizierung",
@@ -112,4 +112,4 @@ export const deDE = {
     mfaTotpQrCodePrompt: "Scanne diesen QR-Code mit deiner Authentifizierungs-App",
     mfaTotpEnrollmentVerificationPrompt: "Füge den von deiner Authentifizierungs-App generierten Code hinzu",
   },
-} satisfies Translations;
+} satisfies CompleteTranslationsWithoutLegacy;

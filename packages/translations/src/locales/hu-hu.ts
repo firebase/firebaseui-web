@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-import { type Translations } from "../types";
+import { type CompleteTranslationsWithoutLegacy } from "../types";
 
 /** Hungarian HU (hu-HU) translation set. */
 export const huHU = {
@@ -82,12 +82,12 @@ export const huHU = {
     signInWithYahoo: "Bejelentkezés Yahoóval",
     signInWithTwitter: "Bejelentkezés X-szel",
     signInWithEmailLink: "Bejelentkezés e-mail-hivatkozással",
-    signInWithEmail: "Bejelentkezés e-maillel",
     sendSignInLink: "Bejelentkezési hivatkozás küldése",
     termsOfService: "Szolgáltatási feltételek",
     privacyPolicy: "Adatvédelmi irányelvek",
     resendCode: "Kód újraküldése",
     sending: "Küldés...",
+    dismiss: "Bezárás",
     multiFactorEnrollment: "Többtényezős regisztráció",
     multiFactorAssertion: "Többtényezős hitelesítés",
     mfaTotpVerification: "TOTP-ellenőrzés",
@@ -110,4 +110,4 @@ export const huHU = {
     mfaTotpQrCodePrompt: "Olvassa be ezt a QR-kódot a hitelesítő alkalmazásával",
     mfaTotpEnrollmentVerificationPrompt: "Adja meg a hitelesítő alkalmazás által generált kódot",
   },
-} satisfies Translations;
+} satisfies CompleteTranslationsWithoutLegacy;
