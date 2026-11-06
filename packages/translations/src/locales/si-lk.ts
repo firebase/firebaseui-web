@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-import { type Translations } from "../types";
+import { type StrictTranslations } from "../strict-translations";
 
 export const siLK = {
   errors: {
@@ -86,6 +86,7 @@ export const siLK = {
     privacyPolicy: "රහස්‍යතා ප්‍රතිපත්තිය",
     resendCode: "කේතය නැවත යවන්න",
     sending: "යවමින්...",
+    dismiss: "වසන්න",
     multiFactorEnrollment: "බහු-සාධක ලියාපදිංචිය",
     multiFactorAssertion: "බහු-සාධක සත්‍යාපනය",
     mfaTotpVerification: "TOTP සත්‍යාපනය",
@@ -108,4 +109,4 @@ export const siLK = {
     mfaTotpQrCodePrompt: "ඔබේ සත්‍යාපක යෙදුමෙන් මෙම QR කේතය ස්කෑන් කරන්න",
     mfaTotpEnrollmentVerificationPrompt: "ඔබේ සත්‍යාපක යෙදුම මගින් උත්පාදනය වන කේතය එක් කරන්න",
   },
-} satisfies Translations;
+} satisfies StrictTranslations;

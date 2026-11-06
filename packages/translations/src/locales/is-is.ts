@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-import { type Translations } from "../types";
+import { type StrictTranslations } from "../strict-translations";
 
 export const isIS = {
   errors: {
@@ -87,6 +87,7 @@ export const isIS = {
     privacyPolicy: "Persónuverndarstefna",
     resendCode: "Senda kóða aftur",
     sending: "Sendi...",
+    dismiss: "Loka",
     multiFactorEnrollment: "Skráning fjölþátta auðkenningar",
     multiFactorAssertion: "Fjölþátta auðkenning",
     mfaTotpVerification: "TOTP staðfesting",
@@ -109,4 +110,4 @@ export const isIS = {
     mfaTotpQrCodePrompt: "Skannaðu þennan QR kóða með auðkenningarforritinu þínu",
     mfaTotpEnrollmentVerificationPrompt: "Bættu við kóðanum sem auðkenningarforritið þitt býr til",
   },
-} satisfies Translations;
+} satisfies StrictTranslations;

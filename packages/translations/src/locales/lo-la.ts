@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-import { type Translations } from "../types";
+import { type StrictTranslations } from "../strict-translations";
 
 export const loLA = {
   errors: {
@@ -85,6 +85,7 @@ export const loLA = {
     privacyPolicy: "ນະໂຍບາຍຄວາມເປັນສ່ວນຕົວ",
     resendCode: "ສົ່ງລະຫັດອີກຄັ້ງ",
     sending: "ກຳລັງສົ່ງ...",
+    dismiss: "ປິດ",
     multiFactorEnrollment: "ການລົງທະບຽນຫຼາຍປັດໃຈ",
     multiFactorAssertion: "ການກວດສອບຕົວຕົນຫຼາຍປັດໃຈ",
     mfaTotpVerification: "ການຢືນຢັນ TOTP",
@@ -107,4 +108,4 @@ export const loLA = {
     mfaTotpQrCodePrompt: "ສະແກນລະຫັດ QR ນີ້ດ້ວຍແອັບຢືນຢັນຂອງທ່ານ",
     mfaTotpEnrollmentVerificationPrompt: "ເພີ່ມລະຫັດທີ່ແອັບຢືນຢັນຂອງທ່ານສ້າງຂຶ້ນ",
   },
-} satisfies Translations;
+} satisfies StrictTranslations;

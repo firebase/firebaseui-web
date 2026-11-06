@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-import { type Translations } from "../types";
+import { type StrictTranslations } from "../strict-translations";
 
 export const hyAM = {
   errors: {
@@ -86,6 +86,7 @@ export const hyAM = {
     privacyPolicy: "Գաղտնիության քաղաքականություն",
     resendCode: "Կրկին ուղարկել կոդը",
     sending: "Ուղարկվում է...",
+    dismiss: "Փակել",
     multiFactorEnrollment: "Բազմաքայլ նույնականացման գրանցում",
     multiFactorAssertion: "Բազմաքայլ նույնականացում",
     mfaTotpVerification: "TOTP հաստատում",
@@ -108,4 +109,4 @@ export const hyAM = {
     mfaTotpQrCodePrompt: "Սկանավորեք այս QR կոդը ձեր նույնականացման հավելվածով",
     mfaTotpEnrollmentVerificationPrompt: "Ավելացրեք ձեր նույնականացման հավելվածի ստեղծած կոդը",
   },
-} satisfies Translations;
+} satisfies StrictTranslations;

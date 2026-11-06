@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-import { type Translations } from "../types";
+import { type StrictTranslations } from "../strict-translations";
 
 export const soSO = {
   errors: {
@@ -86,6 +86,7 @@ export const soSO = {
     privacyPolicy: "Siyaasadda Asturnaanta",
     resendCode: "Dib u dir koodhka",
     sending: "Waa la dirayaa...",
+    dismiss: "Xir",
     multiFactorEnrollment: "Diiwaangelinta Xaqiijinta Badan",
     multiFactorAssertion: "Xaqiijinta Badan",
     mfaTotpVerification: "Xaqiijinta TOTP",
@@ -108,4 +109,4 @@ export const soSO = {
     mfaTotpQrCodePrompt: "Ku scan-garee QR code-kan app-ka xaqiijiyaha",
     mfaTotpEnrollmentVerificationPrompt: "Ku dar koodhka ay soo saartay app-ka xaqiijiyahaaga",
   },
-} satisfies Translations;
+} satisfies StrictTranslations;

@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-import { type Translations } from "../types";
+import { type StrictTranslations } from "../strict-translations";
 
 export const uzUZ = {
   errors: {
@@ -87,6 +87,7 @@ export const uzUZ = {
     privacyPolicy: "Maxfiylik siyosati",
     resendCode: "Kodni qayta yuborish",
     sending: "Yuborilmoqda...",
+    dismiss: "Yopish",
     multiFactorEnrollment: "Ko'p omilli ro'yxatdan o'tish",
     multiFactorAssertion: "Ko'p omilli autentifikatsiya",
     mfaTotpVerification: "TOTP tasdiqlash",
@@ -109,4 +110,4 @@ export const uzUZ = {
     mfaTotpQrCodePrompt: "Ushbu QR kodni autentifikator ilovangiz bilan skanerlang",
     mfaTotpEnrollmentVerificationPrompt: "Autentifikator ilovangiz yaratgan kodni kiriting",
   },
-} satisfies Translations;
+} satisfies StrictTranslations;

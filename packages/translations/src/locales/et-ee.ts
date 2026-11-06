@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-import { type Translations } from "../types";
+import { type StrictTranslations } from "../strict-translations";
 
 export const etEE = {
   errors: {
@@ -86,6 +86,7 @@ export const etEE = {
     privacyPolicy: "Privaatsuspoliitika",
     resendCode: "Saada kood uuesti",
     sending: "Saatmine...",
+    dismiss: "Sulge",
     multiFactorEnrollment: "Mitmefaktorilise autentimise registreerimine",
     multiFactorAssertion: "Mitmefaktoriline autentimine",
     mfaTotpVerification: "TOTP kinnitamine",
@@ -108,4 +109,4 @@ export const etEE = {
     mfaTotpQrCodePrompt: "Skannige see QR-kood oma autentimisrakendusega",
     mfaTotpEnrollmentVerificationPrompt: "Lisage autentimisrakenduse genereeritud kood",
   },
-} satisfies Translations;
+} satisfies StrictTranslations;

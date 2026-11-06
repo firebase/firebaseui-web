@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-import { type Translations } from "../types";
+import { type StrictTranslations } from "../strict-translations";
 
 export const naNR = {
   errors: {
@@ -85,6 +85,7 @@ export const naNR = {
     privacyPolicy: "Ekawor privacy",
     resendCode: "Jilikin kod mwi",
     sending: "Ea jilikin...",
+    dismiss: "Eab",
     multiFactorEnrollment: "Rejista eimwi",
     multiFactorAssertion: "Kamad eimwi",
     mfaTotpVerification: "Kamad TOTP",
@@ -107,4 +108,4 @@ export const naNR = {
     mfaTotpQrCodePrompt: "Scan QR kod ngea ngune app om",
     mfaTotpEnrollmentVerificationPrompt: "Kairi kod ngea app om ea orre",
   },
-} satisfies Translations;
+} satisfies StrictTranslations;

@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-import { type Translations } from "../types";
+import { type StrictTranslations } from "../strict-translations";
 
 export const sqAL = {
   errors: {
@@ -87,6 +87,7 @@ export const sqAL = {
     privacyPolicy: "Politika e Privatësisë",
     resendCode: "Ridërgo Kodin",
     sending: "Duke dërguar...",
+    dismiss: "Mbyll",
     multiFactorEnrollment: "Regjistrimi me Shumë Faktorë",
     multiFactorAssertion: "Autentikimi me Shumë Faktorë",
     mfaTotpVerification: "Verifikimi TOTP",
@@ -109,4 +110,4 @@ export const sqAL = {
     mfaTotpQrCodePrompt: "Skanoni këtë kod QR me aplikacionin tuaj autentikues",
     mfaTotpEnrollmentVerificationPrompt: "Shtoni kodin e gjeneruar nga aplikacioni juaj autentikues",
   },
-} satisfies Translations;
+} satisfies StrictTranslations;

@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-import { type Translations } from "../types";
+import { type StrictTranslations } from "../strict-translations";
 
 export const kyKG = {
   errors: {
@@ -86,6 +86,7 @@ export const kyKG = {
     privacyPolicy: "Купуялуулук саясаты",
     resendCode: "Кодту кайра жөнөтүү",
     sending: "Жөнөтүлүүдө...",
+    dismiss: "Жабуу",
     multiFactorEnrollment: "Көп факторлуу катталуу",
     multiFactorAssertion: "Көп факторлуу аутентификация",
     mfaTotpVerification: "TOTP ырастоо",
@@ -108,4 +109,4 @@ export const kyKG = {
     mfaTotpQrCodePrompt: "Бул QR кодун аутентификатор колдонмоңуз менен сканерлеңиз",
     mfaTotpEnrollmentVerificationPrompt: "Аутентификатор колдонмоңуз жараткан кодту кошуңуз",
   },
-} satisfies Translations;
+} satisfies StrictTranslations;

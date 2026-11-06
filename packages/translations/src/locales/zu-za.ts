@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-import { type Translations } from "../types";
+import { type StrictTranslations } from "../strict-translations";
 
 export const zuZA = {
   errors: {
@@ -85,6 +85,7 @@ export const zuZA = {
     privacyPolicy: "Inqubomgomo Yobumfihlo",
     resendCode: "Phinda Uthumele Ikhodi",
     sending: "Iyathumela...",
+    dismiss: "Vala",
     multiFactorEnrollment: "Ukubhalisa Izinto Eziningi",
     multiFactorAssertion: "Ukuqinisekisa Izinto Eziningi",
     mfaTotpVerification: "Ukuqinisekisa i-TOTP",
@@ -107,4 +108,4 @@ export const zuZA = {
     mfaTotpQrCodePrompt: "Skena le khodi ye-QR ngohlelo lwakho lokuqinisekisa",
     mfaTotpEnrollmentVerificationPrompt: "Faka ikhodi ekhiqizwe uhlelo lwakho lokuqinisekisa",
   },
-} satisfies Translations;
+} satisfies StrictTranslations;

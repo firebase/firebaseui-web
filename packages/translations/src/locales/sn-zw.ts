@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-import { type Translations } from "../types";
+import { type StrictTranslations } from "../strict-translations";
 
 export const snZW = {
   errors: {
@@ -86,6 +86,7 @@ export const snZW = {
     privacyPolicy: "Privacy Policy",
     resendCode: "Tumazve Code",
     sending: "Ichitumira...",
+    dismiss: "Vhara",
     multiFactorEnrollment: "Kunyoresa Multi-factor",
     multiFactorAssertion: "Multi-factor Authentication",
     mfaTotpVerification: "TOTP Verification",
@@ -108,4 +109,4 @@ export const snZW = {
     mfaTotpQrCodePrompt: "Scanira QR code iyi neapp yako yeauthenticator",
     mfaTotpEnrollmentVerificationPrompt: "Wedzera code inogadzirwa neapp yako yeauthenticator",
   },
-} satisfies Translations;
+} satisfies StrictTranslations;

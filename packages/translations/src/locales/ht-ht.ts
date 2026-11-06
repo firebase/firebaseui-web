@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-import { type Translations } from "../types";
+import { type StrictTranslations } from "../strict-translations";
 
 export const htHT = {
   errors: {
@@ -85,6 +85,7 @@ export const htHT = {
     privacyPolicy: "Politik Konfidansyalite",
     resendCode: "Revwaye Kòd",
     sending: "Ap voye...",
+    dismiss: "Fèmen",
     multiFactorEnrollment: "Enskripsyon Miltifaktè",
     multiFactorAssertion: "Otantifikasyon Miltifaktè",
     mfaTotpVerification: "Verifikasyon TOTP",
@@ -107,4 +108,4 @@ export const htHT = {
     mfaTotpQrCodePrompt: "Eskane kòd QR sa a ak aplikasyon otantifikatè ou an",
     mfaTotpEnrollmentVerificationPrompt: "Ajoute kòd ki parèt nan aplikasyon otantifikatè ou an",
   },
-} satisfies Translations;
+} satisfies StrictTranslations;

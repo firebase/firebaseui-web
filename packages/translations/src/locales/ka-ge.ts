@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-import { type Translations } from "../types";
+import { type StrictTranslations } from "../strict-translations";
 
 export const kaGE = {
   errors: {
@@ -85,6 +85,7 @@ export const kaGE = {
     privacyPolicy: "კონფიდენციალურობის პოლიტიკა",
     resendCode: "კოდის ხელახლა გაგზავნა",
     sending: "იგზავნება...",
+    dismiss: "დახურვა",
     multiFactorEnrollment: "მრავალფაქტორიანი რეგისტრაცია",
     multiFactorAssertion: "მრავალფაქტორიანი ავთენტიფიკაცია",
     mfaTotpVerification: "TOTP დადასტურება",
@@ -107,4 +108,4 @@ export const kaGE = {
     mfaTotpQrCodePrompt: "დაასკანერეთ ეს QR კოდი თქვენი ავთენტიფიკატორის აპლიკაციით",
     mfaTotpEnrollmentVerificationPrompt: "დაამატეთ კოდი, რომელსაც თქვენი ავთენტიფიკატორის აპლიკაცია გენერირებს",
   },
-} satisfies Translations;
+} satisfies StrictTranslations;

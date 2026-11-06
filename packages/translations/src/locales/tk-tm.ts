@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-import { type Translations } from "../types";
+import { type StrictTranslations } from "../strict-translations";
 
 export const tkTM = {
   errors: {
@@ -85,6 +85,7 @@ export const tkTM = {
     privacyPolicy: "Gizlinlik syýasaty",
     resendCode: "Kody täzeden iber",
     sending: "Iberilýär...",
+    dismiss: "Ýap",
     multiFactorEnrollment: "Köp faktorly hasaba alyş",
     multiFactorAssertion: "Köp faktorly tassyklama",
     mfaTotpVerification: "TOTP tassyklamasy",
@@ -107,4 +108,4 @@ export const tkTM = {
     mfaTotpQrCodePrompt: "Bu QR kody authenticator programmaňyz bilen skanirläň",
     mfaTotpEnrollmentVerificationPrompt: "Authenticator programmaňyz tarapyndan döredilen kody goşuň",
   },
-} satisfies Translations;
+} satisfies StrictTranslations;

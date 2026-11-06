@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-import { type Translations } from "../types";
+import { type StrictTranslations } from "../strict-translations";
 
 export const swTZ = {
   errors: {
@@ -87,6 +87,7 @@ export const swTZ = {
     privacyPolicy: "Sera ya Faragha",
     resendCode: "Tuma Msimbo Tena",
     sending: "Inatuma...",
+    dismiss: "Funga",
     multiFactorEnrollment: "Usajili wa Uthibitishaji wa Hatua Nyingi",
     multiFactorAssertion: "Uthibitishaji wa Hatua Nyingi",
     mfaTotpVerification: "Uthibitishaji wa TOTP",
@@ -109,4 +110,4 @@ export const swTZ = {
     mfaTotpQrCodePrompt: "Skani msimbo huu wa QR kwa kutumia programu yako ya uthibitishaji",
     mfaTotpEnrollmentVerificationPrompt: "Ongeza msimbo unaozalishwa na programu yako ya uthibitishaji",
   },
-} satisfies Translations;
+} satisfies StrictTranslations;

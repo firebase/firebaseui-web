@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-import { type Translations } from "../types";
+import { type StrictTranslations } from "../strict-translations";
 
 export const woSN = {
   errors: {
@@ -85,6 +85,7 @@ export const woSN = {
     privacyPolicy: "Politique de confidentialité",
     resendCode: "Yonnee kode bi beneen yoon",
     sending: "Ñu ngi yonnee...",
+    dismiss: "Tëj",
     multiFactorEnrollment: "Enregistrement multi-facteur",
     multiFactorAssertion: "Authentification multi-facteur",
     mfaTotpVerification: "Verifikasyon TOTP",
@@ -107,4 +108,4 @@ export const woSN = {
     mfaTotpQrCodePrompt: "Scanné kode QR bii ak sa application authenticator",
     mfaTotpEnrollmentVerificationPrompt: "Yokk kode bi application authenticator bi sosu",
   },
-} satisfies Translations;
+} satisfies StrictTranslations;

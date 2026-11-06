@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-import { type Translations } from "../types";
+import { type StrictTranslations } from "../strict-translations";
 
 export const mtMT = {
   errors: {
@@ -87,6 +87,7 @@ export const mtMT = {
     privacyPolicy: "Politika tal-Privatezza",
     resendCode: "Erġa' Ibgħat il-Kodiċi",
     sending: "Qed jintbagħat...",
+    dismiss: "Agħlaq",
     multiFactorEnrollment: "Reġistrazzjoni Multi-Fattur",
     multiFactorAssertion: "Awtentikazzjoni Multi-Fattur",
     mfaTotpVerification: "Verifika TOTP",
@@ -109,4 +110,4 @@ export const mtMT = {
     mfaTotpQrCodePrompt: "Iskennja dan il-kodiċi QR bl-app tal-awtentikazzjoni tiegħek",
     mfaTotpEnrollmentVerificationPrompt: "Żid il-kodiċi ġġenerat mill-app tal-awtentikazzjoni tiegħek",
   },
-} satisfies Translations;
+} satisfies StrictTranslations;

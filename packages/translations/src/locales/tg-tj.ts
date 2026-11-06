@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-import { type Translations } from "../types";
+import { type StrictTranslations } from "../strict-translations";
 
 export const tgTJ = {
   errors: {
@@ -86,6 +86,7 @@ export const tgTJ = {
     privacyPolicy: "Сиёсати махфият",
     resendCode: "Аз нав фиристодани рамз",
     sending: "Фиристода мешавад...",
+    dismiss: "Пӯшед",
     multiFactorEnrollment: "Бақайдгирии бисёромилӣ",
     multiFactorAssertion: "Тасдиқи бисёромилӣ",
     mfaTotpVerification: "Тасдиқи TOTP",
@@ -109,4 +110,4 @@ export const tgTJ = {
     mfaTotpEnrollmentVerificationPrompt:
       "Рамзе, ки аз ҷониби барномаи аутентификатори шумо тавлид шудааст, илова кунед",
   },
-} satisfies Translations;
+} satisfies StrictTranslations;

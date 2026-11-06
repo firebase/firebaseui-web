@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-import { type Translations } from "../types";
+import { type StrictTranslations } from "../strict-translations";
 
 export const amET = {
   errors: {
@@ -22,7 +22,7 @@ export const amET = {
     wrongPassword: "የተሳሳተ የይለፍ ቃል",
     invalidEmail: "እባክዎ ትክክለኛ የኢሜይል አድራሻ ያስገቡ",
     userDisabled: "ይህ መለያ ተሰናክሏል",
-    networkRequestFailed: "ከአገልጋዩ ጋር መገናኘት አልተቻለም። እဘክዎ የኢንተርኔት ግንኙነትዎን ይፈትሹ",
+    networkRequestFailed: "ከአገልጋዩ ጋር መገናኘት አልተቻለም። እባክዎ የኢንተርኔት ግንኙነትዎን ይፈትሹ",
     tooManyRequests: "ብዙ ያልተሳኩ ሙከራዎች። እባክዎ ቆይተው እንደገና ይሞክሩ",
     missingVerificationCode: "እባክዎ የማረጋገጫ ኮዱን ያስገቡ",
     emailAlreadyInUse: "በዚህ ኢሜይል ያለ መለያ አለ",
@@ -37,7 +37,7 @@ export const amET = {
     captchaCheckFailed: "የreCAPTCHA ማረጋገጫ አልተሳካም። እባክዎ እንደገና ይሞክሩ።",
     missingVerificationId: "እባክዎ መጀመሪያ የreCAPTCHA ማረጋገጫውን ያጠናቅቁ።",
     missingEmail: "እባክዎ የኢሜይል አድራሻ ያስገቡ",
-    invalidActionCode: "የይለፍ ቃል ዳግм ማስጀመሪያ አገናኙ ትክክል አይደለም ወይም ጊዜው አልፎበታል",
+    invalidActionCode: "የይለፍ ቃል ዳግም ማስጀመሪያ አገናኙ ትክክል አይደለም ወይም ጊዜው አልፎበታል",
     credentialAlreadyInUse: "በዚህ ኢሜይል ያለ መለያ አለ። እባክዎ በዚያ መለያ ይግቡ።",
     requiresRecentLogin: "ይህ ተግባር የቅርብ ጊዜ መግባት ይጠይቃል። እባክዎ እንደገና ይግቡ።",
     providerAlreadyLinked: "ይህ ስልክ ቁጥር ከሌላ መለያ ጋር ተገናኝቷል",
@@ -85,6 +85,7 @@ export const amET = {
     privacyPolicy: "የግላዊነት ፖሊሲ",
     resendCode: "ኮዱን እንደገና ላክ",
     sending: "በመላክ ላይ...",
+    dismiss: "አስወግድ",
     multiFactorEnrollment: "ባለብዙ ደረጃ ማረጋገጫ ምዝገባ",
     multiFactorAssertion: "ባለብዙ ደረጃ ማረጋገጫ",
     mfaTotpVerification: "TOTP ማረጋገጫ",
@@ -107,4 +108,4 @@ export const amET = {
     mfaTotpQrCodePrompt: "ይህን QR ኮድ በማረጋገጫ መተግበሪያዎ ይቃኙ",
     mfaTotpEnrollmentVerificationPrompt: "በማረጋገጫ መተግበሪያዎ የተፈጠረውን ኮድ ያስገቡ",
   },
-} satisfies Translations;
+} satisfies StrictTranslations;

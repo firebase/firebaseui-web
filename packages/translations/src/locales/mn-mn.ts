@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-import { type Translations } from "../types";
+import { type StrictTranslations } from "../strict-translations";
 
 export const mnMN = {
   errors: {
@@ -87,6 +87,7 @@ export const mnMN = {
     privacyPolicy: "Нууцлалын бодлого",
     resendCode: "Кодыг дахин илгээх",
     sending: "Илгээж байна...",
+    dismiss: "Хаах",
     multiFactorEnrollment: "Олон хүчин зүйлтэй бүртгэл",
     multiFactorAssertion: "Олон хүчин зүйлтэй баталгаажуулалт",
     mfaTotpVerification: "TOTP баталгаажуулалт",
@@ -109,4 +110,4 @@ export const mnMN = {
     mfaTotpQrCodePrompt: "Энэ QR кодыг баталгаажуулагч аппаараа уншуулна уу",
     mfaTotpEnrollmentVerificationPrompt: "Баталгаажуулагч аппын үүсгэсэн кодыг нэмнэ үү",
   },
-} satisfies Translations;
+} satisfies StrictTranslations;

@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-import { type Translations } from "../types";
+import { type StrictTranslations } from "../strict-translations";
 
 export const tnBW = {
   errors: {
@@ -86,6 +86,7 @@ export const tnBW = {
     privacyPolicy: "Leano la Sephiri",
     resendCode: "Romela Khoutu Gape",
     sending: "E romelwa...",
+    dismiss: "Tswala",
     multiFactorEnrollment: "Ikwadisetsa Dikgato Tse Dintsi",
     multiFactorAssertion: "Netefatso ya Dikgato Tse Dintsi",
     mfaTotpVerification: "Netefatso ya TOTP",
@@ -108,4 +109,4 @@ export const tnBW = {
     mfaTotpQrCodePrompt: "Ska khoutu ya QR e ka lenaneo la gago la authenticator",
     mfaTotpEnrollmentVerificationPrompt: "Tsenya khoutu e e tlhagisitsweng ke lenaneo la gago la authenticator",
   },
-} satisfies Translations;
+} satisfies StrictTranslations;

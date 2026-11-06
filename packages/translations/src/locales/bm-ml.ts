@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-import { type Translations } from "../types";
+import { type StrictTranslations } from "../strict-translations";
 
 export const bmML = {
   errors: {
@@ -85,6 +85,7 @@ export const bmML = {
     privacyPolicy: "Kunnafoni Lakika",
     resendCode: "Koodu Ta Segin",
     sending: "Bɛ ta...",
+    dismiss: "Datugu",
     multiFactorEnrollment: "Dɔnniya Kɔnɔ Ka Tɛmɛ",
     multiFactorAssertion: "Dɔnniya Kɔnɔ Ka Dɔnniya",
     mfaTotpVerification: "TOTP Dɔnniya",
@@ -107,4 +108,4 @@ export const bmML = {
     mfaTotpQrCodePrompt: "I ka QR koodu in skan ni i ka authenticator aplikasiyɔn ye",
     mfaTotpEnrollmentVerificationPrompt: "I ka koodu in don minnu bɛ kɛ i ka authenticator aplikasiyɔn na",
   },
-} satisfies Translations;
+} satisfies StrictTranslations;

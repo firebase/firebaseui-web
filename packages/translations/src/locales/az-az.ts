@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-import { type Translations } from "../types";
+import { type StrictTranslations } from "../strict-translations";
 
 export const azAZ = {
   errors: {
@@ -87,6 +87,7 @@ export const azAZ = {
     privacyPolicy: "Məxfilik siyasəti",
     resendCode: "Kodu yenidən göndər",
     sending: "Göndərilir...",
+    dismiss: "Bağla",
     multiFactorEnrollment: "Çoxfaktorlu qeydiyyat",
     multiFactorAssertion: "Çoxfaktorlu autentifikasiya",
     mfaTotpVerification: "TOTP təsdiqi",
@@ -109,4 +110,4 @@ export const azAZ = {
     mfaTotpQrCodePrompt: "Bu QR kodu autentifikator tətbiqinizlə skan edin",
     mfaTotpEnrollmentVerificationPrompt: "Autentifikator tətbiqinizin yaratdığı kodu əlavə edin",
   },
-} satisfies Translations;
+} satisfies StrictTranslations;

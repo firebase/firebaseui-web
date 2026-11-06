@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-import { type Translations } from "../types";
+import { type StrictTranslations } from "../strict-translations";
 
 export const rnBI = {
   errors: {
@@ -86,6 +86,7 @@ export const rnBI = {
     privacyPolicy: "Politiki y'Ibanga",
     resendCode: "Ongera wohereze Kode",
     sending: "Biroherezwa...",
+    dismiss: "Ugara",
     multiFactorEnrollment: "Iyandikishwa ry'Ibintu Byinshi",
     multiFactorAssertion: "Kwemeza Ibintu Byinshi",
     mfaTotpVerification: "Kwemeza TOTP",
@@ -108,4 +109,4 @@ export const rnBI = {
     mfaTotpQrCodePrompt: "Sikanira iyi kode ya QR ukoresheje porogaramu yawe yo kwemeza",
     mfaTotpEnrollmentVerificationPrompt: "Ongeramwo kode porogaramu yawe yo kwemeza yakozeko",
   },
-} satisfies Translations;
+} satisfies StrictTranslations;

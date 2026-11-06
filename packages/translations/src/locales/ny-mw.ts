@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-import { type Translations } from "../types";
+import { type StrictTranslations } from "../strict-translations";
 
 export const nyMW = {
   errors: {
@@ -85,6 +85,7 @@ export const nyMW = {
     privacyPolicy: "Ndondomeko Yachinsinsi",
     resendCode: "Tumizaninso Khodi",
     sending: "Ikutumiza...",
+    dismiss: "Tsekani",
     multiFactorEnrollment: "Kulembetsa Kwa Zinthu Zambiri",
     multiFactorAssertion: "Kutsimikizira Kwa Zinthu Zambiri",
     mfaTotpVerification: "Kutsimikizira kwa TOTP",
@@ -107,4 +108,4 @@ export const nyMW = {
     mfaTotpQrCodePrompt: "Jambulani khodi ya QR iyi ndi pulogalamu yanu yotsimikizira",
     mfaTotpEnrollmentVerificationPrompt: "Onjezani khodi yopangidwa ndi pulogalamu yanu yotsimikizira",
   },
-} satisfies Translations;
+} satisfies StrictTranslations;

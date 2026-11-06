@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-import { type Translations } from "../types";
+import { type StrictTranslations } from "../strict-translations";
 
 export const bnBD = {
   errors: {
@@ -87,6 +87,7 @@ export const bnBD = {
     privacyPolicy: "গোপনীয়তা নীতি",
     resendCode: "কোড আবার পাঠান",
     sending: "পাঠানো হচ্ছে...",
+    dismiss: "বন্ধ",
     multiFactorEnrollment: "মাল্টি-ফ্যাক্টর নিবন্ধন",
     multiFactorAssertion: "মাল্টি-ফ্যাক্টর প্রমাণীকরণ",
     mfaTotpVerification: "TOTP যাচাইকরণ",
@@ -109,4 +110,4 @@ export const bnBD = {
     mfaTotpQrCodePrompt: "আপনার অথেনটিকেটর অ্যাপ দিয়ে এই QR কোডটি স্ক্যান করুন",
     mfaTotpEnrollmentVerificationPrompt: "আপনার অথেনটিকেটর অ্যাপে তৈরি হওয়া কোডটি যোগ করুন",
   },
-} satisfies Translations;
+} satisfies StrictTranslations;

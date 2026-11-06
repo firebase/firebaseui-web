@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-import { type Translations } from "../types";
+import { type StrictTranslations } from "../strict-translations";
 
 export const msMY = {
   errors: {
@@ -85,6 +85,7 @@ export const msMY = {
     privacyPolicy: "Dasar Privasi",
     resendCode: "Hantar Semula Kod",
     sending: "Menghantar...",
+    dismiss: "Tutup",
     multiFactorEnrollment: "Pendaftaran Pelbagai Faktor",
     multiFactorAssertion: "Pengesahan Pelbagai Faktor",
     mfaTotpVerification: "Pengesahan TOTP",
@@ -107,4 +108,4 @@ export const msMY = {
     mfaTotpQrCodePrompt: "Imbas kod QR ini dengan aplikasi pengesah anda",
     mfaTotpEnrollmentVerificationPrompt: "Masukkan kod yang dijana oleh aplikasi pengesah anda",
   },
-} satisfies Translations;
+} satisfies StrictTranslations;

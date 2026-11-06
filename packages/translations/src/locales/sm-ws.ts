@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-import { type Translations } from "../types";
+import { type StrictTranslations } from "../strict-translations";
 
 export const smWS = {
   errors: {
@@ -86,6 +86,7 @@ export const smWS = {
     privacyPolicy: "Faiga o le Filemu",
     resendCode: "Toe Lafo le Code",
     sending: "Ua lafoina...",
+    dismiss: "Tapuni",
     multiFactorEnrollment: "Resitala o le Faamaoniga Tele",
     multiFactorAssertion: "Faamaoniga Tele",
     mfaTotpVerification: "Faamaonia TOTP",
@@ -108,4 +109,4 @@ export const smWS = {
     mfaTotpQrCodePrompt: "Scan lenei QR code ma lau polokalame faamaonia",
     mfaTotpEnrollmentVerificationPrompt: "Faaopoopo le code na faia e lau polokalame faamaonia",
   },
-} satisfies Translations;
+} satisfies StrictTranslations;

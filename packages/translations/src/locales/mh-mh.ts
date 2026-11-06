@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-import { type Translations } from "../types";
+import { type StrictTranslations } from "../strict-translations";
 
 export const mhMH = {
   errors: {
@@ -85,6 +85,7 @@ export const mhMH = {
     privacyPolicy: "Mour in privacy",
     resendCode: "Jilkin kood bar",
     sending: "Ej jilkin...",
+    dismiss: "Kola",
     multiFactorEnrollment: "Rejista in elon",
     multiFactorAssertion: "Kamour in elon",
     mfaTotpVerification: "Kamour in TOTP",
@@ -107,4 +108,4 @@ export const mhMH = {
     mfaTotpQrCodePrompt: "Scan QR kood in kin app eo am",
     mfaTotpEnrollmentVerificationPrompt: "Kobaiki kood eo app eo am ear komman",
   },
-} satisfies Translations;
+} satisfies StrictTranslations;

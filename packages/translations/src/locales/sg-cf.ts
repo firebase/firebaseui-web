@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-import { type Translations } from "../types";
+import { type StrictTranslations } from "../strict-translations";
 
 export const sgCF = {
   errors: {
@@ -86,6 +86,7 @@ export const sgCF = {
     privacyPolicy: "Politique ti confidentialité",
     resendCode: "Tokoni kode lani",
     sending: "A yeke tokoni...",
+    dismiss: "Kanga",
     multiFactorEnrollment: "Inscription ti authentification multifacteur",
     multiFactorAssertion: "Authentification multifacteur",
     mfaTotpVerification: "Verification TOTP",
@@ -108,4 +109,4 @@ export const sgCF = {
     mfaTotpQrCodePrompt: "Scanner QR code so na application ti authentification ti mo",
     mfaTotpEnrollmentVerificationPrompt: "Fa kode so application ti authentification ti mo a sara",
   },
-} satisfies Translations;
+} satisfies StrictTranslations;

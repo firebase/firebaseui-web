@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-import { type Translations } from "../types";
+import { type StrictTranslations } from "../strict-translations";
 
 export const dzBT = {
   errors: {
@@ -87,6 +87,7 @@ export const dzBT = {
     privacyPolicy: "གསང་བའི་སྲིད་ཇུས།",
     resendCode: "ཚབ་ཨང་ བསྐྱར་བསྐུར།",
     sending: "བསྐུར་བཞིན་ཡོད...",
+    dismiss: "ཁ་བསྡམ།",
     multiFactorEnrollment: "ཁ་སྣོན་ཚད་མ་ཐོ་འགོད།",
     multiFactorAssertion: "ཁ་སྣོན་ཚད་མ་བདེན་གཏན།",
     mfaTotpVerification: "TOTP བདེན་གཏན།",
@@ -109,4 +110,4 @@ export const dzBT = {
     mfaTotpQrCodePrompt: "ཁྱེད་ཀྱི་ བདེན་གཏན་བྱེད་མཁན་ གློག་རིམ་གྱིས་ འདི་ QR ཚབ་ཨང་ སྐན་རོགས།",
     mfaTotpEnrollmentVerificationPrompt: "ཁྱེད་ཀྱི་ བདེན་གཏན་བྱེད་མཁན་ གློག་རིམ་གིས་ བཟོས་པའི་ཚབ་ཨང་ ཁ་སྣོན་རོགས།",
   },
-} satisfies Translations;
+} satisfies StrictTranslations;

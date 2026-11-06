@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-import { type Translations } from "../types";
+import { type StrictTranslations } from "../strict-translations";
 
 export const ffGN = {
   errors: {
@@ -85,6 +85,7 @@ export const ffGN = {
     privacyPolicy: "Ɗaɓɓaaji sirrugo",
     resendCode: "Ɓinndu koodu tawu",
     sending: "Ɓinndaaɗi...",
+    dismiss: "Uddu",
     multiFactorEnrollment: "Ɗaɓɓi tabitinaago ko ɓeydi",
     multiFactorAssertion: "Tabitinaago ko ɓeydi",
     mfaTotpVerification: "Tabitinaago TOTP",
@@ -107,4 +108,4 @@ export const ffGN = {
     mfaTotpQrCodePrompt: "Skane koodu QR ngo nder application maaɗa ngam tabitinaago",
     mfaTotpEnrollmentVerificationPrompt: "Hokku koodu ngo application maaɗa tabitinaago wali",
   },
-} satisfies Translations;
+} satisfies StrictTranslations;

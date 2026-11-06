@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-import { type Translations } from "../types";
+import { type StrictTranslations } from "../strict-translations";
 
 export const ssSZ = {
   errors: {
@@ -87,6 +87,7 @@ export const ssSZ = {
     privacyPolicy: "Inqubomgomo Yekuphepha",
     resendCode: "Phinda Uthumele Likhodi",
     sending: "Iyathumela...",
+    dismiss: "Vala",
     multiFactorEnrollment: "Kubhalisa Kwemagatsi Lamaningi",
     multiFactorAssertion: "Kufakazela Ngemagatsi Lamaningi",
     mfaTotpVerification: "Kuqinisekiswa kwe-TOTP",
@@ -109,4 +110,4 @@ export const ssSZ = {
     mfaTotpQrCodePrompt: "Skena le-QR code nge-app yakho yekufakaza",
     mfaTotpEnrollmentVerificationPrompt: "Engeza likhodi lelikhiqwe yi-app yakho yekufakaza",
   },
-} satisfies Translations;
+} satisfies StrictTranslations;

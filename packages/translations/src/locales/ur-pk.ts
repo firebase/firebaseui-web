@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-import { type Translations } from "../types";
+import { type StrictTranslations } from "../strict-translations";
 
 export const urPK = {
   errors: {
@@ -86,6 +86,7 @@ export const urPK = {
     privacyPolicy: "رازداری کی پالیسی",
     resendCode: "کوڈ دوبارہ بھیجیں",
     sending: "بھیجا جا رہا ہے...",
+    dismiss: "بند کریں",
     multiFactorEnrollment: "ملٹی فیکٹر اندراج",
     multiFactorAssertion: "ملٹی فیکٹر تصدیق",
     mfaTotpVerification: "TOTP تصدیق",
@@ -108,4 +109,4 @@ export const urPK = {
     mfaTotpQrCodePrompt: "اس QR کوڈ کو اپنی authenticator ایپ سے اسکین کریں",
     mfaTotpEnrollmentVerificationPrompt: "اپنی authenticator ایپ کا تیار کردہ کوڈ شامل کریں",
   },
-} satisfies Translations;
+} satisfies StrictTranslations;

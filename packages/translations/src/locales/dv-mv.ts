@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-import { type Translations } from "../types";
+import { type StrictTranslations } from "../strict-translations";
 
 export const dvMV = {
   errors: {
@@ -86,6 +86,7 @@ export const dvMV = {
     privacyPolicy: "ޕްރައިވަސީ ޕޮލިސީ",
     resendCode: "ކޯޑް އަލުން ފޮނުވާ",
     sending: "ފޮނުވަނީ...",
+    dismiss: "ބަންދުކުރޭ",
     multiFactorEnrollment: "މަލްޓީ ފެކްޓަރ ރަޖިސްޓްރޭޝަން",
     multiFactorAssertion: "މަލްޓީ ފެކްޓަރ އޮތެންޓިކޭޝަން",
     mfaTotpVerification: "TOTP ވެރިފިކޭޝަން",
@@ -108,4 +109,4 @@ export const dvMV = {
     mfaTotpQrCodePrompt: "މި QR ކޯޑް ތިޔަ އޮތެންޓިކޭޝަން އެޕުން ސްކޭން ކުރައްވާށެ",
     mfaTotpEnrollmentVerificationPrompt: "ތިޔަ އޮތެންޓިކޭޝަން އެޕުން ހަދާފައިވާ ކޯޑް ލިޔުއްވާށެ",
   },
-} satisfies Translations;
+} satisfies StrictTranslations;

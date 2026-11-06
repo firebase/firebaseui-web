@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-import { type Translations } from "../types";
+import { type StrictTranslations } from "../strict-translations";
 
 export const ngNA = {
   errors: {
@@ -85,6 +85,7 @@ export const ngNA = {
     privacyPolicy: "Opolitika yomapulo",
     resendCode: "Tuma natango okodi",
     sending: "Otashi tumwa...",
+    dismiss: "Vala",
     multiFactorEnrollment: "Okwiitula kwiiyimwe oyindji",
     multiFactorAssertion: "Okwiitula kwiiyimwe",
     mfaTotpVerification: "Okwiitula kwa TOTP",
@@ -107,4 +108,4 @@ export const ngNA = {
     mfaTotpQrCodePrompt: "Skana okodi ya QR ndjika napp yoye",
     mfaTotpEnrollmentVerificationPrompt: "Gwedha okodi ya totwa kapp yoye",
   },
-} satisfies Translations;
+} satisfies StrictTranslations;

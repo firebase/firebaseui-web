@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-import { type Translations } from "../types";
+import { type StrictTranslations } from "../strict-translations";
 
 export const stLS = {
   errors: {
@@ -85,6 +85,7 @@ export const stLS = {
     privacyPolicy: "Leano la Lekunutu",
     resendCode: "Romella Khoutu Hape",
     sending: "E romelloa...",
+    dismiss: "Koala",
     multiFactorEnrollment: "Ngodiso ea Netefatso ea Lintlha tse Ngata",
     multiFactorAssertion: "Netefatso ea Lintlha tse Ngata",
     mfaTotpVerification: "Netefatso ea TOTP",
@@ -107,4 +108,4 @@ export const stLS = {
     mfaTotpQrCodePrompt: "Skena QR code ena ka app ea hao ea netefatso",
     mfaTotpEnrollmentVerificationPrompt: "Eketsa khoutu e hlahisitsoeng ke app ea hao ea netefatso",
   },
-} satisfies Translations;
+} satisfies StrictTranslations;

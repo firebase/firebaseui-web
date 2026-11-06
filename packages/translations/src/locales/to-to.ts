@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-import { type Translations } from "../types";
+import { type StrictTranslations } from "../strict-translations";
 
 export const toTO = {
   errors: {
@@ -86,6 +86,7 @@ export const toTO = {
     privacyPolicy: "Tōʻonga Malu'i Fakamatala",
     resendCode: "Fa'u Fo'ou 'a e Code",
     sending: "Ko e fa'u atu...",
+    dismiss: "Tapuni",
     multiFactorEnrollment: "Fakahingoa Ngaahi Tu'unga Lahi",
     multiFactorAssertion: "Fakapapau'i Ngaahi Tu'unga Lahi",
     mfaTotpVerification: "Fakapapau'i TOTP",
@@ -108,4 +109,4 @@ export const toTO = {
     mfaTotpQrCodePrompt: "Sivi'i 'a e code QR ni 'aki ho'o polokalama authenticator",
     mfaTotpEnrollmentVerificationPrompt: "Fakahoko 'a e code kuo fakatupu 'e ho'o polokalama authenticator",
   },
-} satisfies Translations;
+} satisfies StrictTranslations;

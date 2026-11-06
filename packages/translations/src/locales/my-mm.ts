@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-import { type Translations } from "../types";
+import { type StrictTranslations } from "../strict-translations";
 
 export const myMM = {
   errors: {
@@ -86,6 +86,7 @@ export const myMM = {
     privacyPolicy: "ကိုယ်ရေးကိုယ်တာ မူဝါဒ",
     resendCode: "ကုဒ် ပြန်ပို့ရန်",
     sending: "ပို့နေသည်...",
+    dismiss: "ပိတ်ရန်",
     multiFactorEnrollment: "အချက်အများအပြား မှတ်ပုံတင်ခြင်း",
     multiFactorAssertion: "အချက်အများအပြား အထောက်အထားစိစစ်ခြင်း",
     mfaTotpVerification: "TOTP အတည်ပြုခြင်း",
@@ -108,4 +109,4 @@ export const myMM = {
     mfaTotpQrCodePrompt: "ဤ QR ကုဒ်ကို သင့် အထောက်အထားစိစစ်အက်ပ်ဖြင့် စကင်န်ဖတ်ပါ",
     mfaTotpEnrollmentVerificationPrompt: "သင့်အထောက်အထားစိစစ်အက်ပ်မှ ထုတ်ပေးသော ကုဒ်ကို ထည့်ပါ",
   },
-} satisfies Translations;
+} satisfies StrictTranslations;

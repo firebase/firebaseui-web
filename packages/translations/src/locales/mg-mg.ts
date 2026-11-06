@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-import { type Translations } from "../types";
+import { type StrictTranslations } from "../strict-translations";
 
 export const mgMG = {
   errors: {
@@ -86,6 +86,7 @@ export const mgMG = {
     privacyPolicy: "Politika momba ny tsiambaratelo",
     resendCode: "Alefaso indray ny kaody",
     sending: "Mandefa...",
+    dismiss: "Akatona",
     multiFactorEnrollment: "Fisoratana anarana maro dingana",
     multiFactorAssertion: "Fanamarinana maro dingana",
     mfaTotpVerification: "Fanamarinana TOTP",
@@ -108,4 +109,4 @@ export const mgMG = {
     mfaTotpQrCodePrompt: "Jereo ity kaody QR ity amin'ny app fanamarinana anao",
     mfaTotpEnrollmentVerificationPrompt: "Ampidiro ny kaody napetraky ny app fanamarinana anao",
   },
-} satisfies Translations;
+} satisfies StrictTranslations;

@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-import { type Translations } from "../types";
+import { type StrictTranslations } from "../strict-translations";
 
 export const neNP = {
   errors: {
@@ -85,6 +85,7 @@ export const neNP = {
     privacyPolicy: "गोपनीयता नीति",
     resendCode: "कोड फेरि पठाउनुहोस्",
     sending: "पठाउँदै...",
+    dismiss: "बन्द गर्नुहोस्",
     multiFactorEnrollment: "बहु-कारक दर्ता",
     multiFactorAssertion: "बहु-कारक प्रमाणीकरण",
     mfaTotpVerification: "TOTP प्रमाणीकरण",
@@ -107,4 +108,4 @@ export const neNP = {
     mfaTotpQrCodePrompt: "यो QR कोड आफ्नो प्रमाणीकरण एपमा स्क्यान गर्नुहोस्",
     mfaTotpEnrollmentVerificationPrompt: "आफ्नो प्रमाणीकरण एपले उत्पन्न गरेको कोड थप्नुहोस्",
   },
-} satisfies Translations;
+} satisfies StrictTranslations;

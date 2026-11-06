@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-import { type Translations } from "../types";
+import { type StrictTranslations } from "../strict-translations";
 
 export const tiER = {
   errors: {
@@ -35,7 +35,7 @@ export const tiER = {
     quotaExceeded: "ኮታ SMS ኣኺሉ። እባኻ ድሕሪኡ ደጊምካ ፈትን",
     codeExpired: "ናይ ምርግጋጽ ኮድ ግዜኡ ኣሕሊፉ",
     captchaCheckFailed: "ምርግጋጽ reCAPTCHA ኣይሰረሓን። እባኻ ደጊምካ ፈትን።",
-    missingVerificationId: "እባኻ ቅድሚ ኹሉ ምርግгаጽ reCAPTCHA ፈጽም።",
+    missingVerificationId: "እባኻ ቅድሚ ኹሉ ምርግጋጽ reCAPTCHA ፈጽም።",
     missingEmail: "እባኻ ኢመይል ኣድራሻ ኣእቱ",
     invalidActionCode: "ናይ ፓስወርድ ምዕራር ሊንክ ጌጋ እዩ ወይ ግዜኡ ኣሕሊፉ",
     credentialAlreadyInUse: "ብዚ ኢመይል ቀድሚ ሕዚ ሕሳብ ኣሎ። እባኻ ብዚ ሕሳብ ኣቲኻ እተ።",
@@ -51,7 +51,7 @@ export const tiER = {
   messages: {
     passwordResetEmailSent: "ኢመይል ምዕራር ፓስወርድ ብዓወት ተላኢኹ",
     signInLinkSent: "ሊንክ ምእታው ብዓወት ተላኢኹ",
-    verificationCodeFirst: "እባኻ ቅድሚ ኹሉ ኮድ ምርግгаጽ ሓቶ",
+    verificationCodeFirst: "እባኻ ቅድሚ ኹሉ ኮድ ምርግጋጽ ሓቶ",
     checkEmailForReset: "ናይ ፓስወርድ ምዕራር ኣገዳስነት ንምርካብ ኢመይልካ ርአ",
     dividerOr: "ወይ",
     termsAndPrivacy: "ምቕጻል ብምባል፡ ብ{tos} ከምኡ'ውን ብ{privacy} ተሰማማዕ።",
@@ -85,6 +85,7 @@ export const tiER = {
     privacyPolicy: "ፖሊሲ ምዕቃብ ሓበሬታ",
     resendCode: "ኮድ ደጊምካ ስደድ",
     sending: "ይልእኽ ኣሎ...",
+    dismiss: "ኣወግድ",
     multiFactorEnrollment: "ብዙሕ-ኣገባብ ምምዝጋብ",
     multiFactorAssertion: "ብዙሕ-ኣገባብ ምርግጋጽ",
     mfaTotpVerification: "ምርግጋጽ TOTP",
@@ -102,8 +103,9 @@ export const tiER = {
     enterVerificationCode: "ኮድ ምርግጋጽ ኣእቱ",
     enterEmailForLink: "ሊንክ ምእታው ንምርካብ ኢመይልካ ኣእቱ",
     mfaEnrollmentPrompt: "ሓድሽ ናይ ምምዝጋብ ኣገባብ ብዙሕ-ኣገባብ ምረጽ",
+    mfaAssertionPrompt: "እባኻ ሂደት ብዙሕ-ኣገባብ ምርግጋጽ ወድእ",
     mfaAssertionFactorPrompt: "እባኻ ኣገባብ ብዙሕ-ኣገባብ ምርግጋጽ ምረጽ",
     mfaTotpQrCodePrompt: "እዚ QR ኮድ ብ መተግበሪ ኣረጋጋጺኻ ስካን ግበር",
     mfaTotpEnrollmentVerificationPrompt: "ብ መተግበሪ ኣረጋጋጺኻ ዝተፈጠረ ኮድ ወስኽ",
   },
-} satisfies Translations;
+} satisfies StrictTranslations;

@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-import { type Translations } from "../types";
+import { type StrictTranslations } from "../strict-translations";
 
 export const kmKH = {
   errors: {
@@ -85,6 +85,7 @@ export const kmKH = {
     privacyPolicy: "គោលនយោបាយឯកជនភាព",
     resendCode: "ផ្ញើលេខកូដម្តងទៀត",
     sending: "កំពុងផ្ញើ...",
+    dismiss: "បិទ",
     multiFactorEnrollment: "ការចុះឈ្មោះផ្ទៀងផ្ទាត់ពហុកត្តា",
     multiFactorAssertion: "ការផ្ទៀងផ្ទាត់ពហុកត្តា",
     mfaTotpVerification: "ការផ្ទៀងផ្ទាត់ TOTP",
@@ -107,4 +108,4 @@ export const kmKH = {
     mfaTotpQrCodePrompt: "ស្កេនលេខកូដ QR នេះជាមួយកម្មវិធីផ្ទៀងផ្ទាត់របស់អ្នក",
     mfaTotpEnrollmentVerificationPrompt: "បញ្ចូលលេខកូដដែលកម្មវិធីផ្ទៀងផ្ទាត់របស់អ្នកបានបង្កើត",
   },
-} satisfies Translations;
+} satisfies StrictTranslations;

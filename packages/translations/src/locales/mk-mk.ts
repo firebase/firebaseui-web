@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-import { type Translations } from "../types";
+import { type StrictTranslations } from "../strict-translations";
 
 export const mkMK = {
   errors: {
@@ -86,6 +86,7 @@ export const mkMK = {
     privacyPolicy: "Политика за приватност",
     resendCode: "Повторно испрати код",
     sending: "Се испраќа...",
+    dismiss: "Затвори",
     multiFactorEnrollment: "Регистрација за повеќефакторна автентикација",
     multiFactorAssertion: "Повеќефакторна автентикација",
     mfaTotpVerification: "TOTP верификација",
@@ -108,4 +109,4 @@ export const mkMK = {
     mfaTotpQrCodePrompt: "Скенирајте го овој QR код со вашата апликација за автентикација",
     mfaTotpEnrollmentVerificationPrompt: "Внесете го кодот генериран од вашата апликација за автентикација",
   },
-} satisfies Translations;
+} satisfies StrictTranslations;

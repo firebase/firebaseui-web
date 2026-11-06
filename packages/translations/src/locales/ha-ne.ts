@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-import { type Translations } from "../types";
+import { type StrictTranslations } from "../strict-translations";
 
 export const haNE = {
   errors: {
@@ -86,6 +86,7 @@ export const haNE = {
     privacyPolicy: "Manufar Sirri",
     resendCode: "Sake Aika Lamba",
     sending: "Ana aikawa...",
+    dismiss: "Rufe",
     multiFactorEnrollment: "Rajistar Tabbatarwa Fiye da Ɗaya",
     multiFactorAssertion: "Tabbatarwa Fiye da Ɗaya",
     mfaTotpVerification: "Tabbatar da TOTP",
@@ -108,4 +109,4 @@ export const haNE = {
     mfaTotpQrCodePrompt: "Duba wannan lambar QR da manhajar tabbatarwa",
     mfaTotpEnrollmentVerificationPrompt: "Ƙara lambar da manhajar tabbatarwa ɗinka ta samar",
   },
-} satisfies Translations;
+} satisfies StrictTranslations;

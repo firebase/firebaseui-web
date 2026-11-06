@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-import { type Translations } from "../types";
+import { type StrictTranslations } from "../strict-translations";
 
 export const biVU = {
   errors: {
@@ -86,6 +86,7 @@ export const biVU = {
     privacyPolicy: "Polisi blong Praivesi",
     resendCode: "Sendem Kod Bakegen",
     sending: "I stap sendem...",
+    dismiss: "Klosem",
     multiFactorEnrollment: "Multi-factor Rejistresen",
     multiFactorAssertion: "Multi-factor Authentication",
     mfaTotpVerification: "TOTP Verification",
@@ -108,4 +109,4 @@ export const biVU = {
     mfaTotpQrCodePrompt: "Skanem dis QR kod wetem authenticator aplikesen blong yu",
     mfaTotpEnrollmentVerificationPrompt: "Putum kod we authenticator aplikesen blong yu i mekem",
   },
-} satisfies Translations;
+} satisfies StrictTranslations;

@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-import { type Translations } from "../types";
+import { type StrictTranslations } from "../strict-translations";
 
 /** Czech CZ (cs-CZ) translation set. */
 export const csCZ = {
@@ -79,6 +79,7 @@ export const csCZ = {
     signInWithApple: "Přihlásit se pomocí Apple",
     signInWithMicrosoft: "Přihlásit se pomocí Microsoft",
     signInWithGitHub: "Přihlásit se pomocí GitHub",
+    signInWithYahoo: "Přihlásit se pomocí Yahoo",
     signInWithTwitter: "Přihlásit se pomocí X",
     signInWithEmailLink: "Přihlásit se pomocí e-mailového odkazu",
     sendSignInLink: "Odeslat přihlašovací odkaz",
@@ -86,6 +87,7 @@ export const csCZ = {
     privacyPolicy: "Zásady ochrany osobních údajů",
     resendCode: "Znovu odeslat kód",
     sending: "Odesílání...",
+    dismiss: "Zavřít",
     multiFactorEnrollment: "Registrace vícefaktorového ověření",
     multiFactorAssertion: "Vícefaktorové ověření",
     mfaTotpVerification: "Ověření TOTP",
@@ -108,4 +110,4 @@ export const csCZ = {
     mfaTotpQrCodePrompt: "Naskenujte tento QR kód pomocí své autentizační aplikace",
     mfaTotpEnrollmentVerificationPrompt: "Zadejte kód vygenerovaný vaší autentizační aplikací",
   },
-} satisfies Translations;
+} satisfies StrictTranslations;
