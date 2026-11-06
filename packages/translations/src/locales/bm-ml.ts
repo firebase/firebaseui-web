@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-import { type StrictTranslations } from "../strict-translations";
+import { type CompleteTranslationsWithoutLegacy } from "../types";
 
 export const bmML = {
   errors: {
@@ -108,4 +108,4 @@ export const bmML = {
     mfaTotpQrCodePrompt: "I ka QR koodu in skan ni i ka authenticator aplikasiyɔn ye",
     mfaTotpEnrollmentVerificationPrompt: "I ka koodu in don minnu bɛ kɛ i ka authenticator aplikasiyɔn na",
   },
-} satisfies StrictTranslations;
+} satisfies CompleteTranslationsWithoutLegacy;

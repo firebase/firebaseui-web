@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-import { type StrictTranslations } from "../strict-translations";
+import { type CompleteTranslationsWithoutLegacy } from "../types";
 
 export const bnBD = {
   errors: {
@@ -110,4 +110,4 @@ export const bnBD = {
     mfaTotpQrCodePrompt: "আপনার অথেনটিকেটর অ্যাপ দিয়ে এই QR কোডটি স্ক্যান করুন",
     mfaTotpEnrollmentVerificationPrompt: "আপনার অথেনটিকেটর অ্যাপে তৈরি হওয়া কোডটি যোগ করুন",
   },
-} satisfies StrictTranslations;
+} satisfies CompleteTranslationsWithoutLegacy;

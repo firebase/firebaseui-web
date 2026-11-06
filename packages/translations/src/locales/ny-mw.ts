@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-import { type StrictTranslations } from "../strict-translations";
+import { type CompleteTranslationsWithoutLegacy } from "../types";
 
 export const nyMW = {
   errors: {
@@ -108,4 +108,4 @@ export const nyMW = {
     mfaTotpQrCodePrompt: "Jambulani khodi ya QR iyi ndi pulogalamu yanu yotsimikizira",
     mfaTotpEnrollmentVerificationPrompt: "Onjezani khodi yopangidwa ndi pulogalamu yanu yotsimikizira",
   },
-} satisfies StrictTranslations;
+} satisfies CompleteTranslationsWithoutLegacy;

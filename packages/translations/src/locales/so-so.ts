@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-import { type StrictTranslations } from "../strict-translations";
+import { type CompleteTranslationsWithoutLegacy } from "../types";
 
 export const soSO = {
   errors: {
@@ -109,4 +109,4 @@ export const soSO = {
     mfaTotpQrCodePrompt: "Ku scan-garee QR code-kan app-ka xaqiijiyaha",
     mfaTotpEnrollmentVerificationPrompt: "Ku dar koodhka ay soo saartay app-ka xaqiijiyahaaga",
   },
-} satisfies StrictTranslations;
+} satisfies CompleteTranslationsWithoutLegacy;

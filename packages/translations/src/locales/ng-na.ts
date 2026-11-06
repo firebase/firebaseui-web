@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-import { type StrictTranslations } from "../strict-translations";
+import { type CompleteTranslationsWithoutLegacy } from "../types";
 
 export const ngNA = {
   errors: {
@@ -108,4 +108,4 @@ export const ngNA = {
     mfaTotpQrCodePrompt: "Skana okodi ya QR ndjika napp yoye",
     mfaTotpEnrollmentVerificationPrompt: "Gwedha okodi ya totwa kapp yoye",
   },
-} satisfies StrictTranslations;
+} satisfies CompleteTranslationsWithoutLegacy;

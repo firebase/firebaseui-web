@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-import { type Translations } from "../types";
+import { type CompleteTranslationsWithoutLegacy } from "../types";
 
 /** Vietnamese VN (vi-VN) translation set. */
 export const viVN = {
@@ -87,6 +87,7 @@ export const viVN = {
     privacyPolicy: "Chính sách quyền riêng tư",
     resendCode: "Gửi lại mã",
     sending: "Đang gửi...",
+    dismiss: "Đóng",
     multiFactorEnrollment: "Đăng ký đa yếu tố",
     multiFactorAssertion: "Xác thực đa yếu tố",
     mfaTotpVerification: "Xác minh TOTP",
@@ -109,4 +110,4 @@ export const viVN = {
     mfaTotpQrCodePrompt: "Quét mã QR này bằng ứng dụng xác thực của bạn",
     mfaTotpEnrollmentVerificationPrompt: "Thêm mã được tạo bởi ứng dụng xác thực của bạn",
   },
-} satisfies Translations;
+} satisfies CompleteTranslationsWithoutLegacy;

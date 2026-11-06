@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-import { type StrictTranslations } from "../strict-translations";
+import { type CompleteTranslationsWithoutLegacy } from "../types";
 
 export const sqAL = {
   errors: {
@@ -110,4 +110,4 @@ export const sqAL = {
     mfaTotpQrCodePrompt: "Skanoni këtë kod QR me aplikacionin tuaj autentikues",
     mfaTotpEnrollmentVerificationPrompt: "Shtoni kodin e gjeneruar nga aplikacioni juaj autentikues",
   },
-} satisfies StrictTranslations;
+} satisfies CompleteTranslationsWithoutLegacy;

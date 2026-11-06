@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-import { type StrictTranslations } from "../strict-translations";
+import { type CompleteTranslationsWithoutLegacy } from "../types";
 
 export const dzBT = {
   errors: {
@@ -110,4 +110,4 @@ export const dzBT = {
     mfaTotpQrCodePrompt: "ཁྱེད་ཀྱི་ བདེན་གཏན་བྱེད་མཁན་ གློག་རིམ་གྱིས་ འདི་ QR ཚབ་ཨང་ སྐན་རོགས།",
     mfaTotpEnrollmentVerificationPrompt: "ཁྱེད་ཀྱི་ བདེན་གཏན་བྱེད་མཁན་ གློག་རིམ་གིས་ བཟོས་པའི་ཚབ་ཨང་ ཁ་སྣོན་རོགས།",
   },
-} satisfies StrictTranslations;
+} satisfies CompleteTranslationsWithoutLegacy;

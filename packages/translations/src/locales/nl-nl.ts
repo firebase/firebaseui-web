@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-import { type Translations } from "../types";
+import { type CompleteTranslationsWithoutLegacy } from "../types";
 
 /** Dutch NL (nl-NL) translation set. */
 export const nlNL = {
@@ -88,6 +88,7 @@ export const nlNL = {
     privacyPolicy: "Privacybeleid",
     resendCode: "Code opnieuw verzenden",
     sending: "Verzenden...",
+    dismiss: "Sluiten",
     multiFactorEnrollment: "Meerfactorinschrijving",
     multiFactorAssertion: "Meerfactorauthenticatie",
     mfaTotpVerification: "TOTP-verificatie",
@@ -110,4 +111,4 @@ export const nlNL = {
     mfaTotpQrCodePrompt: "Scan deze QR-code met uw authenticator-app",
     mfaTotpEnrollmentVerificationPrompt: "Voeg de code toe die door uw authenticator-app is gegenereerd",
   },
-} satisfies Translations;
+} satisfies CompleteTranslationsWithoutLegacy;

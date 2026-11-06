@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-import { type StrictTranslations } from "../strict-translations";
+import { type CompleteTranslationsWithoutLegacy } from "../types";
 
 export const dvMV = {
   errors: {
@@ -109,4 +109,4 @@ export const dvMV = {
     mfaTotpQrCodePrompt: "މި QR ކޯޑް ތިޔަ އޮތެންޓިކޭޝަން އެޕުން ސްކޭން ކުރައްވާށެ",
     mfaTotpEnrollmentVerificationPrompt: "ތިޔަ އޮތެންޓިކޭޝަން އެޕުން ހަދާފައިވާ ކޯޑް ލިޔުއްވާށެ",
   },
-} satisfies StrictTranslations;
+} satisfies CompleteTranslationsWithoutLegacy;

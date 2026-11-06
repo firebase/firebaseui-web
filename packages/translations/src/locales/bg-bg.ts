@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-import { type Translations } from "../types";
+import { type CompleteTranslationsWithoutLegacy } from "../types";
 
 /** Bulgarian BG (bg-BG) translation set. */
 export const bgBG = {
@@ -87,6 +87,7 @@ export const bgBG = {
     privacyPolicy: "Политика за поверителност",
     resendCode: "Повторно изпращане на код",
     sending: "Изпращане...",
+    dismiss: "Затвори",
     multiFactorEnrollment: "Регистрация за многофакторна автентикация",
     multiFactorAssertion: "Многофакторна автентикация",
     mfaTotpVerification: "TOTP потвърждение",
@@ -109,4 +110,4 @@ export const bgBG = {
     mfaTotpQrCodePrompt: "Сканирайте този QR код с приложението си за удостоверяване",
     mfaTotpEnrollmentVerificationPrompt: "Добавете кода, генериран от приложението ви за удостоверяване",
   },
-} satisfies Translations;
+} satisfies CompleteTranslationsWithoutLegacy;

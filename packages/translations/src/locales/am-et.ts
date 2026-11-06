@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-import { type StrictTranslations } from "../strict-translations";
+import { type CompleteTranslationsWithoutLegacy } from "../types";
 
 export const amET = {
   errors: {
@@ -108,4 +108,4 @@ export const amET = {
     mfaTotpQrCodePrompt: "ይህን QR ኮድ በማረጋገጫ መተግበሪያዎ ይቃኙ",
     mfaTotpEnrollmentVerificationPrompt: "በማረጋገጫ መተግበሪያዎ የተፈጠረውን ኮድ ያስገቡ",
   },
-} satisfies StrictTranslations;
+} satisfies CompleteTranslationsWithoutLegacy;

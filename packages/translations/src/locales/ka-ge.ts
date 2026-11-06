@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-import { type StrictTranslations } from "../strict-translations";
+import { type CompleteTranslationsWithoutLegacy } from "../types";
 
 export const kaGE = {
   errors: {
@@ -108,4 +108,4 @@ export const kaGE = {
     mfaTotpQrCodePrompt: "დაასკანერეთ ეს QR კოდი თქვენი ავთენტიფიკატორის აპლიკაციით",
     mfaTotpEnrollmentVerificationPrompt: "დაამატეთ კოდი, რომელსაც თქვენი ავთენტიფიკატორის აპლიკაცია გენერირებს",
   },
-} satisfies StrictTranslations;
+} satisfies CompleteTranslationsWithoutLegacy;

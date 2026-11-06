@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-import { type StrictTranslations } from "../strict-translations";
+import { type CompleteTranslationsWithoutLegacy } from "../types";
 
 export const msMY = {
   errors: {
@@ -108,4 +108,4 @@ export const msMY = {
     mfaTotpQrCodePrompt: "Imbas kod QR ini dengan aplikasi pengesah anda",
     mfaTotpEnrollmentVerificationPrompt: "Masukkan kod yang dijana oleh aplikasi pengesah anda",
   },
-} satisfies StrictTranslations;
+} satisfies CompleteTranslationsWithoutLegacy;

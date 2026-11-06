@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-import { type StrictTranslations } from "../strict-translations";
+import { type CompleteTranslationsWithoutLegacy } from "../types";
 
 export const toTO = {
   errors: {
@@ -109,4 +109,4 @@ export const toTO = {
     mfaTotpQrCodePrompt: "Sivi'i 'a e code QR ni 'aki ho'o polokalama authenticator",
     mfaTotpEnrollmentVerificationPrompt: "Fakahoko 'a e code kuo fakatupu 'e ho'o polokalama authenticator",
   },
-} satisfies StrictTranslations;
+} satisfies CompleteTranslationsWithoutLegacy;

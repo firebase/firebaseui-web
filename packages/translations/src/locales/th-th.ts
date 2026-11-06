@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-import { type Translations } from "../types";
+import { type CompleteTranslationsWithoutLegacy } from "../types";
 
 /** Thai TH (th-TH) translation set. */
 export const thTH = {
@@ -86,6 +86,7 @@ export const thTH = {
     privacyPolicy: "นโยบายความเป็นส่วนตัว",
     resendCode: "ส่งรหัสอีกครั้ง",
     sending: "กำลังส่ง...",
+    dismiss: "ปิด",
     multiFactorEnrollment: "การลงทะเบียนหลายปัจจัย",
     multiFactorAssertion: "การตรวจสอบสิทธิ์หลายปัจจัย",
     mfaTotpVerification: "การยืนยัน TOTP",
@@ -108,4 +109,4 @@ export const thTH = {
     mfaTotpQrCodePrompt: "สแกนรหัส QR นี้ด้วยแอปตรวจสอบสิทธิ์ของคุณ",
     mfaTotpEnrollmentVerificationPrompt: "เพิ่มรหัสที่สร้างโดยแอปตรวจสอบสิทธิ์ของคุณ",
   },
-} satisfies Translations;
+} satisfies CompleteTranslationsWithoutLegacy;

@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-import { type Translations } from "../types";
+import { type CompleteTranslationsWithoutLegacy } from "../types";
 
 /** Swedish SE (sv-SE) translation set. */
 export const svSE = {
@@ -87,6 +87,7 @@ export const svSE = {
     privacyPolicy: "Integritetspolicy",
     resendCode: "Skicka kod igen",
     sending: "Skickar...",
+    dismiss: "Stäng",
     multiFactorEnrollment: "Multifaktorregistrering",
     multiFactorAssertion: "Multifaktorautentisering",
     mfaTotpVerification: "TOTP-verifiering",
@@ -109,4 +110,4 @@ export const svSE = {
     mfaTotpQrCodePrompt: "Skanna den här QR-koden med din autentiseringsapp",
     mfaTotpEnrollmentVerificationPrompt: "Lägg till koden som genereras av din autentiseringsapp",
   },
-} satisfies Translations;
+} satisfies CompleteTranslationsWithoutLegacy;

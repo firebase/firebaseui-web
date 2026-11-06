@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-import { type StrictTranslations } from "../strict-translations";
+import { type CompleteTranslationsWithoutLegacy } from "../types";
 
 export const uzUZ = {
   errors: {
@@ -110,4 +110,4 @@ export const uzUZ = {
     mfaTotpQrCodePrompt: "Ushbu QR kodni autentifikator ilovangiz bilan skanerlang",
     mfaTotpEnrollmentVerificationPrompt: "Autentifikator ilovangiz yaratgan kodni kiriting",
   },
-} satisfies StrictTranslations;
+} satisfies CompleteTranslationsWithoutLegacy;

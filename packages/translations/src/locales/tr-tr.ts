@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-import { type Translations } from "../types";
+import { type CompleteTranslationsWithoutLegacy } from "../types";
 
 /** Turkish TR (tr-TR) translation set. */
 export const trTR = {
@@ -88,6 +88,7 @@ export const trTR = {
     privacyPolicy: "Gizlilik Politikası",
     resendCode: "Kodu Yeniden Gönder",
     sending: "Gönderiliyor...",
+    dismiss: "Kapat",
     multiFactorEnrollment: "Çok Faktörlü Kayıt",
     multiFactorAssertion: "Çok Faktörlü Kimlik Doğrulama",
     mfaTotpVerification: "TOTP Doğrulama",
@@ -110,4 +111,4 @@ export const trTR = {
     mfaTotpQrCodePrompt: "Bu QR kodunu kimlik doğrulama uygulamanızla tarayın",
     mfaTotpEnrollmentVerificationPrompt: "Kimlik doğrulama uygulamanız tarafından oluşturulan kodu ekleyin",
   },
-} satisfies Translations;
+} satisfies CompleteTranslationsWithoutLegacy;

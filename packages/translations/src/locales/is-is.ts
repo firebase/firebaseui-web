@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-import { type StrictTranslations } from "../strict-translations";
+import { type CompleteTranslationsWithoutLegacy } from "../types";
 
 export const isIS = {
   errors: {
@@ -110,4 +110,4 @@ export const isIS = {
     mfaTotpQrCodePrompt: "Skannaðu þennan QR kóða með auðkenningarforritinu þínu",
     mfaTotpEnrollmentVerificationPrompt: "Bættu við kóðanum sem auðkenningarforritið þitt býr til",
   },
-} satisfies StrictTranslations;
+} satisfies CompleteTranslationsWithoutLegacy;

@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-import { type StrictTranslations } from "../strict-translations";
+import { type CompleteTranslationsWithoutLegacy } from "../types";
 
 /** Latvian LV (lv-LV) translation set. */
 export const lvLV = {
@@ -110,4 +110,4 @@ export const lvLV = {
     mfaTotpQrCodePrompt: "Skenējiet šo QR kodu ar savu autentifikatora lietotni",
     mfaTotpEnrollmentVerificationPrompt: "Pievienojiet kodu, ko ģenerē jūsu autentifikatora lietotne",
   },
-} satisfies StrictTranslations;
+} satisfies CompleteTranslationsWithoutLegacy;

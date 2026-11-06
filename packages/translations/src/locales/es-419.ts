@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-import { type Translations } from "../types";
+import { type CompleteTranslationsWithoutLegacy } from "../types";
 
 /** Spanish Latin America (es-419) translation set. */
 export const es419 = {
@@ -89,6 +89,7 @@ export const es419 = {
     privacyPolicy: "Política de privacidad",
     resendCode: "Reenviar código",
     sending: "Enviando...",
+    dismiss: "Cerrar",
     multiFactorEnrollment: "Inscripción multifactor",
     multiFactorAssertion: "Autenticación multifactor",
     mfaTotpVerification: "Verificación TOTP",
@@ -111,4 +112,4 @@ export const es419 = {
     mfaTotpQrCodePrompt: "Escanea este código QR con tu aplicación de autenticación",
     mfaTotpEnrollmentVerificationPrompt: "Agrega el código generado por tu aplicación de autenticación",
   },
-} satisfies Translations;
+} satisfies CompleteTranslationsWithoutLegacy;

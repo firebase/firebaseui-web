@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-import { type StrictTranslations } from "../strict-translations";
+import { type CompleteTranslationsWithoutLegacy } from "../types";
 
 export const loLA = {
   errors: {
@@ -108,4 +108,4 @@ export const loLA = {
     mfaTotpQrCodePrompt: "ສະແກນລະຫັດ QR ນີ້ດ້ວຍແອັບຢືນຢັນຂອງທ່ານ",
     mfaTotpEnrollmentVerificationPrompt: "ເພີ່ມລະຫັດທີ່ແອັບຢືນຢັນຂອງທ່ານສ້າງຂຶ້ນ",
   },
-} satisfies StrictTranslations;
+} satisfies CompleteTranslationsWithoutLegacy;

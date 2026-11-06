@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-import { type Translations } from "../types";
+import { type CompleteTranslationsWithoutLegacy } from "../types";
 
 /** Greek GR (el-GR) translation set. */
 export const elGR = {
@@ -87,6 +87,7 @@ export const elGR = {
     privacyPolicy: "Πολιτική Απορρήτου",
     resendCode: "Επαναποστολή κωδικού",
     sending: "Αποστολή...",
+    dismiss: "Κλείσιμο",
     multiFactorEnrollment: "Εγγραφή πολλαπλών παραγόντων",
     multiFactorAssertion: "Έλεγχος ταυτότητας πολλαπλών παραγόντων",
     mfaTotpVerification: "Επαλήθευση TOTP",
@@ -109,4 +110,4 @@ export const elGR = {
     mfaTotpQrCodePrompt: "Σαρώστε αυτόν τον κωδικό QR με την εφαρμογή ελέγχου ταυτότητας",
     mfaTotpEnrollmentVerificationPrompt: "Προσθέστε τον κωδικό που δημιουργήθηκε από την εφαρμογή ελέγχου ταυτότητας",
   },
-} satisfies Translations;
+} satisfies CompleteTranslationsWithoutLegacy;

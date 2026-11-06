@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-import { type StrictTranslations } from "../strict-translations";
+import { type CompleteTranslationsWithoutLegacy } from "../types";
 
 export const sgCF = {
   errors: {
@@ -109,4 +109,4 @@ export const sgCF = {
     mfaTotpQrCodePrompt: "Scanner QR code so na application ti authentification ti mo",
     mfaTotpEnrollmentVerificationPrompt: "Fa kode so application ti authentification ti mo a sara",
   },
-} satisfies StrictTranslations;
+} satisfies CompleteTranslationsWithoutLegacy;

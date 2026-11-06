@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-import { type StrictTranslations } from "../strict-translations";
+import { type CompleteTranslationsWithoutLegacy } from "../types";
 
 export const swTZ = {
   errors: {
@@ -110,4 +110,4 @@ export const swTZ = {
     mfaTotpQrCodePrompt: "Skani msimbo huu wa QR kwa kutumia programu yako ya uthibitishaji",
     mfaTotpEnrollmentVerificationPrompt: "Ongeza msimbo unaozalishwa na programu yako ya uthibitishaji",
   },
-} satisfies StrictTranslations;
+} satisfies CompleteTranslationsWithoutLegacy;

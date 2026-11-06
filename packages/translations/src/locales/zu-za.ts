@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-import { type StrictTranslations } from "../strict-translations";
+import { type CompleteTranslationsWithoutLegacy } from "../types";
 
 export const zuZA = {
   errors: {
@@ -108,4 +108,4 @@ export const zuZA = {
     mfaTotpQrCodePrompt: "Skena le khodi ye-QR ngohlelo lwakho lokuqinisekisa",
     mfaTotpEnrollmentVerificationPrompt: "Faka ikhodi ekhiqizwe uhlelo lwakho lokuqinisekisa",
   },
-} satisfies StrictTranslations;
+} satisfies CompleteTranslationsWithoutLegacy;

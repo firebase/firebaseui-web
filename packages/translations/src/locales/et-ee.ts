@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-import { type StrictTranslations } from "../strict-translations";
+import { type CompleteTranslationsWithoutLegacy } from "../types";
 
 export const etEE = {
   errors: {
@@ -109,4 +109,4 @@ export const etEE = {
     mfaTotpQrCodePrompt: "Skannige see QR-kood oma autentimisrakendusega",
     mfaTotpEnrollmentVerificationPrompt: "Lisage autentimisrakenduse genereeritud kood",
   },
-} satisfies StrictTranslations;
+} satisfies CompleteTranslationsWithoutLegacy;

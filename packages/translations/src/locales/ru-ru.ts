@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-import { type Translations } from "../types";
+import { type CompleteTranslationsWithoutLegacy } from "../types";
 
 /** Russian RU (ru-RU) translation set. */
 export const ruRU = {
@@ -88,6 +88,7 @@ export const ruRU = {
     privacyPolicy: "Политика конфиденциальности",
     resendCode: "Отправить код повторно",
     sending: "Отправка...",
+    dismiss: "Закрыть",
     multiFactorEnrollment: "Регистрация многофакторной аутентификации",
     multiFactorAssertion: "Многофакторная аутентификация",
     mfaTotpVerification: "Подтверждение TOTP",
@@ -110,4 +111,4 @@ export const ruRU = {
     mfaTotpQrCodePrompt: "Отсканируйте этот QR-код приложением для аутентификации",
     mfaTotpEnrollmentVerificationPrompt: "Добавьте код, сгенерированный приложением для аутентификации",
   },
-} satisfies Translations;
+} satisfies CompleteTranslationsWithoutLegacy;

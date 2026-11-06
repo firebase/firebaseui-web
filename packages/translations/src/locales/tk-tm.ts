@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-import { type StrictTranslations } from "../strict-translations";
+import { type CompleteTranslationsWithoutLegacy } from "../types";
 
 export const tkTM = {
   errors: {
@@ -108,4 +108,4 @@ export const tkTM = {
     mfaTotpQrCodePrompt: "Bu QR kody authenticator programmaňyz bilen skanirläň",
     mfaTotpEnrollmentVerificationPrompt: "Authenticator programmaňyz tarapyndan döredilen kody goşuň",
   },
-} satisfies StrictTranslations;
+} satisfies CompleteTranslationsWithoutLegacy;

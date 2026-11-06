@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-import { type StrictTranslations } from "../strict-translations";
+import { type CompleteTranslationsWithoutLegacy } from "../types";
 
 export const hyAM = {
   errors: {
@@ -109,4 +109,4 @@ export const hyAM = {
     mfaTotpQrCodePrompt: "Սկանավորեք այս QR կոդը ձեր նույնականացման հավելվածով",
     mfaTotpEnrollmentVerificationPrompt: "Ավելացրեք ձեր նույնականացման հավելվածի ստեղծած կոդը",
   },
-} satisfies StrictTranslations;
+} satisfies CompleteTranslationsWithoutLegacy;

@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-import { type Translations } from "../types";
+import { type CompleteTranslationsWithoutLegacy } from "../types";
 
 /** Hebrew IL (he-IL) translation set. */
 export const heIL = {
@@ -86,6 +86,7 @@ export const heIL = {
     privacyPolicy: "מדיניות פרטיות",
     resendCode: "שלח קוד מחדש",
     sending: "שולח...",
+    dismiss: "סגור",
     multiFactorEnrollment: "רישום רב-גורמי",
     multiFactorAssertion: "אימות רב-גורמי",
     mfaTotpVerification: "אימות TOTP",
@@ -108,4 +109,4 @@ export const heIL = {
     mfaTotpQrCodePrompt: "סרוק קוד QR זה עם אפליקציית האימות שלך",
     mfaTotpEnrollmentVerificationPrompt: "הוסף את הקוד שנוצר על ידי אפליקציית האימות שלך",
   },
-} satisfies Translations;
+} satisfies CompleteTranslationsWithoutLegacy;

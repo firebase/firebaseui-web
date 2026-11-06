@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-import { type StrictTranslations } from "../strict-translations";
+import { type CompleteTranslationsWithoutLegacy } from "../types";
 
 export const siLK = {
   errors: {
@@ -109,4 +109,4 @@ export const siLK = {
     mfaTotpQrCodePrompt: "ඔබේ සත්‍යාපක යෙදුමෙන් මෙම QR කේතය ස්කෑන් කරන්න",
     mfaTotpEnrollmentVerificationPrompt: "ඔබේ සත්‍යාපක යෙදුම මගින් උත්පාදනය වන කේතය එක් කරන්න",
   },
-} satisfies StrictTranslations;
+} satisfies CompleteTranslationsWithoutLegacy;

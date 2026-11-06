@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-import { type Translations } from "../types";
+import { type CompleteTranslationsWithoutLegacy } from "../types";
 
 /** Japanese JP (ja-JP) translation set. */
 export const jaJP = {
@@ -87,6 +87,7 @@ export const jaJP = {
     privacyPolicy: "プライバシーポリシー",
     resendCode: "コードを再送信",
     sending: "送信中...",
+    dismiss: "閉じる",
     multiFactorEnrollment: "多要素認証の登録",
     multiFactorAssertion: "多要素認証",
     mfaTotpVerification: "TOTP 確認",
@@ -109,4 +110,4 @@ export const jaJP = {
     mfaTotpQrCodePrompt: "認証アプリでこのQRコードをスキャンしてください",
     mfaTotpEnrollmentVerificationPrompt: "認証アプリで生成されたコードを追加してください",
   },
-} satisfies Translations;
+} satisfies CompleteTranslationsWithoutLegacy;

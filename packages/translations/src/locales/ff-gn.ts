@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-import { type StrictTranslations } from "../strict-translations";
+import { type CompleteTranslationsWithoutLegacy } from "../types";
 
 export const ffGN = {
   errors: {
@@ -108,4 +108,4 @@ export const ffGN = {
     mfaTotpQrCodePrompt: "Skane koodu QR ngo nder application maaɗa ngam tabitinaago",
     mfaTotpEnrollmentVerificationPrompt: "Hokku koodu ngo application maaɗa tabitinaago wali",
   },
-} satisfies StrictTranslations;
+} satisfies CompleteTranslationsWithoutLegacy;

@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-import { type Translations } from "../types";
+import { type CompleteTranslationsWithoutLegacy } from "../types";
 
 /** Norwegian Bokmål NO (nb-NO) translation set. */
 export const nbNO = {
@@ -88,6 +88,7 @@ export const nbNO = {
     privacyPolicy: "Personvernerklæring",
     resendCode: "Send kode på nytt",
     sending: "Sender...",
+    dismiss: "Lukk",
     multiFactorEnrollment: "Flerfaktorregistrering",
     multiFactorAssertion: "Flerfaktorautentisering",
     mfaTotpVerification: "TOTP-bekreftelse",
@@ -110,4 +111,4 @@ export const nbNO = {
     mfaTotpQrCodePrompt: "Skann denne QR-koden med autentiseringsappen din",
     mfaTotpEnrollmentVerificationPrompt: "Legg til koden generert av autentiseringsappen din",
   },
-} satisfies Translations;
+} satisfies CompleteTranslationsWithoutLegacy;

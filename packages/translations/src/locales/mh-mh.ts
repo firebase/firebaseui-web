@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-import { type StrictTranslations } from "../strict-translations";
+import { type CompleteTranslationsWithoutLegacy } from "../types";
 
 export const mhMH = {
   errors: {
@@ -108,4 +108,4 @@ export const mhMH = {
     mfaTotpQrCodePrompt: "Scan QR kood in kin app eo am",
     mfaTotpEnrollmentVerificationPrompt: "Kobaiki kood eo app eo am ear komman",
   },
-} satisfies StrictTranslations;
+} satisfies CompleteTranslationsWithoutLegacy;

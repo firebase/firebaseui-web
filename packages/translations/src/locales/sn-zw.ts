@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-import { type StrictTranslations } from "../strict-translations";
+import { type CompleteTranslationsWithoutLegacy } from "../types";
 
 export const snZW = {
   errors: {
@@ -109,4 +109,4 @@ export const snZW = {
     mfaTotpQrCodePrompt: "Scanira QR code iyi neapp yako yeauthenticator",
     mfaTotpEnrollmentVerificationPrompt: "Wedzera code inogadzirwa neapp yako yeauthenticator",
   },
-} satisfies StrictTranslations;
+} satisfies CompleteTranslationsWithoutLegacy;

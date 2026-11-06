@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-import { type StrictTranslations } from "../strict-translations";
+import { type CompleteTranslationsWithoutLegacy } from "../types";
 
 export const myMM = {
   errors: {
@@ -109,4 +109,4 @@ export const myMM = {
     mfaTotpQrCodePrompt: "ဤ QR ကုဒ်ကို သင့် အထောက်အထားစိစစ်အက်ပ်ဖြင့် စကင်န်ဖတ်ပါ",
     mfaTotpEnrollmentVerificationPrompt: "သင့်အထောက်အထားစိစစ်အက်ပ်မှ ထုတ်ပေးသော ကုဒ်ကို ထည့်ပါ",
   },
-} satisfies StrictTranslations;
+} satisfies CompleteTranslationsWithoutLegacy;

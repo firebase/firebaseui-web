@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-import { type StrictTranslations } from "../strict-translations";
+import { type CompleteTranslationsWithoutLegacy } from "../types";
 
 export const tnBW = {
   errors: {
@@ -109,4 +109,4 @@ export const tnBW = {
     mfaTotpQrCodePrompt: "Ska khoutu ya QR e ka lenaneo la gago la authenticator",
     mfaTotpEnrollmentVerificationPrompt: "Tsenya khoutu e e tlhagisitsweng ke lenaneo la gago la authenticator",
   },
-} satisfies StrictTranslations;
+} satisfies CompleteTranslationsWithoutLegacy;

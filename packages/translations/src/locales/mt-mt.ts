@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-import { type StrictTranslations } from "../strict-translations";
+import { type CompleteTranslationsWithoutLegacy } from "../types";
 
 export const mtMT = {
   errors: {
@@ -110,4 +110,4 @@ export const mtMT = {
     mfaTotpQrCodePrompt: "Iskennja dan il-kodiċi QR bl-app tal-awtentikazzjoni tiegħek",
     mfaTotpEnrollmentVerificationPrompt: "Żid il-kodiċi ġġenerat mill-app tal-awtentikazzjoni tiegħek",
   },
-} satisfies StrictTranslations;
+} satisfies CompleteTranslationsWithoutLegacy;

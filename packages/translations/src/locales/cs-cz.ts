@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-import { type StrictTranslations } from "../strict-translations";
+import { type CompleteTranslationsWithoutLegacy } from "../types";
 
 /** Czech CZ (cs-CZ) translation set. */
 export const csCZ = {
@@ -110,4 +110,4 @@ export const csCZ = {
     mfaTotpQrCodePrompt: "Naskenujte tento QR kód pomocí své autentizační aplikace",
     mfaTotpEnrollmentVerificationPrompt: "Zadejte kód vygenerovaný vaší autentizační aplikací",
   },
-} satisfies StrictTranslations;
+} satisfies CompleteTranslationsWithoutLegacy;

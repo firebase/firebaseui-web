@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-import { type Translations } from "../types";
+import { type CompleteTranslationsWithoutLegacy } from "../types";
 
 /** Portuguese PT (pt-PT) translation set. */
 export const ptPT = {
@@ -88,6 +88,7 @@ export const ptPT = {
     privacyPolicy: "Política de Privacidade",
     resendCode: "Reenviar código",
     sending: "A enviar...",
+    dismiss: "Fechar",
     multiFactorEnrollment: "Inscrição multifator",
     multiFactorAssertion: "Autenticação multifator",
     mfaTotpVerification: "Verificação TOTP",
@@ -110,4 +111,4 @@ export const ptPT = {
     mfaTotpQrCodePrompt: "Digitalize este código QR com a sua aplicação de autenticação",
     mfaTotpEnrollmentVerificationPrompt: "Adicione o código gerado pela sua aplicação de autenticação",
   },
-} satisfies Translations;
+} satisfies CompleteTranslationsWithoutLegacy;

@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-import { type StrictTranslations } from "../strict-translations";
+import { type CompleteTranslationsWithoutLegacy } from "../types";
 
 export const mnMN = {
   errors: {
@@ -110,4 +110,4 @@ export const mnMN = {
     mfaTotpQrCodePrompt: "Энэ QR кодыг баталгаажуулагч аппаараа уншуулна уу",
     mfaTotpEnrollmentVerificationPrompt: "Баталгаажуулагч аппын үүсгэсэн кодыг нэмнэ үү",
   },
-} satisfies StrictTranslations;
+} satisfies CompleteTranslationsWithoutLegacy;

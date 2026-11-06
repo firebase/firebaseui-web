@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-import { type StrictTranslations } from "../strict-translations";
+import { type CompleteTranslationsWithoutLegacy } from "../types";
 
 export const urPK = {
   errors: {
@@ -109,4 +109,4 @@ export const urPK = {
     mfaTotpQrCodePrompt: "اس QR کوڈ کو اپنی authenticator ایپ سے اسکین کریں",
     mfaTotpEnrollmentVerificationPrompt: "اپنی authenticator ایپ کا تیار کردہ کوڈ شامل کریں",
   },
-} satisfies StrictTranslations;
+} satisfies CompleteTranslationsWithoutLegacy;

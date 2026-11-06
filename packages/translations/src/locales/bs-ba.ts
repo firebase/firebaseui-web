@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-import { type StrictTranslations } from "../strict-translations";
+import { type CompleteTranslationsWithoutLegacy } from "../types";
 
 export const bsBA = {
   errors: {
@@ -109,4 +109,4 @@ export const bsBA = {
     mfaTotpQrCodePrompt: "Skenirajte ovaj QR kod aplikacijom za autentifikaciju",
     mfaTotpEnrollmentVerificationPrompt: "Unesite kod koji generiše vaša aplikacija za autentifikaciju",
   },
-} satisfies StrictTranslations;
+} satisfies CompleteTranslationsWithoutLegacy;

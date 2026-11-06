@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-import { type StrictTranslations } from "../strict-translations";
+import { type CompleteTranslationsWithoutLegacy } from "../types";
 
 export const naNR = {
   errors: {
@@ -108,4 +108,4 @@ export const naNR = {
     mfaTotpQrCodePrompt: "Scan QR kod ngea ngune app om",
     mfaTotpEnrollmentVerificationPrompt: "Kairi kod ngea app om ea orre",
   },
-} satisfies StrictTranslations;
+} satisfies CompleteTranslationsWithoutLegacy;

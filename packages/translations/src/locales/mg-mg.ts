@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-import { type StrictTranslations } from "../strict-translations";
+import { type CompleteTranslationsWithoutLegacy } from "../types";
 
 export const mgMG = {
   errors: {
@@ -109,4 +109,4 @@ export const mgMG = {
     mfaTotpQrCodePrompt: "Jereo ity kaody QR ity amin'ny app fanamarinana anao",
     mfaTotpEnrollmentVerificationPrompt: "Ampidiro ny kaody napetraky ny app fanamarinana anao",
   },
-} satisfies StrictTranslations;
+} satisfies CompleteTranslationsWithoutLegacy;

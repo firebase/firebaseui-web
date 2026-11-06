@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-import { type StrictTranslations } from "../strict-translations";
+import { type CompleteTranslationsWithoutLegacy } from "../types";
 
 export const tgTJ = {
   errors: {
@@ -110,4 +110,4 @@ export const tgTJ = {
     mfaTotpEnrollmentVerificationPrompt:
       "Рамзе, ки аз ҷониби барномаи аутентификатори шумо тавлид шудааст, илова кунед",
   },
-} satisfies StrictTranslations;
+} satisfies CompleteTranslationsWithoutLegacy;

@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-import { type Translations } from "../types";
+import { type CompleteTranslationsWithoutLegacy } from "../types";
 
 /** Romanian RO (ro-RO) translation set. */
 export const roRO = {
@@ -87,6 +87,7 @@ export const roRO = {
     privacyPolicy: "Politica de confidențialitate",
     resendCode: "Retrimiteți codul",
     sending: "Se trimite...",
+    dismiss: "Închide",
     multiFactorEnrollment: "Înregistrare multifactor",
     multiFactorAssertion: "Autentificare multifactor",
     mfaTotpVerification: "Verificare TOTP",
@@ -109,4 +110,4 @@ export const roRO = {
     mfaTotpQrCodePrompt: "Scanați acest cod QR cu aplicația dvs. de autentificare",
     mfaTotpEnrollmentVerificationPrompt: "Adăugați codul generat de aplicația dvs. de autentificare",
   },
-} satisfies Translations;
+} satisfies CompleteTranslationsWithoutLegacy;

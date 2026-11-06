@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-import { type StrictTranslations } from "../strict-translations";
+import { type CompleteTranslationsWithoutLegacy } from "../types";
 
 export const haNE = {
   errors: {
@@ -109,4 +109,4 @@ export const haNE = {
     mfaTotpQrCodePrompt: "Duba wannan lambar QR da manhajar tabbatarwa",
     mfaTotpEnrollmentVerificationPrompt: "Ƙara lambar da manhajar tabbatarwa ɗinka ta samar",
   },
-} satisfies StrictTranslations;
+} satisfies CompleteTranslationsWithoutLegacy;

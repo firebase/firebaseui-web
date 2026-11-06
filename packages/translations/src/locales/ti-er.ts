@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-import { type StrictTranslations } from "../strict-translations";
+import { type CompleteTranslationsWithoutLegacy } from "../types";
 
 export const tiER = {
   errors: {
@@ -108,4 +108,4 @@ export const tiER = {
     mfaTotpQrCodePrompt: "እዚ QR ኮድ ብ መተግበሪ ኣረጋጋጺኻ ስካን ግበር",
     mfaTotpEnrollmentVerificationPrompt: "ብ መተግበሪ ኣረጋጋጺኻ ዝተፈጠረ ኮድ ወስኽ",
   },
-} satisfies StrictTranslations;
+} satisfies CompleteTranslationsWithoutLegacy;

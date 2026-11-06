@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-import { type Translations } from "../types";
+import { type CompleteTranslationsWithoutLegacy } from "../types";
 
 /** Spanish ES (es-ES) translation set. */
 export const esES = {
@@ -89,6 +89,7 @@ export const esES = {
     privacyPolicy: "Política de privacidad",
     resendCode: "Reenviar código",
     sending: "Enviando...",
+    dismiss: "Cerrar",
     multiFactorEnrollment: "Inscripción multifactor",
     multiFactorAssertion: "Autenticación multifactor",
     mfaTotpVerification: "Verificación TOTP",
@@ -111,4 +112,4 @@ export const esES = {
     mfaTotpQrCodePrompt: "Escanea este código QR con tu aplicación de autenticación",
     mfaTotpEnrollmentVerificationPrompt: "Añade el código generado por tu aplicación de autenticación",
   },
-} satisfies Translations;
+} satisfies CompleteTranslationsWithoutLegacy;

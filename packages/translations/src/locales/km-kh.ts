@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-import { type StrictTranslations } from "../strict-translations";
+import { type CompleteTranslationsWithoutLegacy } from "../types";
 
 export const kmKH = {
   errors: {
@@ -108,4 +108,4 @@ export const kmKH = {
     mfaTotpQrCodePrompt: "ស្កេនលេខកូដ QR នេះជាមួយកម្មវិធីផ្ទៀងផ្ទាត់របស់អ្នក",
     mfaTotpEnrollmentVerificationPrompt: "បញ្ចូលលេខកូដដែលកម្មវិធីផ្ទៀងផ្ទាត់របស់អ្នកបានបង្កើត",
   },
-} satisfies StrictTranslations;
+} satisfies CompleteTranslationsWithoutLegacy;

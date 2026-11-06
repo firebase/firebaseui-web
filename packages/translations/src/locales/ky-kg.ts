@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-import { type StrictTranslations } from "../strict-translations";
+import { type CompleteTranslationsWithoutLegacy } from "../types";
 
 export const kyKG = {
   errors: {
@@ -109,4 +109,4 @@ export const kyKG = {
     mfaTotpQrCodePrompt: "Бул QR кодун аутентификатор колдонмоңуз менен сканерлеңиз",
     mfaTotpEnrollmentVerificationPrompt: "Аутентификатор колдонмоңуз жараткан кодту кошуңуз",
   },
-} satisfies StrictTranslations;
+} satisfies CompleteTranslationsWithoutLegacy;

@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-import { type StrictTranslations } from "../strict-translations";
+import { type CompleteTranslationsWithoutLegacy } from "../types";
 
 export const biVU = {
   errors: {
@@ -109,4 +109,4 @@ export const biVU = {
     mfaTotpQrCodePrompt: "Skanem dis QR kod wetem authenticator aplikesen blong yu",
     mfaTotpEnrollmentVerificationPrompt: "Putum kod we authenticator aplikesen blong yu i mekem",
   },
-} satisfies StrictTranslations;
+} satisfies CompleteTranslationsWithoutLegacy;

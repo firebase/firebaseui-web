@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-import { type StrictTranslations } from "../strict-translations";
+import { type CompleteTranslationsWithoutLegacy } from "../types";
 
 export const rnBI = {
   errors: {
@@ -109,4 +109,4 @@ export const rnBI = {
     mfaTotpQrCodePrompt: "Sikanira iyi kode ya QR ukoresheje porogaramu yawe yo kwemeza",
     mfaTotpEnrollmentVerificationPrompt: "Ongeramwo kode porogaramu yawe yo kwemeza yakozeko",
   },
-} satisfies StrictTranslations;
+} satisfies CompleteTranslationsWithoutLegacy;

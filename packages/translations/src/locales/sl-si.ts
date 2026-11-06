@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-import { type Translations } from "../types";
+import { type CompleteTranslationsWithoutLegacy } from "../types";
 
 /** Slovenian SI (sl-SI) translation set. */
 export const slSI = {
@@ -88,6 +88,7 @@ export const slSI = {
     privacyPolicy: "Pravilnik o zasebnosti",
     resendCode: "Znova pošlji kodo",
     sending: "Pošiljanje...",
+    dismiss: "Zapri",
     multiFactorEnrollment: "Večfaktorska registracija",
     multiFactorAssertion: "Večfaktorska preverjanje pristnosti",
     mfaTotpVerification: "Preverjanje TOTP",
@@ -110,4 +111,4 @@ export const slSI = {
     mfaTotpQrCodePrompt: "Skenirajte to kodo QR z aplikacijo za preverjanje pristnosti",
     mfaTotpEnrollmentVerificationPrompt: "Dodajte kodo, ki jo je ustvarila vaša aplikacija za preverjanje pristnosti",
   },
-} satisfies Translations;
+} satisfies CompleteTranslationsWithoutLegacy;

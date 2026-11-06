@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-import { type StrictTranslations } from "../strict-translations";
+import { type CompleteTranslationsWithoutLegacy } from "../types";
 
 export const woSN = {
   errors: {
@@ -108,4 +108,4 @@ export const woSN = {
     mfaTotpQrCodePrompt: "Scanné kode QR bii ak sa application authenticator",
     mfaTotpEnrollmentVerificationPrompt: "Yokk kode bi application authenticator bi sosu",
   },
-} satisfies StrictTranslations;
+} satisfies CompleteTranslationsWithoutLegacy;
