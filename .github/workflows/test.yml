@@ -44,6 +44,7 @@ jobs:
       - name: Build & run tests
         run: npm run test
       - name: Run tests in Saucelabs
+        if: env.SAUCE_USERNAME != ''
         run: |
           ./buildtools/sauce_connect.sh &
           ./buildtools/run_tests.sh --saucelabs
