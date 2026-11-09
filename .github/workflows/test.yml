@@ -39,6 +39,8 @@ jobs:
       - name: NPM install
         if: steps.node_modules_cache.outputs.cache-hit != 'true'
         run: npm ci
+        env:
+          DETECT_CHROMEDRIVER_VERSION: 'true'
       - name: Build & run tests
         run: npm run test
       - name: Run tests in Saucelabs
