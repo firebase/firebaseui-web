@@ -12,6 +12,7 @@
  * limitations under the License.
  */
 
+/** FirebaseUI v6 is no longer maintained, use v7 (`@firebase-oss/ui-core`, `@firebase-oss/ui-react`, `@firebase-oss/ui-angular`): https://github.com/firebase/firebaseui-web */
 declare namespace firebaseui {}
 
 export as namespace firebaseui;

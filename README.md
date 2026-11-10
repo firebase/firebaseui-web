@@ -1,14 +1,20 @@
 # FirebaseUI for Web — Auth
 
+> [!NOTE]
+> FirebaseUI v6 (`firebaseui` on npm) is no longer maintained. It has been replaced by FirebaseUI v7, published under the `@firebase-oss` scope:
+>
+> | Framework | Install |
+> | --- | --- |
+> | React | `npm install firebase @firebase-oss/ui-react` |
+> | Angular | `npm install firebase @angular/fire @firebase-oss/ui-angular @firebase-oss/ui-core @firebase-oss/ui-styles` |
+> | Shadcn | `npx shadcn@latest add @firebase/sign-in-auth-screen` |
+> | Any other framework | `npm install firebase @firebase-oss/ui-core` |
+>
+> Docs: https://github.com/firebase/firebaseui-web · Migrating from v6: https://github.com/firebase/firebaseui-web/blob/main/MIGRATION.md
+
 FirebaseUI is an open-source JavaScript library for Web that provides simple,
 customizable UI bindings on top of [Firebase](https://firebase.google.com) SDKs
 to eliminate boilerplate code and promote best practices.
-
----
-
-## **Update**: [Announcing FirebaseUI v7 (alpha)](https://github.com/firebase/firebaseui-web/issues/1144), a rewrite of this library to support the modular Firebase JS SDK, theming, and easier integration in popular web frameworks.
-
----
 
 FirebaseUI Auth provides a drop-in auth solution that handles the UI flows for
 signing in users with email addresses and passwords, phone numbers, Identity
