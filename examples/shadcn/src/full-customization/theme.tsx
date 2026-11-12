@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-import { useEffect, useState } from "react";
+import { useLayoutEffect, useState } from "react";
 
 import doggoPattern from "./assets/doggo-pattern.svg";
 import gridPattern from "./assets/grid-pattern.svg";
@@ -42,8 +42,8 @@ function readStoredTheme(): ThemeId {
 export function useTheme() {
   const [theme, setTheme] = useState<ThemeId>(readStoredTheme);
 
-  // The theme's shadcn variables live on <body>, so portalled components (Dialog, Select) get them too.
-  useEffect(() => {
+  // Set on <body> before paint, so portalled components (Dialog, Select) are themed and nothing flashes.
+  useLayoutEffect(() => {
     document.body.dataset.fcTheme = theme;
     return () => {
       delete document.body.dataset.fcTheme;

@@ -156,7 +156,7 @@ export function PhoneFields({ country, onCountryChange, value, onChange }: Phone
 
   return (
     <div className="fc-row">
-      <div className="fc-field" style={{ flex: "0 0 128px" }}>
+      <div className="fc-field fc-row__country">
         <select
           className="fc-field__input"
           aria-label="Country code"
