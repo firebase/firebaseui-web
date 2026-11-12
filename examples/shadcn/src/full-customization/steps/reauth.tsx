@@ -115,7 +115,12 @@ function ReauthDialog({
 
   return (
     <Dialog open onOpenChange={(open) => !open && onCancel()}>
-      <DialogContent className="fc-dialog" showCloseButton={false}>
+      {/* Only Escape and Cancel dismiss it, so an outside click (or the reCAPTCHA popup) keeps the step. */}
+      <DialogContent
+        className="fc-dialog"
+        showCloseButton={false}
+        onInteractOutside={(event) => event.preventDefault()}
+      >
         {secondFactor ? (
           <MfaChallenge
             frame={(prompt, body) => (

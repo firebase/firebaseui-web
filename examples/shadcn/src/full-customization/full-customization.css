@@ -351,6 +351,10 @@ body[data-fc-theme] {
   min-width: 0;
 }
 
+.fc-row > .fc-row__country {
+  flex: 0 0 128px;
+}
+
 /* Text field: shadcn Input inside a shell that adds the Figma "text-field" leading icon slot */
 
 .fc-field {
@@ -378,6 +382,13 @@ body[data-fc-theme] {
   color: var(--foreground);
   font: inherit;
   box-shadow: none;
+}
+
+/* shadcn's focus ring is a box-shadow, which the rule above clears, so draw one in the theme's ring colour. */
+.fc-input:focus-visible,
+.fc-select:focus-visible {
+  border-color: var(--ring);
+  box-shadow: 0 0 0 3px color-mix(in srgb, var(--ring) 50%, transparent);
 }
 
 .fc-field:has(.fc-field__icon) .fc-input {
@@ -452,6 +463,15 @@ body[data-fc-theme] {
 .fc-button:active:not(:disabled) {
   transform: translate(1px, 2px);
   box-shadow: none;
+}
+
+/* The button's border and offset shadow replace shadcn's focus ring, so keyboard focus gets an outline. */
+.fc-button:focus-visible,
+.fc-link:focus-visible,
+.fc-provider:focus-visible,
+.fc-theme-switcher button:focus-visible {
+  outline: 3px solid var(--ring);
+  outline-offset: 3px;
 }
 
 .fc-links {
@@ -657,6 +677,23 @@ body[data-fc-theme] {
 
   .fc-row {
     flex-direction: column;
+  }
+
+  .fc-row > .fc-row__country {
+    flex-basis: auto;
+  }
+
+  /* Six code boxes fit the reauth dialog on a 360px phone. */
+  .fc-dialog {
+    padding: 16px;
+  }
+
+  .fc-dialog .fc-otp [data-slot="input-otp-group"] {
+    gap: 6px;
+  }
+
+  .fc-dialog .fc-otp [data-slot="input-otp-slot"] {
+    width: 40px;
   }
 
   .fc-button {

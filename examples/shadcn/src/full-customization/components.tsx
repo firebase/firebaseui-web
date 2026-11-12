@@ -161,7 +161,7 @@ export function PhoneFields({ country, onCountryChange, value, onChange }: Phone
 
   return (
     <div className="fc-row">
-      <div style={{ flex: "0 0 128px" }}>
+      <div className="fc-row__country">
         <Select
           value={country.code}
           onValueChange={(code) => onCountryChange(countries.find((c) => c.code === code) ?? country)}

@@ -372,6 +372,10 @@
   min-width: 0;
 }
 
+.fc-row > .fc-row__country {
+  flex: 0 0 128px;
+}
+
 /* Text field: Figma component "text-field", 56px tall with a 48px leading icon slot */
 
 .fc-field {
@@ -741,6 +745,10 @@
 
   .fc-row {
     flex-direction: column;
+  }
+
+  .fc-row > .fc-row__country {
+    flex-basis: auto;
   }
 
   .fc-button {
