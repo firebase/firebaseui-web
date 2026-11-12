@@ -55,6 +55,21 @@ function UnauthenticatedApp() {
           Welcome to Firebase UI, choose an example screen below to get started!
         </p>
       </div>
+      <Item variant="outline">
+        <ItemContent>
+          <ItemTitle>Full Customization Demo</ItemTitle>
+          <ItemDescription className="text-xs">
+            A complete sign in flow built from this example's shadcn/ui components, with three switchable themes.
+          </ItemDescription>
+        </ItemContent>
+        <ItemActions>
+          <Link to="/full-customization">
+            <Button size="icon" variant="outline">
+              <ArrowRightIcon />
+            </Button>
+          </Link>
+        </ItemActions>
+      </Item>
       <ItemGroup className="border rounded-md">
         {routes.map((route) => (
           <React.Fragment key={route.path}>
