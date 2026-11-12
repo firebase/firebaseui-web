@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-import { useLayoutEffect, useState } from "react";
+import { createContext, useContext, useLayoutEffect, useState } from "react";
 
 import doggoPattern from "./assets/doggo-pattern.svg";
 import gridPattern from "./assets/grid-pattern.svg";
@@ -24,9 +24,17 @@ export const themes = [
   { id: "doggo", label: "Doggo" },
   { id: "spark", label: "Coffee Spark" },
   { id: "grid", label: "Grid" },
+  { id: "professional", label: "Professional" },
 ] as const;
 
 export type ThemeId = (typeof themes)[number]["id"];
+
+/** The active theme, for the screens whose layout differs per theme (Professional has its own). */
+export const ThemeIdContext = createContext<ThemeId>("doggo");
+
+export function useThemeId() {
+  return useContext(ThemeIdContext);
+}
 
 const STORAGE_KEY = "firebaseui:full-customization:theme";
 

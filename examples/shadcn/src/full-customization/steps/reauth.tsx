@@ -39,6 +39,8 @@ import {
   TextLink,
   useAuthTask,
 } from "../components";
+import { ProReauthDialog } from "../professional/reauth";
+import { useThemeId } from "../theme";
 import { MfaChallenge } from "./mfa-challenge";
 
 type Pending = { reason: string; resolve: () => void; reject: (error: Error) => void };
@@ -79,15 +81,14 @@ export function useReauth() {
   return { withReauth, dialog };
 }
 
-function ReauthDialog({
-  reason,
-  onConfirmed,
-  onCancel,
-}: {
+export type ReauthDialogProps = {
   reason: string;
   onConfirmed: () => void;
   onCancel: () => void;
-}) {
+};
+
+/** The reauthentication state and actions, shared by the themed dialog and the Professional one. */
+export function useReauthFlow(onConfirmed: () => void) {
   const ui = useUI();
   const user = ui.auth.currentUser!;
   const [password, setPassword] = useState("");
@@ -95,7 +96,7 @@ function ReauthDialog({
   const task = useAuthTask();
 
   const providers = user.providerData.map((p) => p.providerId);
-  const hasPassword = providers.includes(EmailAuthProvider.PROVIDER_ID) && user.email;
+  const hasPassword = Boolean(providers.includes(EmailAuthProvider.PROVIDER_ID) && user.email);
   const hasGoogle = providers.includes(GoogleAuthProvider.PROVIDER_ID);
 
   const confirm = (reauthenticate: () => Promise<unknown>) =>
@@ -112,6 +113,32 @@ function ReauthDialog({
       }
       onConfirmed();
     });
+
+  return {
+    user,
+    password,
+    setPassword,
+    secondFactor,
+    task,
+    hasPassword,
+    hasGoogle,
+    confirmPassword: () =>
+      confirm(() => reauthenticateWithCredential(user, EmailAuthProvider.credential(user.email!, password))),
+    confirmGoogle: () => confirm(() => reauthenticateWithPopup(user, new GoogleAuthProvider())),
+  };
+}
+
+export type ReauthFlow = ReturnType<typeof useReauthFlow>;
+
+function ReauthDialog(props: ReauthDialogProps) {
+  const theme = useThemeId();
+  const flow = useReauthFlow(props.onConfirmed);
+  if (theme === "professional") return <ProReauthDialog {...props} flow={flow} />;
+  return <ThemedReauthDialog {...props} flow={flow} />;
+}
+
+function ThemedReauthDialog({ reason, onConfirmed, onCancel, flow }: ReauthDialogProps & { flow: ReauthFlow }) {
+  const { password, setPassword, secondFactor, task, hasPassword, hasGoogle } = flow;
 
   return (
     <Dialog open onOpenChange={(open) => !open && onCancel()}>
@@ -138,9 +165,7 @@ function ReauthDialog({
             className="fc-form"
             onSubmit={(event) => {
               event.preventDefault();
-              void confirm(() =>
-                reauthenticateWithCredential(user, EmailAuthProvider.credential(user.email!, password))
-              );
+              void flow.confirmPassword();
             }}
           >
             <DialogTitle className="fc-prompt">Confirm it's you</DialogTitle>
@@ -157,10 +182,7 @@ function ReauthDialog({
               />
             )}
             {hasGoogle && (
-              <ProviderButton
-                provider="google"
-                onClick={() => confirm(() => reauthenticateWithPopup(user, new GoogleAuthProvider()))}
-              >
+              <ProviderButton provider="google" onClick={() => void flow.confirmGoogle()}>
                 Continue with Google
               </ProviderButton>
             )}
