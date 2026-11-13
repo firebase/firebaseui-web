@@ -18,7 +18,7 @@
  * Professional theme, ported from the FirebaseUI-Android (#2545) and FirebaseUI-iOS (#1420) demos.
  * Unlike the other three it has its own layout: flat, left-aligned screens on a neutral palette with
  * one blue accent, providers first on sign-in and a settings-style account page. The palette is the
- * same on both platforms; dark mode follows the system setting, as it does there.
+ * same on both platforms; dark mode follows the example's light/dark setting, which defaults to the system.
  */
 
 body[data-fc-theme="professional"] {
@@ -58,37 +58,35 @@ body[data-fc-theme="professional"] {
   --fc-font: 400 16px/24px system-ui, -apple-system, "Segoe UI", Roboto, sans-serif;
 }
 
-@media (prefers-color-scheme: dark) {
-  body[data-fc-theme="professional"] {
-    --background: #0f1115;
-    --foreground: #f2f4f7;
-    --card: #181b20;
-    --card-foreground: #f2f4f7;
-    --popover: #181b20;
-    --popover-foreground: #f2f4f7;
-    --primary: #2f62f0;
-    --secondary: #1c2540;
-    --secondary-foreground: #9db5ff;
-    --muted: #22262d;
-    --muted-foreground: #9aa3ae;
-    --accent: #1c2540;
-    --accent-foreground: #9db5ff;
-    --destructive: #f97066;
-    --border: #3a414a;
-    --input: #3a414a;
-    --ring: #4c7dff;
+html.dark body[data-fc-theme="professional"] {
+  --background: #0f1115;
+  --foreground: #f2f4f7;
+  --card: #181b20;
+  --card-foreground: #f2f4f7;
+  --popover: #181b20;
+  --popover-foreground: #f2f4f7;
+  --primary: #2f62f0;
+  --secondary: #1c2540;
+  --secondary-foreground: #9db5ff;
+  --muted: #22262d;
+  --muted-foreground: #9aa3ae;
+  --accent: #1c2540;
+  --accent-foreground: #9db5ff;
+  --destructive: #f97066;
+  --border: #3a414a;
+  --input: #3a414a;
+  --ring: #4c7dff;
 
-    --pro-surface: #181b20;
-    --pro-field: #0f1115;
-    --pro-placeholder: #7d8693;
-    --pro-hairline: #2a2f36;
-    --pro-accent: #4c7dff;
-    --pro-accent-fill: #2f62f0;
-    --pro-accent-soft: #1c2540;
-    --pro-accent-soft-text: #9db5ff;
-    --pro-tile: #22262d;
-    --pro-chevron: #5b6470;
-  }
+  --pro-surface: #181b20;
+  --pro-field: #0f1115;
+  --pro-placeholder: #7d8693;
+  --pro-hairline: #2a2f36;
+  --pro-accent: #4c7dff;
+  --pro-accent-fill: #2f62f0;
+  --pro-accent-soft: #1c2540;
+  --pro-accent-soft-text: #9db5ff;
+  --pro-tile: #22262d;
+  --pro-chevron: #5b6470;
 }
 
 /* Page: left aligned, 480px wide, footer pinned to the bottom when content is short */
@@ -273,6 +271,14 @@ body[data-fc-theme="professional"] {
   font-size: 14px;
 }
 
+.pro-hint--error {
+  color: var(--destructive);
+}
+
+.pro-input[aria-invalid="true"] {
+  border-color: var(--destructive);
+}
+
 /* Phone: one box with the country picker, a hairline, then the number */
 
 .pro-phone {
@@ -331,8 +337,13 @@ body[data-fc-theme="professional"] {
   box-shadow: none;
 }
 
-.pro-btn:focus-visible {
-  outline: 3px solid color-mix(in srgb, var(--pro-accent) 45%, transparent);
+.pro-btn:focus-visible,
+.pro-back:focus-visible,
+.pro-label-action:focus-visible,
+.pro-toggle:focus-visible,
+.pro-prompt button:focus-visible,
+.pro-legal a:focus-visible {
+  outline: 2px solid var(--pro-accent);
   outline-offset: 2px;
 }
 
@@ -504,6 +515,11 @@ button.pro-row:hover {
   background: color-mix(in srgb, var(--foreground) 4%, transparent);
 }
 
+button.pro-row:disabled {
+  cursor: default;
+  opacity: 0.5;
+}
+
 button.pro-row:focus-visible {
   outline: 2px solid var(--pro-accent);
   outline-offset: -2px;
@@ -547,6 +563,7 @@ button.pro-row:focus-visible {
 }
 
 .pro-choice {
+  position: relative;
   display: flex;
   align-items: center;
   gap: 14px;
@@ -560,16 +577,22 @@ button.pro-row:focus-visible {
   cursor: pointer;
 }
 
-.pro-choice:focus-visible {
+.pro-choice:has(input:focus-visible) {
   outline: 2px solid var(--pro-accent);
   outline-offset: -2px;
+}
+
+.pro-choice input {
+  position: absolute;
+  opacity: 0;
+  pointer-events: none;
 }
 
 .pro-choice .pro-tile {
   --pro-tile-size: 36px;
 }
 
-.pro-choice[aria-checked="false"] .pro-tile {
+.pro-choice:not(:has(input:checked)) .pro-tile {
   background: var(--pro-tile);
   color: var(--foreground);
 }
@@ -598,7 +621,7 @@ button.pro-row:focus-visible {
   border-radius: 50%;
 }
 
-.pro-choice[aria-checked="true"] .pro-radio {
+.pro-choice:has(input:checked) .pro-radio {
   border: 6px solid var(--pro-accent);
 }
 

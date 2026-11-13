@@ -99,6 +99,7 @@ type ProFieldProps = Omit<ComponentProps<"input">, "className" | "id"> & {
 /** A labelled shadcn Input, with a show/hide toggle for passwords. */
 export function ProField({ label, action, hint, invalid, type, ...props }: ProFieldProps) {
   const id = useId();
+  const hintId = `${id}-hint`;
   const [revealed, setRevealed] = useState(false);
   const isPassword = type === "password";
 
@@ -120,6 +121,7 @@ export function ProField({ label, action, hint, invalid, type, ...props }: ProFi
           className="pro-input"
           type={isPassword && revealed ? "text" : type}
           aria-invalid={invalid || undefined}
+          aria-describedby={hint ? hintId : undefined}
           {...props}
         />
         {isPassword && (
@@ -133,7 +135,11 @@ export function ProField({ label, action, hint, invalid, type, ...props }: ProFi
           </button>
         )}
       </div>
-      {hint && <p className="pro-hint">{hint}</p>}
+      {hint && (
+        <p id={hintId} className={invalid ? "pro-hint pro-hint--error" : "pro-hint"}>
+          {hint}
+        </p>
+      )}
     </div>
   );
 }
@@ -235,11 +241,7 @@ export function ProButton({
 }
 
 export function ProDivider({ children }: { children: ReactNode }) {
-  return (
-    <div className="pro-divider" role="separator">
-      {children}
-    </div>
-  );
+  return <div className="pro-divider">{children}</div>;
 }
 
 export function ProError({ children }: { children: ReactNode }) {
@@ -306,10 +308,21 @@ type ProRowProps = {
   chevron?: boolean;
   onClick?: () => void;
   disabled?: boolean;
+  /** For a row that toggles an inline form below it. */
+  expanded?: boolean;
 };
 
 /** A settings row: icon, title, value, chevron. A button when it has an action. */
-export function ProRow({ title, icon: IconComponent, value, tone = "muted", chevron, onClick, disabled }: ProRowProps) {
+export function ProRow({
+  title,
+  icon: IconComponent,
+  value,
+  tone = "muted",
+  chevron,
+  onClick,
+  disabled,
+  expanded,
+}: ProRowProps) {
   const content = (
     <>
       {IconComponent && <IconComponent aria-hidden="true" />}
@@ -325,7 +338,7 @@ export function ProRow({ title, icon: IconComponent, value, tone = "muted", chev
   const className = IconComponent ? "pro-row" : "pro-row pro-row--plain";
 
   return onClick ? (
-    <button type="button" className={className} onClick={onClick} disabled={disabled}>
+    <button type="button" className={className} onClick={onClick} disabled={disabled} aria-expanded={expanded}>
       {content}
     </button>
   ) : (
@@ -334,6 +347,8 @@ export function ProRow({ title, icon: IconComponent, value, tone = "muted", chev
 }
 
 type ProChoiceProps = {
+  /** Shared by the choices in one group, so the arrow keys move between them. */
+  name: string;
   icon: Icon;
   title: string;
   detail: string;
@@ -341,10 +356,11 @@ type ProChoiceProps = {
   onSelect: () => void;
 };
 
-/** A radio-style row for picking a second factor. */
-export function ProChoice({ icon: IconComponent, title, detail, checked, onSelect }: ProChoiceProps) {
+/** A radio row for picking a second factor, built on a native radio for keyboard support. */
+export function ProChoice({ name, icon: IconComponent, title, detail, checked, onSelect }: ProChoiceProps) {
   return (
-    <button type="button" role="radio" aria-checked={checked} className="pro-choice" onClick={onSelect}>
+    <label className="pro-choice">
+      <input type="radio" name={name} checked={checked} onChange={onSelect} />
       <span className="pro-tile" aria-hidden="true">
         <IconComponent />
       </span>
@@ -353,6 +369,6 @@ export function ProChoice({ icon: IconComponent, title, detail, checked, onSelec
         <span className="pro-choice__detail">{detail}</span>
       </span>
       <span className="pro-radio" aria-hidden="true" />
-    </button>
+    </label>
   );
 }

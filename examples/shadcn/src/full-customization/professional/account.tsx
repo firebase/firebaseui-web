@@ -30,7 +30,7 @@ import { useUI } from "@firebase-oss/ui-react";
 
 import { useAuthTask } from "../components";
 import { paths } from "../state";
-import { useReauth } from "../steps/reauth";
+import { useReauth } from "../reauth";
 import { ProButton, ProError, ProField, ProGroup, ProHeader, ProRow, ProSection, ProSeparator } from "./kit";
 
 function signedInWith(user: User) {
@@ -86,6 +86,7 @@ export function ProAccount({ user }: { user: User }) {
                     title="Password"
                     value={editingPassword ? "Cancel" : "Change"}
                     chevron
+                    expanded={editingPassword}
                     onClick={() => {
                       setEditingPassword(!editingPassword);
                       setMessage(null);

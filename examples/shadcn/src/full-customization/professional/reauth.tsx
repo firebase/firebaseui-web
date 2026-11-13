@@ -20,9 +20,9 @@ import { GoogleLogo } from "@firebase-oss/ui-react";
 
 import { Dialog, DialogContent, DialogDescription, DialogTitle } from "@/components/ui/dialog";
 
-import type { ReauthDialogProps, ReauthFlow } from "../steps/reauth";
+import type { ReauthDialogProps, ReauthFlow } from "../reauth";
 import { ProButton, ProError, ProField } from "./kit";
-import { ProMfaChallenge } from "./mfa";
+import { ProMfaChallenge } from "./mfa-challenge";
 
 type Icon = ComponentType<{ className?: string }>;
 
@@ -66,7 +66,7 @@ export function ProReauthDialog({ reason, onConfirmed, onCancel, flow }: ReauthD
             <DialogHeader
               icon={Lock}
               title="Confirm it's you"
-              subtitle={hasPassword ? `For your security, enter the password for ${user.email} to continue.` : reason}
+              subtitle={hasPassword ? `${reason} Enter the password for ${user.email}.` : reason}
             />
             <div className="pro-content">
               {hasPassword && (
