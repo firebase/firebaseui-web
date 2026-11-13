@@ -1,0 +1,720 @@
+/**
+ * Copyright 2025 Google LLC
+ *
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ *     http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ */
+
+/*
+ * Full customization demo, shadcn edition. The screens are built from this example's shadcn/ui
+ * components and only the auth logic comes from @firebase-oss/ui-react. Each theme is a set of
+ * shadcn variables (--primary, --secondary, --radius, ...) taken from the "Firebase auth flows"
+ * Figma file (web Landing frames 20:6031, 20:7310 and 20:6675), plus a few --fc-* extras for what
+ * shadcn has no token for, such as hard offset shadows and per-theme fonts.
+ *
+ * The theme is set on <body> (data-fc-theme) rather than the demo root, so shadcn's portalled
+ * pieces, the reauth dialog and the country picker menu, pick it up too.
+ */
+
+@import url("https://fonts.googleapis.com/css2?family=Bagel+Fat+One&family=Chivo+Mono:wght@500&family=JetBrains+Mono:wght@400;500&family=Onest:wght@500;700&family=Roboto+Mono:wght@500&family=Roboto:wght@500;600&family=Rowdies:wght@300;400&display=swap");
+@import url("https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@24,400..700,0..1,0&icon_names=alternate_email,arrow_back,coffee,lock,palette,person,phone,visibility,visibility_off&display=block");
+
+/* Doggo: Figma 20:6031 */
+body[data-fc-theme="doggo"] {
+  --background: #fff8f8;
+  --foreground: #211a1d;
+  --card: #fff8f8;
+  --card-foreground: #211a1d;
+  --popover: #ffffff;
+  --popover-foreground: #211a1d;
+  --primary: #864b6f;
+  --primary-foreground: #ffffff;
+  --secondary: #ffd8eb;
+  --secondary-foreground: #7b3b73;
+  --muted: #f9eaef;
+  --muted-foreground: #a08b95;
+  --accent: #ffd8eb;
+  --accent-foreground: #7b3b73;
+  --destructive: #ba1a1a;
+  --border: #d3c2c9;
+  --input: #d3c2c9;
+  --ring: #4c8bff;
+  --radius: 24px;
+
+  --fc-page-art: radial-gradient(1019px 1177px at 50% 53%, #fff8f8 4%, #ffddb4 34%, #ffd8eb 74%);
+  --fc-main-top: 271px;
+  --fc-font: 500 16px/24px "Onest", sans-serif;
+  --fc-prompt-font: 500 16px/24px "Onest", sans-serif;
+  --fc-prompt-align: center;
+  --fc-link: var(--primary);
+  --fc-card-padding: 16px;
+  --fc-card-shadow: 3px 6px 0 #ffd8eb;
+  --fc-actions-gap: 16px;
+  --fc-actions-justify: center;
+  --fc-field-bg: #ffffff;
+  --fc-field-border-width: 1px;
+  --fc-field-icon-fill: 0;
+  --fc-field-icon-weight: 700;
+  --fc-button-width: 327px;
+  --fc-button-radius: 36px;
+  --fc-button-font: 700 20px/20px "Onest", sans-serif;
+  --fc-button-border: 0 solid transparent;
+  --fc-button-shadow: 2px 4px 0 #5d0b47;
+  --fc-footer-font: 500 16px/24px "Onest", sans-serif;
+  --fc-footer-color: var(--muted-foreground);
+  --fc-provider-radius: 80px;
+  --fc-provider-font: 500 14px/20px "Roboto", sans-serif;
+  --fc-provider-phone-bg: #894680;
+  --fc-provider-phone-color: #ffffff;
+  --fc-provider-guest-color: #202124;
+  --fc-provider-guest-border: 2px solid #81737c;
+}
+
+/* Grid: Figma 20:7310 */
+body[data-fc-theme="grid"] {
+  --background: #f3fbfb;
+  --foreground: #2c1067;
+  --card: transparent;
+  --card-foreground: #2c1067;
+  --popover: #ffffff;
+  --popover-foreground: #2c1067;
+  --primary: #ff52b3;
+  --primary-foreground: #2c1067;
+  --secondary: #ffffff;
+  --secondary-foreground: #2c1067;
+  --muted: #e6f9f9;
+  --muted-foreground: #2c1067;
+  --accent: #00dce2;
+  --accent-foreground: #2c1067;
+  --destructive: #ba1a1a;
+  --border: #00dce2;
+  --input: #00dce2;
+  --ring: #ff52b3;
+  --radius: 16px;
+
+  --fc-page-art: none;
+  --fc-main-top: 397px;
+  --fc-font: 500 16px/24px "Roboto Mono", monospace;
+  --fc-prompt-font: 300 22px/31px "Rowdies", sans-serif;
+  --fc-prompt-align: left;
+  --fc-link: var(--foreground);
+  --fc-card-padding: 0;
+  --fc-card-shadow: none;
+  /* The Figma text-field instance is 64px tall around the 56px field, so the gap reads as 48px. */
+  --fc-actions-gap: 48px;
+  --fc-actions-justify: center;
+  --fc-field-bg: #ffffff;
+  --fc-field-border-width: 2px;
+  --fc-field-icon-fill: 1;
+  --fc-field-icon-weight: 400;
+  --fc-button-width: 332px;
+  --fc-button-radius: 24px;
+  --fc-button-font: 400 32px/20px "Rowdies", sans-serif;
+  --fc-button-border: 2px solid #00dce2;
+  --fc-button-shadow: 3px 6px 0 #00dce2;
+  --fc-footer-font: 500 16px/24px "JetBrains Mono", monospace;
+  --fc-footer-color: #000000;
+  --fc-provider-radius: 12px;
+  --fc-provider-font: 500 14px/20px "JetBrains Mono", monospace;
+  --fc-provider-phone-font: 500 14px/20px "Chivo Mono", monospace;
+  --fc-provider-phone-bg: #00dce2;
+  --fc-provider-phone-color: #2c1067;
+  --fc-provider-guest-color: #ff52b3;
+  --fc-provider-guest-border: 2px solid #ff52b3;
+}
+
+/* Coffee Spark: Figma 20:6675 */
+body[data-fc-theme="spark"] {
+  --background: #f1f1f1;
+  --foreground: #1f1f1f;
+  --card: transparent;
+  --card-foreground: #1f1f1f;
+  --popover: #fdfcfb;
+  --popover-foreground: #1f1f1f;
+  --primary: #fdadee;
+  --primary-foreground: #2c1067;
+  --secondary: #fdfcfb;
+  --secondary-foreground: #2c1067;
+  --muted: #e8e8e8;
+  --muted-foreground: #1f1f1f;
+  --accent: #fdadee;
+  --accent-foreground: #2c1067;
+  --destructive: #ba1a1a;
+  --border: #000000;
+  --input: #000000;
+  --ring: #fdadee;
+  --radius: 20px;
+
+  --fc-page-art: none;
+  --fc-main-top: 186px;
+  --fc-font: 500 16px/24px "JetBrains Mono", monospace;
+  --fc-prompt-font: 400 22px/31px "JetBrains Mono", monospace;
+  --fc-prompt-align: left;
+  --fc-link: var(--foreground);
+  --fc-card-padding: 0;
+  --fc-card-shadow: none;
+  --fc-actions-gap: 40px;
+  --fc-actions-justify: flex-end;
+  --fc-field-bg: #fdfcfb;
+  --fc-field-border-width: 2px;
+  --fc-field-icon-fill: 1;
+  --fc-field-icon-weight: 400;
+  --fc-button-width: 332px;
+  --fc-button-radius: 48px;
+  --fc-button-font: 500 24px/20px "JetBrains Mono", monospace;
+  --fc-button-border: 2px solid #000000;
+  --fc-button-shadow: none;
+  --fc-footer-font: 500 16px/24px "JetBrains Mono", monospace;
+  --fc-footer-color: #000000;
+  --fc-provider-radius: 80px;
+  --fc-provider-font: 500 14px/20px "JetBrains Mono", monospace;
+  --fc-provider-phone-bg: #c6ff00;
+  --fc-provider-phone-color: #34a853;
+  --fc-provider-guest-color: #202124;
+  --fc-provider-guest-border: 2px solid #81737c;
+}
+
+body[data-fc-theme] {
+  font: var(--fc-font);
+}
+
+/* Layout */
+
+.fc-root {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  min-height: 100dvh;
+  overflow: hidden;
+  background: var(--fc-page-art), var(--background);
+  color: var(--foreground);
+}
+
+/* Background art is placed on a 1440x1024 canvas, the size of the Figma frames, centred on the page. */
+.fc-art {
+  position: absolute;
+  top: 0;
+  left: 50%;
+  width: 1440px;
+  height: 1024px;
+  transform: translateX(-50%);
+  pointer-events: none;
+}
+
+.fc-art img {
+  position: absolute;
+  max-width: none;
+}
+
+/*
+ * --fc-main-top is where the first element sits in the 1024px tall Figma frame. Taller or shorter
+ * windows move the content by half the difference, so it stays centred like the design.
+ */
+.fc-main {
+  position: relative;
+  display: flex;
+  flex: 1;
+  flex-direction: column;
+  width: 100%;
+  max-width: calc(592px + 32px);
+  padding: max(80px, calc((100dvh - 1024px) / 2 + var(--fc-main-top))) 16px 48px;
+}
+
+.fc-icon {
+  font-family: "Material Symbols Outlined";
+  font-size: 24px;
+  font-weight: 500;
+  line-height: 1;
+  font-variation-settings: "FILL" 0;
+  user-select: none;
+}
+
+/* Brand, shown above the content. Only one theme draws each piece; the title stays readable by screen readers in all of them. */
+
+.fc-mascot,
+.fc-headline {
+  display: none;
+}
+
+.fc-intro {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  margin: 0;
+  overflow: hidden;
+  clip-path: inset(50%);
+  white-space: nowrap;
+}
+
+[data-fc-theme="doggo"] .fc-mascot {
+  position: relative;
+  z-index: 1;
+  display: block;
+  width: 177px;
+  height: 118px;
+  margin: 0 auto -11px;
+}
+
+[data-fc-theme="doggo"] .fc-intro {
+  position: static;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: auto;
+  height: auto;
+  overflow: visible;
+  clip-path: none;
+  white-space: normal;
+  margin: 0 0 4px;
+  padding: 16px 8px;
+  border-radius: 80px;
+  background: #4c8bff;
+  box-shadow: 0 0 0 4px #4c8bff;
+  font: 400 36px/44px "Bagel Fat One", sans-serif;
+  text-align: center;
+}
+
+.fc-intro__text {
+  background: radial-gradient(farthest-corner at 0% 0%, #fff8f8 4%, #ffddb4 34%, #ffd8eb 74%);
+  background-clip: text;
+  color: transparent;
+}
+
+[data-fc-theme="spark"] .fc-headline {
+  display: flex;
+  align-self: center;
+  align-items: center;
+  gap: 10px;
+  height: 48px;
+  margin-bottom: clamp(40px, calc(100dvh - 857px), 167px);
+  padding: 0 16px;
+  border-radius: 24px;
+  background: #ffffff;
+  color: #1c1b1b;
+  font: 500 20px/40px "JetBrains Mono", monospace;
+}
+
+/* Card: shadcn Card, reshaped to the Figma "email" frame */
+
+.fc-card {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+  padding: var(--fc-card-padding);
+  border: 0;
+  border-radius: var(--radius);
+  background: var(--card);
+  box-shadow: var(--fc-card-shadow);
+}
+
+.fc-form {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+}
+
+.fc-prompt {
+  margin: 0;
+  color: var(--muted-foreground);
+  font: var(--fc-prompt-font);
+  text-align: var(--fc-prompt-align);
+}
+
+.fc-body {
+  margin: 0;
+  color: var(--muted-foreground);
+}
+
+.fc-error {
+  margin: 0;
+  color: var(--destructive);
+  font-size: 14px;
+}
+
+.fc-row {
+  display: flex;
+  gap: 16px;
+}
+
+.fc-row > * {
+  flex: 1 1 0;
+  min-width: 0;
+}
+
+.fc-row > .fc-row__country {
+  flex: 0 0 128px;
+}
+
+/* Text field: shadcn Input inside a shell that adds the Figma "text-field" leading icon slot */
+
+.fc-field {
+  position: relative;
+}
+
+.fc-field__icon {
+  position: absolute;
+  top: 50%;
+  left: 12px;
+  color: var(--muted-foreground);
+  font-variation-settings: "FILL" var(--fc-field-icon-fill);
+  font-weight: var(--fc-field-icon-weight);
+  transform: translateY(-50%);
+  pointer-events: none;
+}
+
+.fc-input,
+.fc-select {
+  height: 56px;
+  padding-inline: 16px;
+  border-width: var(--fc-field-border-width);
+  border-radius: var(--radius);
+  background: var(--fc-field-bg);
+  color: var(--foreground);
+  font: inherit;
+  box-shadow: none;
+}
+
+/* shadcn's focus ring is a box-shadow, which the rule above clears, so draw one in the theme's ring colour. */
+.fc-input:focus-visible,
+.fc-select:focus-visible {
+  border-color: var(--ring);
+  box-shadow: 0 0 0 3px color-mix(in srgb, var(--ring) 50%, transparent);
+}
+
+.fc-field:has(.fc-field__icon) .fc-input {
+  padding-left: 48px;
+}
+
+.fc-field:has(.fc-field__toggle) .fc-input {
+  padding-right: 48px;
+}
+
+.fc-field__toggle {
+  position: absolute;
+  top: 50%;
+  right: 8px;
+  display: grid;
+  place-items: center;
+  width: 40px;
+  height: 40px;
+  border: 0;
+  border-radius: 50%;
+  background: transparent;
+  color: var(--muted-foreground);
+  transform: translateY(-50%);
+  cursor: pointer;
+}
+
+/* Verification code: shadcn InputOTP, one slot per digit */
+
+.fc-otp [data-slot="input-otp-group"] {
+  gap: 8px;
+}
+
+.fc-otp [data-slot="input-otp-slot"] {
+  width: 56px;
+  height: 56px;
+  border-width: var(--fc-field-border-width);
+  border-radius: var(--radius);
+  background: var(--fc-field-bg);
+  font-size: 24px;
+}
+
+/* Buttons: shadcn Button, 80px tall with a zero-blur offset shadow, Figma component "button" */
+
+.fc-actions {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: var(--fc-actions-justify);
+  gap: 16px;
+  margin-top: calc(var(--fc-actions-gap) - 16px);
+}
+
+.fc-actions--stacked .fc-button {
+  flex-basis: 100%;
+  max-width: none;
+}
+
+.fc-button {
+  flex: 1 1 0;
+  min-width: min(100%, 240px);
+  max-width: var(--fc-button-width);
+  height: 80px;
+  padding: 10px 24px;
+  border: var(--fc-button-border);
+  border-radius: var(--fc-button-radius);
+  box-shadow: var(--fc-button-shadow);
+  font: var(--fc-button-font);
+  transition:
+    transform 120ms ease,
+    box-shadow 120ms ease;
+}
+
+.fc-button:active:not(:disabled) {
+  transform: translate(1px, 2px);
+  box-shadow: none;
+}
+
+/* The button's border and offset shadow replace shadcn's focus ring, so keyboard focus gets an outline. */
+.fc-button:focus-visible,
+.fc-link:focus-visible,
+.fc-provider:focus-visible,
+.fc-theme-switcher button:focus-visible {
+  outline: 3px solid var(--ring);
+  outline-offset: 3px;
+}
+
+.fc-links {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: space-between;
+  gap: 8px 16px;
+}
+
+.fc-link {
+  height: auto;
+  padding: 0;
+  color: var(--fc-link);
+  font: inherit;
+  text-decoration: underline;
+  text-underline-offset: 3px;
+}
+
+.fc-link:disabled {
+  opacity: 0.6;
+  text-decoration: none;
+}
+
+/* Other sign in methods: Figma frame "Content" */
+
+.fc-footer {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 24px;
+  width: 100%;
+  padding: 24px 16px 74px;
+}
+
+.fc-footer__label {
+  margin: 0;
+  color: var(--fc-footer-color);
+  font: var(--fc-footer-font);
+}
+
+.fc-providers {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: 24px;
+}
+
+.fc-provider {
+  height: 52px;
+  padding: 16px;
+  gap: 12px;
+  border: 1px solid #000000;
+  border-radius: var(--fc-provider-radius);
+  background: #ffffff;
+  color: #000000;
+  font: 600 14px/20px "Roboto", sans-serif;
+  letter-spacing: 0.1px;
+}
+
+.fc-provider:hover {
+  background: #ffffff;
+  color: #000000;
+}
+
+.fc-provider svg {
+  width: 20px;
+  height: 20px;
+}
+
+.fc-provider[data-provider="phone"] {
+  border: 0;
+  background: var(--fc-provider-phone-bg);
+  color: var(--fc-provider-phone-color);
+  font: var(--fc-provider-phone-font, var(--fc-provider-font));
+}
+
+.fc-provider[data-provider="guest"] {
+  border: var(--fc-provider-guest-border);
+  background: transparent;
+  color: var(--fc-provider-guest-color);
+  font: var(--fc-provider-font);
+}
+
+/* Lists (enrolled factors) */
+
+.fc-list {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+.fc-list li {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 16px;
+  min-height: 48px;
+  padding: 8px 16px;
+  border: var(--fc-field-border-width) solid var(--border);
+  border-radius: var(--radius);
+  background: var(--fc-field-bg);
+}
+
+.fc-qr {
+  align-self: center;
+  width: 200px;
+  height: 200px;
+  padding: 12px;
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  background: #ffffff;
+}
+
+.fc-secret {
+  margin: 0;
+  text-align: center;
+  word-break: break-all;
+  user-select: all;
+}
+
+/* Reauthentication: shadcn Dialog */
+
+.fc-dialog {
+  gap: 16px;
+  border-radius: var(--radius);
+  box-shadow: var(--fc-card-shadow);
+}
+
+/* Theme switcher and exit link, outside the themed design */
+
+.fc-theme-switcher {
+  position: fixed;
+  z-index: 10;
+  top: 16px;
+  right: 16px;
+  display: flex;
+  align-items: center;
+  gap: 4px;
+  padding: 4px;
+  border: 1px solid rgb(0 0 0 / 12%);
+  border-radius: 999px;
+  background: rgb(255 255 255 / 85%);
+  backdrop-filter: blur(8px);
+  font: 500 13px/20px system-ui, sans-serif;
+}
+
+.fc-theme-switcher > .fc-icon {
+  padding: 0 4px 0 8px;
+  color: #444444;
+  font-size: 20px;
+}
+
+.fc-theme-switcher button {
+  padding: 6px 12px;
+  border: 0;
+  border-radius: 999px;
+  background: transparent;
+  color: #444444;
+  font: inherit;
+  cursor: pointer;
+}
+
+.fc-theme-switcher button[aria-pressed="true"] {
+  background: #1f1f1f;
+  color: #ffffff;
+}
+
+.fc-exit {
+  position: fixed;
+  z-index: 10;
+  top: 16px;
+  left: 16px;
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+  padding: 8px 14px 8px 10px;
+  border: 1px solid rgb(0 0 0 / 12%);
+  border-radius: 999px;
+  background: rgb(255 255 255 / 85%);
+  backdrop-filter: blur(8px);
+  color: #444444;
+  font: 500 13px/20px system-ui, sans-serif;
+  text-decoration: none;
+}
+
+.fc-exit .fc-icon {
+  font-size: 18px;
+}
+
+@media (max-width: 640px) {
+  .fc-main {
+    padding-top: 80px;
+  }
+
+  [data-fc-theme="doggo"] .fc-intro {
+    font-size: 28px;
+    line-height: 36px;
+  }
+
+  .fc-row {
+    flex-direction: column;
+  }
+
+  .fc-row > .fc-row__country {
+    flex-basis: auto;
+  }
+
+  /* Six code boxes fit the reauth dialog on a 360px phone. */
+  .fc-dialog {
+    padding: 16px;
+  }
+
+  .fc-dialog .fc-otp [data-slot="input-otp-group"] {
+    gap: 6px;
+  }
+
+  .fc-dialog .fc-otp [data-slot="input-otp-slot"] {
+    width: 40px;
+  }
+
+  .fc-button {
+    flex-basis: 100%;
+    max-width: none;
+  }
+
+  .fc-otp [data-slot="input-otp-slot"] {
+    width: 44px;
+  }
+
+  .fc-theme-switcher button {
+    padding: 6px 8px;
+  }
+
+  .fc-theme-switcher > .fc-icon,
+  .fc-exit__label {
+    display: none;
+  }
+
+  .fc-exit {
+    padding: 8px;
+  }
+}

@@ -23,6 +23,9 @@ export const paths = {
   login: `${BASE}/login`,
   signUp: `${BASE}/sign-up`,
   phone: `${BASE}/phone`,
+  // Separate screens in the Professional theme; the other themes do both inline on the login step.
+  resetPassword: `${BASE}/reset-password`,
+  emailLink: `${BASE}/email-link`,
   account: `${BASE}/account`,
   twoFactor: `${BASE}/account/two-factor`,
 } as const;
