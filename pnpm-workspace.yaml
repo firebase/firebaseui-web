@@ -20,7 +20,7 @@ catalog:
   "@angular/platform-server": ^22.2.4
   "@angular/router": ^22.2.4
   "@angular/ssr": ^22.2.5
-  ng-packagr: ^22.1.0
+  ng-packagr: ^22.2.5
   "@tailwindcss/vite": ^4.3.2
   "@testing-library/jest-dom": ^6.9.1
   "@testing-library/react": ^16.3.2
@@ -50,7 +50,7 @@ catalog:
   tsup: 8.5.1
   typescript: ^6.0.3
   vite: ^8.2.4
-  vitest: ^4.1.10
+  vitest: ^5.0.5
   vitest-tsconfig-paths: ^3.4.1
   zod: 4.4.3
   zone.js: ^0.15.1
