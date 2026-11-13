@@ -81,6 +81,15 @@ export const serverRoutes: ServerRoute[] = [
     path: "screens/mfa-enrollment-screen",
     renderMode: RenderMode.Client,
   },
+  /** The full customization demo reads auth state and localStorage on load, so it renders in the browser */
+  {
+    path: "full-customization",
+    renderMode: RenderMode.Client,
+  },
+  {
+    path: "full-customization/**",
+    renderMode: RenderMode.Client,
+  },
   /** All other routes will be rendered on the server (SSR) */
   {
     path: "**",
