@@ -14,34 +14,23 @@
  * limitations under the License.
  */
 
-import { useState, type ComponentType, type ReactNode } from "react";
+import { useState, type ReactNode } from "react";
 import { useNavigate } from "react-router";
-import {
-  FactorId,
-  multiFactor,
-  type MultiFactorInfo,
-  type PhoneMultiFactorInfo,
-  type TotpSecret,
-  type User,
-} from "firebase/auth";
+import { multiFactor, type TotpSecret, type User } from "firebase/auth";
 import { Hash, MessageSquare, QrCode, ShieldCheck, Smartphone } from "lucide-react";
 import { type CountryData, formatPhoneNumber, generateTotpQrCode } from "@firebase-oss/ui-core";
 import {
   useDefaultCountry,
-  useMultiFactorAssertionCleanup,
   useMultiFactorEnrollmentVerifyPhoneNumberFormAction,
   useMultiFactorEnrollmentVerifyTotpFormAction,
-  useSmsMultiFactorAssertionPhoneFormAction,
-  useSmsMultiFactorAssertionVerifyFormAction,
   useSmsMultiFactorEnrollmentPhoneAuthFormAction,
-  useTotpMultiFactorAssertionFormAction,
   useTotpMultiFactorSecretGenerationFormAction,
   useUI,
 } from "@firebase-oss/ui-react";
 
 import { useAuthTask, useResettableRecaptcha } from "../components";
+import { useReauth } from "../reauth";
 import { paths } from "../state";
-import { useReauth } from "../steps/reauth";
 import {
   ProButton,
   ProChoice,
@@ -54,136 +43,7 @@ import {
   ProSection,
   ProSeparator,
 } from "./kit";
-
-type Icon = ComponentType<{ className?: string }>;
-type Header = { icon: Icon; title: string; subtitle: string };
-/** Renders the challenge as a page for sign in, or inside the reauth dialog. */
-type Frame = (header: Header, body: ReactNode) => ReactNode;
-
-const factorName = (hint: MultiFactorInfo) =>
-  hint.displayName || (hint.factorId === FactorId.PHONE ? "Text message" : "Authenticator app");
-
-/** The sign-in challenge, shown by the demo root while a multi-factor resolver is pending. */
-export function ProMfaChallengeStep() {
-  const ui = useUI();
-  return (
-    <ProMfaChallenge
-      frame={(header, body) => (
-        <ProPage icon={header.icon} title={header.title} subtitle={header.subtitle}>
-          {body}
-        </ProPage>
-      )}
-      onCancel={() => ui.setMultiFactorResolver()}
-    />
-  );
-}
-
-type ChallengeProps = { frame: Frame; onCancel: () => void; onResolved?: () => void };
-
-/** Completes `ui.multiFactorResolver`, whether it came from a sign in or a reauthentication. */
-export function ProMfaChallenge({ frame, onCancel, onResolved }: ChallengeProps) {
-  const ui = useUI();
-  const hints = ui.multiFactorResolver?.hints ?? [];
-  const [hint, setHint] = useState<MultiFactorInfo>(hints[0]!);
-  const [code, setCode] = useState("");
-  const [verificationId, setVerificationId] = useState<string | null>(null);
-
-  const recaptcha = useResettableRecaptcha();
-  const sendSms = useSmsMultiFactorAssertionPhoneFormAction();
-  const verifySms = useSmsMultiFactorAssertionVerifyFormAction();
-  const verifyTotp = useTotpMultiFactorAssertionFormAction();
-  const task = useAuthTask();
-
-  useMultiFactorAssertionCleanup();
-
-  const isSms = hint.factorId === FactorId.PHONE;
-  const phone = isSms ? (hint as PhoneMultiFactorInfo).phoneNumber : "";
-  const needsCode = !isSms || verificationId !== null;
-
-  const send = () => {
-    const recaptchaVerifier = recaptcha.verifier;
-    if (!recaptchaVerifier) return;
-    return task.run(async () => {
-      try {
-        setVerificationId(await sendSms({ hint, recaptchaVerifier }));
-      } finally {
-        recaptcha.reset();
-      }
-    });
-  };
-
-  const verify = () =>
-    task.run(async () => {
-      await (isSms
-        ? verifySms({ verificationId: verificationId!, verificationCode: code })
-        : verifyTotp({ hint, verificationCode: code }));
-      onResolved?.();
-    });
-
-  const subtitle = !isSms
-    ? "Enter the 6-digit code from your authenticator app."
-    : verificationId
-      ? `Enter the 6-digit code we sent to ${phone}.`
-      : `Your account uses two-factor authentication. We'll text a code to ${phone}.`;
-
-  const body = (
-    <>
-      {hints.length > 1 && (
-        <>
-          <ProSection>Choose a method</ProSection>
-          <div className="pro-group" role="radiogroup" aria-label="Choose a method" style={{ marginBottom: 24 }}>
-            {hints.map((h, index) => (
-              <div key={h.uid}>
-                {index > 0 && <ProSeparator inset={66} />}
-                <ProChoice
-                  icon={h.factorId === FactorId.PHONE ? MessageSquare : Smartphone}
-                  title={factorName(h)}
-                  detail={h.factorId === FactorId.PHONE ? (h as PhoneMultiFactorInfo).phoneNumber : "Authenticator app"}
-                  checked={h.uid === hint.uid}
-                  onSelect={() => {
-                    setHint(h);
-                    setVerificationId(null);
-                    setCode("");
-                  }}
-                />
-              </div>
-            ))}
-          </div>
-        </>
-      )}
-      <form
-        className="pro-stack"
-        onSubmit={(event) => {
-          event.preventDefault();
-          void (needsCode ? verify() : send());
-        }}
-      >
-        {needsCode && <ProCodeField value={code} onChange={setCode} />}
-        <ProError>{task.error}</ProError>
-        {needsCode ? (
-          <ProButton type="submit" disabled={code.length !== 6} loading={task.pending}>
-            Verify
-          </ProButton>
-        ) : (
-          <ProButton type="submit" disabled={!recaptcha.verifier} loading={task.pending}>
-            Send code
-          </ProButton>
-        )}
-      </form>
-      {isSms && verificationId && (
-        <ProButton variant="text" onClick={() => void send()} disabled={task.pending || !recaptcha.verifier}>
-          Resend code
-        </ProButton>
-      )}
-      <ProButton variant="text" onClick={onCancel}>
-        Cancel
-      </ProButton>
-      {recaptcha.container}
-    </>
-  );
-
-  return frame({ icon: ShieldCheck, title: "Verify it's you", subtitle }, body);
-}
+import { factorName } from "./mfa-challenge";
 
 type Step =
   | { kind: "select" }
@@ -201,6 +61,8 @@ export function ProMfaEnrollment({ user }: { user: User }) {
   const generateSecret = useTotpMultiFactorSecretGenerationFormAction();
   const task = useAuthTask();
   const removal = useAuthTask();
+  // Removing a factor takes a second click, so a stray tap doesn't drop it.
+  const [confirming, setConfirming] = useState<string | null>(null);
 
   const enrolled = multiFactor(user).enrolledFactors;
   const backToSelect = () => setStep({ kind: "select" });
@@ -236,16 +98,18 @@ export function ProMfaEnrollment({ user }: { user: User }) {
                   {index > 0 && <ProSeparator inset={16} />}
                   <ProRow
                     title={factorName(factor)}
-                    value="Remove"
+                    value={confirming === factor.uid ? "Confirm remove" : "Remove"}
                     tone="danger"
                     disabled={removal.pending}
-                    onClick={() =>
-                      removal.run(async () => {
+                    onClick={() => {
+                      if (confirming !== factor.uid) return setConfirming(factor.uid);
+                      setConfirming(null);
+                      void removal.run(async () => {
                         await withReauth(REAUTH_REASON, () => multiFactor(user).unenroll(factor));
                         // A fresh step object re-renders the list without the removed factor.
                         setStep({ kind: "select" });
-                      })
-                    }
+                      });
+                    }}
                   />
                 </div>
               ))}
@@ -256,6 +120,7 @@ export function ProMfaEnrollment({ user }: { user: User }) {
         <ProSection>Choose a method</ProSection>
         <div className="pro-group" role="radiogroup" aria-label="Choose a method">
           <ProChoice
+            name="enroll-method"
             icon={MessageSquare}
             title="Text message"
             detail="We'll text a code to your phone."
@@ -264,6 +129,7 @@ export function ProMfaEnrollment({ user }: { user: User }) {
           />
           <ProSeparator inset={66} />
           <ProChoice
+            name="enroll-method"
             icon={Smartphone}
             title="Authenticator app"
             detail="Use a code from an app like Google Authenticator."
@@ -435,7 +301,13 @@ function TotpSetup({
           <code>{secret.secretKey}</code>
           <ProButton
             variant="text"
-            onClick={() => void navigator.clipboard.writeText(secret.secretKey).then(() => setCopied(true))}
+            onClick={() =>
+              navigator.clipboard.writeText(secret.secretKey).then(
+                () => setCopied(true),
+                // Clipboard access can be denied; the key is still selectable.
+                () => setCopied(false)
+              )
+            }
           >
             {copied ? "Copied" : "Copy"}
           </ProButton>

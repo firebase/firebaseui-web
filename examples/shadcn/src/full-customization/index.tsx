@@ -18,13 +18,14 @@ import { useEffect, useState, type ReactElement } from "react";
 import { Link, Navigate, Route, Routes } from "react-router";
 import type { User } from "firebase/auth";
 import { completeEmailLinkSignIn } from "@firebase-oss/ui-core";
-import { useUI } from "@firebase-oss/ui-react";
+import { useMultiFactorAssertionCleanup, useUI } from "@firebase-oss/ui-react";
 
 import { useUser } from "@/firebase/hooks";
 import "./full-customization.css";
 import { DemoProvider, paths } from "./state";
 import { ProAccount } from "./professional/account";
-import { ProMfaChallengeStep, ProMfaEnrollment } from "./professional/mfa";
+import { ProMfaChallengeStep } from "./professional/mfa-challenge";
+import { ProMfaEnrollment } from "./professional/mfa-enrollment";
 import { ProPhone } from "./professional/phone";
 import { ProEmailLink, ProResetPassword, ProSignIn, ProSignUp } from "./professional/sign-in";
 import { ThemeArt, ThemeIdContext, ThemeSwitcher, useTheme } from "./theme";
@@ -35,6 +36,12 @@ import { MfaChallengeStep } from "./steps/mfa-challenge";
 import { MfaEnrollmentStep } from "./steps/mfa-enrollment";
 import { PhoneStep } from "./steps/phone";
 import { SignUpStep } from "./steps/sign-up";
+
+/** Owns the sign-in resolver, so switching theme mid-challenge swaps the screen without cancelling the sign in. */
+function SignInChallenge({ children }: { children: ReactElement }) {
+  useMultiFactorAssertionCleanup();
+  return children;
+}
 
 /**
  * A complete sign in flow with its own UI, where FirebaseUI supplies only the auth logic through
@@ -99,7 +106,7 @@ export default function FullCustomizationDemo() {
         <DemoProvider linkError={linkError}>
           {/* A signed-in user with a resolver is reauthenticating; the reauth dialog completes that one. */}
           {ui.multiFactorResolver && !user ? (
-            screens.challenge
+            <SignInChallenge>{screens.challenge}</SignInChallenge>
           ) : (
             <Routes>
               <Route index element={signedOut(screens.email)} />

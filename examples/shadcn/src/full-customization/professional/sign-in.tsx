@@ -271,7 +271,7 @@ export function ProResetPassword() {
 
 export function ProEmailLink() {
   const navigate = useNavigate();
-  const { email, setEmail } = useDemo();
+  const { email, setEmail, linkError } = useDemo();
   const [sent, setSent] = useState(false);
   const validEmail = useValidEmail(email);
   const sendLink = useEmailLinkAuthFormAction();
@@ -312,7 +312,7 @@ export function ProEmailLink() {
           value={email}
           onChange={(event) => setEmail(event.target.value)}
         />
-        <ProError>{task.error}</ProError>
+        <ProError>{task.error ?? linkError}</ProError>
         <ProButton type="submit" disabled={!validEmail} loading={task.pending}>
           Send link
         </ProButton>

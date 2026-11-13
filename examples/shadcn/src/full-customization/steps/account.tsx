@@ -29,7 +29,7 @@ import { useUI } from "@firebase-oss/ui-react";
 
 import { Actions, Button, ErrorText, Links, Page, TextField, TextLink, useAuthTask } from "../components";
 import { paths } from "../state";
-import { useReauth } from "./reauth";
+import { useReauth } from "../reauth";
 
 function identifier(user: User) {
   return user.displayName || user.email || user.phoneNumber || "your account";
