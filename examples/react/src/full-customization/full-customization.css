@@ -22,7 +22,7 @@
  */
 
 @import url("https://fonts.googleapis.com/css2?family=Bagel+Fat+One&family=Chivo+Mono:wght@500&family=JetBrains+Mono:wght@400;500&family=Onest:wght@500;700&family=Roboto+Mono:wght@500&family=Roboto:wght@500;600&family=Rowdies:wght@300;400&display=swap");
-@import url("https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@24,400..700,0..1,0&icon_names=alternate_email,arrow_back,check,coffee,lock,palette,person,phone,visibility,visibility_off&display=block");
+@import url("https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@24,400..700,0..1,0&icon_names=alternate_email,arrow_back,check,chevron_left,chevron_right,coffee,drafts,error,key,lock,mail,more_horiz,palette,person,phone,qr_code_2,shield,sms,smartphone,tag,verified_user,visibility,visibility_off&display=block");
 
 /* Doggo: Figma 20:6031 */
 .fc-root[data-theme="doggo"] {
@@ -656,6 +656,7 @@
 
 .fc-dialog {
   width: min(100% - 32px, 560px);
+  margin: auto;
   padding: 0;
   border: 0;
   background: transparent;

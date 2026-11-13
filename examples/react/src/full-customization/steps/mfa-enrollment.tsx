@@ -40,7 +40,7 @@ import {
   useResettableRecaptcha,
 } from "../components";
 import { paths } from "../state";
-import { useReauth } from "./reauth";
+import { useReauth } from "../reauth";
 
 type Step =
   | { kind: "select" }

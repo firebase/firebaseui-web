@@ -1,0 +1,761 @@
+/**
+ * Copyright 2025 Google LLC
+ *
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ *     http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ */
+
+/*
+ * Professional theme, ported from the FirebaseUI-Android (#2545) and FirebaseUI-iOS (#1420) demos.
+ * Unlike the other three it has its own layout: flat, left-aligned screens on a neutral palette with
+ * one blue accent, providers first on sign-in and a settings-style account page. The palette is the
+ * same on both platforms; dark mode follows the example's light/dark setting, which defaults to the system.
+ */
+
+.fc-root[data-theme="professional"] {
+  --background: #f5f6f8;
+  --foreground: #111418;
+  --card: #ffffff;
+  --card-foreground: #111418;
+  --popover: #ffffff;
+  --popover-foreground: #111418;
+  --primary: #1f5eff;
+  --primary-foreground: #ffffff;
+  --secondary: #eef2ff;
+  --secondary-foreground: #1f5eff;
+  --muted: #eef0f3;
+  --muted-foreground: #5b6470;
+  --accent: #eef2ff;
+  --accent-foreground: #1f5eff;
+  --destructive: #b42318;
+  --border: #c9cfd6;
+  --input: #c9cfd6;
+  --ring: #1f5eff;
+  --radius: 10px;
+
+  --pro-surface: #ffffff;
+  --pro-field: #ffffff;
+  --pro-placeholder: #6b7480;
+  --pro-hairline: #e3e6ea;
+  --pro-accent: #1f5eff;
+  /* Darker than the accent in dark mode, so the white label keeps 4.5:1. */
+  --pro-accent-fill: #1f5eff;
+  --pro-accent-soft: #eef2ff;
+  --pro-accent-soft-text: #1f5eff;
+  --pro-tile: #eef0f3;
+  --pro-chevron: #9aa3ae;
+
+  --fc-page-art: none;
+  --fc-page-bg: var(--background);
+  --fc-text: var(--foreground);
+  /* The shared theme switcher's focus ring. */
+  --fc-field-focus: var(--pro-accent);
+  --fc-field-font: 400 16px/24px system-ui, -apple-system, "Segoe UI", Roboto, sans-serif;
+}
+
+html.dark .fc-root[data-theme="professional"] {
+  --background: #0f1115;
+  --foreground: #f2f4f7;
+  --card: #181b20;
+  --card-foreground: #f2f4f7;
+  --popover: #181b20;
+  --popover-foreground: #f2f4f7;
+  --primary: #2f62f0;
+  --secondary: #1c2540;
+  --secondary-foreground: #9db5ff;
+  --muted: #22262d;
+  --muted-foreground: #9aa3ae;
+  --accent: #1c2540;
+  --accent-foreground: #9db5ff;
+  --destructive: #f97066;
+  --border: #3a414a;
+  --input: #3a414a;
+  --ring: #4c7dff;
+
+  --pro-surface: #181b20;
+  --pro-field: #0f1115;
+  --pro-placeholder: #7d8693;
+  --pro-hairline: #2a2f36;
+  --pro-accent: #4c7dff;
+  --pro-accent-fill: #2f62f0;
+  --pro-accent-soft: #1c2540;
+  --pro-accent-soft-text: #9db5ff;
+  --pro-tile: #22262d;
+  --pro-chevron: #5b6470;
+}
+
+/* Page: left aligned, 480px wide, footer pinned to the bottom when content is short */
+
+.pro-page {
+  display: flex;
+  flex: 1;
+  flex-direction: column;
+  width: 100%;
+  max-width: calc(480px + 64px);
+  padding: 88px 32px 16px;
+  color: var(--foreground);
+}
+
+.pro-content {
+  display: flex;
+  flex-direction: column;
+  margin-top: 28px;
+}
+
+.pro-spacer {
+  flex: 1;
+  min-height: 32px;
+}
+
+.pro-back .pro-sym {
+  font-size: 22px;
+}
+
+.pro-back {
+  display: inline-flex;
+  align-items: center;
+  align-self: flex-start;
+  gap: 2px;
+  margin-bottom: 12px;
+  padding: 0;
+  border: 0;
+  background: none;
+  color: var(--pro-accent);
+  font-family: inherit;
+  font-size: 15px;
+  font-weight: 500;
+  cursor: pointer;
+}
+
+.pro-brand {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  margin-bottom: 28px;
+  font-size: 15px;
+  font-weight: 600;
+}
+
+.pro-tile {
+  display: grid;
+  flex: none;
+  place-items: center;
+  width: var(--pro-tile-size, 44px);
+  height: var(--pro-tile-size, 44px);
+  border-radius: calc(var(--pro-tile-size, 44px) * 0.28);
+  background: var(--pro-accent-soft);
+  color: var(--pro-accent-soft-text);
+}
+
+.pro-tile .pro-sym {
+  font-size: calc(var(--pro-tile-size, 44px) * 0.5);
+}
+
+.pro-tile--brand {
+  --pro-tile-size: 32px;
+  background: var(--pro-accent-fill);
+  color: #ffffff;
+}
+
+.pro-tile--header {
+  margin-bottom: 20px;
+}
+
+.pro-title {
+  margin: 0;
+  font-size: 26px;
+  font-weight: 600;
+  line-height: 32px;
+  letter-spacing: -0.3px;
+}
+
+.pro-subtitle {
+  margin: 6px 0 0;
+  color: var(--muted-foreground);
+  font-size: 15px;
+  line-height: 21px;
+}
+
+.pro-stack {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+}
+
+.pro-stack--tight {
+  gap: 10px;
+}
+
+/* Fields */
+
+.pro-label-row {
+  display: flex;
+  align-items: baseline;
+  justify-content: space-between;
+  margin-bottom: 6px;
+}
+
+.pro-label {
+  font-size: 14px;
+  font-weight: 500;
+  line-height: 20px;
+}
+
+.pro-label-action {
+  padding: 0;
+  border: 0;
+  background: none;
+  color: var(--pro-accent);
+  font: inherit;
+  font-size: 14px;
+  font-weight: 500;
+  cursor: pointer;
+}
+
+.pro-input-wrap {
+  position: relative;
+}
+
+.pro-input,
+.pro-select {
+  width: 100%;
+  height: 48px;
+  outline: none;
+  padding-inline: 14px;
+  border: 1px solid var(--border);
+  border-radius: 10px;
+  background: var(--pro-field);
+  color: var(--foreground);
+  font: inherit;
+  font-size: 16px;
+  box-shadow: none;
+}
+
+.pro-input::placeholder {
+  color: var(--pro-placeholder);
+}
+
+.pro-input:focus-visible,
+.pro-select:focus-visible {
+  border-color: var(--pro-accent);
+  box-shadow: 0 0 0 1px var(--pro-accent);
+}
+
+.pro-input-wrap:has(.pro-toggle) .pro-input {
+  padding-right: 48px;
+}
+
+.pro-toggle {
+  position: absolute;
+  top: 50%;
+  right: 2px;
+  display: grid;
+  place-items: center;
+  width: 44px;
+  height: 44px;
+  border: 0;
+  background: none;
+  color: var(--muted-foreground);
+  transform: translateY(-50%);
+  cursor: pointer;
+}
+
+.pro-toggle .pro-sym {
+  font-size: 20px;
+}
+
+.pro-hint {
+  margin: 6px 0 0;
+  color: var(--muted-foreground);
+  font-size: 14px;
+}
+
+.pro-hint--error {
+  color: var(--destructive);
+}
+
+.pro-input[aria-invalid="true"] {
+  border-color: var(--destructive);
+}
+
+/* Phone: one box with the country picker, a hairline, then the number */
+
+.pro-phone {
+  display: flex;
+  align-items: center;
+  height: 48px;
+  padding-inline: 4px 14px;
+  border: 1px solid var(--border);
+  border-radius: 10px;
+  background: var(--pro-field);
+}
+
+.pro-phone:focus-within {
+  border-color: var(--pro-accent);
+  box-shadow: 0 0 0 1px var(--pro-accent);
+}
+
+.pro-phone .pro-select {
+  width: auto;
+  height: 46px;
+  padding-inline: 10px;
+  border: 0;
+  background: transparent;
+}
+
+.pro-phone .pro-select:focus-visible {
+  box-shadow: none;
+}
+
+.pro-phone__divider {
+  width: 1px;
+  height: 24px;
+  margin-right: 10px;
+  background: var(--pro-hairline);
+}
+
+.pro-phone .pro-input {
+  flex: 1;
+  height: 46px;
+  padding: 0;
+  border: 0;
+  background: transparent;
+}
+
+.pro-phone .pro-input:focus-visible {
+  box-shadow: none;
+}
+
+/* Buttons */
+
+.pro-btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  border: 0;
+  cursor: pointer;
+  width: 100%;
+  height: auto;
+  border-radius: 10px;
+  font-family: inherit;
+  box-shadow: none;
+}
+
+.pro-btn:focus-visible,
+.pro-back:focus-visible,
+.pro-label-action:focus-visible,
+.pro-toggle:focus-visible,
+.pro-prompt button:focus-visible,
+.pro-legal a:focus-visible {
+  outline: 2px solid var(--pro-accent);
+  outline-offset: 2px;
+}
+
+.pro-btn--primary {
+  min-height: 52px;
+  margin-top: 4px;
+  padding: 10px 24px;
+  background: var(--pro-accent-fill);
+  color: #ffffff;
+  font-size: 17px;
+  font-weight: 600;
+}
+
+.pro-btn--primary:hover:not(:disabled) {
+  background: color-mix(in srgb, var(--pro-accent-fill) 90%, black);
+}
+
+.pro-btn:disabled {
+  cursor: default;
+}
+
+.pro-btn--primary:disabled {
+  opacity: 0.45;
+}
+
+.pro-btn--outline {
+  min-height: 48px;
+  gap: 10px;
+  border: 1px solid var(--border);
+  background: var(--pro-surface);
+  color: var(--foreground);
+  font-size: 15px;
+  font-weight: 600;
+}
+
+.pro-btn--outline:hover {
+  background: var(--pro-surface);
+  border-color: var(--muted-foreground);
+}
+
+.pro-btn--outline svg {
+  width: 20px;
+  height: 20px;
+}
+
+.pro-btn--outline .pro-sym {
+  font-size: 20px;
+}
+
+.pro-btn--text {
+  min-height: 44px;
+  padding: 0 8px;
+  background: none;
+  color: var(--pro-accent);
+  font-size: 15px;
+  font-weight: 500;
+}
+
+.pro-btn--text:hover {
+  background: none;
+  text-decoration: underline;
+}
+
+.pro-btn--text:disabled {
+  opacity: 0.5;
+}
+
+.pro-prompt {
+  margin: 4px 0 0;
+  color: var(--muted-foreground);
+  font-size: 15px;
+  text-align: center;
+}
+
+.pro-prompt button {
+  padding: 0;
+  border: 0;
+  background: none;
+  color: var(--pro-accent);
+  font: inherit;
+  font-weight: 500;
+  cursor: pointer;
+}
+
+.pro-divider {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  padding: 22px 0;
+  color: var(--muted-foreground);
+  font-size: 13px;
+}
+
+.pro-divider::before,
+.pro-divider::after {
+  flex: 1;
+  height: 1px;
+  background: var(--pro-hairline);
+  content: "";
+}
+
+.pro-error {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  margin: 0;
+  color: var(--destructive);
+  font-size: 14px;
+}
+
+.pro-error .pro-sym {
+  flex: none;
+  font-size: 18px;
+}
+
+.pro-legal {
+  margin: 0;
+  color: var(--muted-foreground);
+  font-size: 13px;
+  line-height: 18px;
+  text-align: center;
+}
+
+.pro-legal a {
+  color: var(--pro-accent);
+  text-decoration: none;
+}
+
+.pro-legal a:hover {
+  text-decoration: underline;
+}
+
+/* Settings groups, rows and choice rows */
+
+.pro-section {
+  margin: 0 0 8px;
+  color: var(--muted-foreground);
+  font-size: 13px;
+  font-weight: 500;
+  letter-spacing: 0.3px;
+  text-transform: uppercase;
+}
+
+.pro-group {
+  overflow: hidden;
+  border: 1px solid var(--pro-hairline);
+  border-radius: 12px;
+  background: var(--pro-surface);
+}
+
+.pro-group + .pro-group,
+.pro-group + .pro-section {
+  margin-top: 24px;
+}
+
+.pro-row {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  width: 100%;
+  min-height: 52px;
+  padding: 0 16px;
+  border: 0;
+  background: none;
+  color: var(--foreground);
+  font: inherit;
+  font-size: 16px;
+  text-align: left;
+}
+
+button.pro-row {
+  cursor: pointer;
+}
+
+button.pro-row:hover {
+  background: color-mix(in srgb, var(--foreground) 4%, transparent);
+}
+
+button.pro-row:disabled {
+  cursor: default;
+  opacity: 0.5;
+}
+
+button.pro-row:focus-visible {
+  outline: 2px solid var(--pro-accent);
+  outline-offset: -2px;
+}
+
+.pro-row > .pro-sym {
+  flex: none;
+  font-size: 20px;
+}
+
+.pro-row__title {
+  flex: 1;
+}
+
+.pro-row--plain .pro-row__title {
+  font-weight: 500;
+}
+
+.pro-row__value {
+  color: var(--muted-foreground);
+  font-size: 15px;
+}
+
+.pro-row__value--accent {
+  color: var(--pro-accent);
+}
+
+.pro-row__value--danger {
+  color: var(--destructive);
+}
+
+.pro-row .pro-chevron {
+  display: flex;
+  color: var(--pro-chevron);
+}
+
+.pro-chevron .pro-sym {
+  font-size: 20px;
+}
+
+.pro-separator {
+  height: 1px;
+  margin-left: var(--pro-inset, 48px);
+  background: var(--pro-hairline);
+}
+
+.pro-choice {
+  position: relative;
+  display: flex;
+  align-items: center;
+  gap: 14px;
+  width: 100%;
+  padding: 14px 16px;
+  border: 0;
+  background: none;
+  color: var(--foreground);
+  font: inherit;
+  text-align: left;
+  cursor: pointer;
+}
+
+.pro-choice:has(input:focus-visible) {
+  outline: 2px solid var(--pro-accent);
+  outline-offset: -2px;
+}
+
+.pro-choice input {
+  position: absolute;
+  opacity: 0;
+  pointer-events: none;
+}
+
+.pro-choice .pro-tile {
+  --pro-tile-size: 36px;
+}
+
+.pro-choice:not(:has(input:checked)) .pro-tile {
+  background: var(--pro-tile);
+  color: var(--foreground);
+}
+
+.pro-choice__text {
+  display: flex;
+  flex: 1;
+  flex-direction: column;
+  gap: 2px;
+}
+
+.pro-choice__title {
+  font-size: 16px;
+  font-weight: 500;
+}
+
+.pro-choice__detail {
+  color: var(--muted-foreground);
+  font-size: 14px;
+}
+
+.pro-radio {
+  width: 20px;
+  height: 20px;
+  border: 2px solid var(--border);
+  border-radius: 50%;
+}
+
+.pro-choice:has(input:checked) .pro-radio {
+  border: 6px solid var(--pro-accent);
+}
+
+/* Account */
+
+.pro-profile {
+  display: flex;
+  align-items: center;
+  gap: 14px;
+  margin-bottom: 32px;
+}
+
+.pro-avatar {
+  display: grid;
+  flex: none;
+  place-items: center;
+  width: 56px;
+  height: 56px;
+  border-radius: 50%;
+  background: var(--pro-accent-soft);
+  color: var(--pro-accent-soft-text);
+  font-size: 22px;
+  font-weight: 600;
+}
+
+.pro-profile__name {
+  overflow: hidden;
+  font-size: 17px;
+  font-weight: 600;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.pro-profile__sub {
+  color: var(--muted-foreground);
+  font-size: 14px;
+}
+
+.pro-inline-form {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+  padding: 16px;
+  border-top: 1px solid var(--pro-hairline);
+}
+
+/* TOTP setup */
+
+.pro-qr {
+  align-self: center;
+  width: 200px;
+  height: 200px;
+  padding: 12px;
+  border: 1px solid var(--border);
+  border-radius: 10px;
+  background: #ffffff;
+}
+
+.pro-secret {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  min-height: 48px;
+  padding: 0 4px 0 14px;
+  border: 1px solid var(--border);
+  border-radius: 10px;
+  background: var(--pro-field);
+}
+
+.pro-secret code {
+  flex: 1;
+  font-size: 15px;
+  word-break: break-all;
+  user-select: all;
+}
+
+.pro-secret .pro-btn--text {
+  width: auto;
+  min-height: 40px;
+}
+
+/* Reauth dialog and the "More sign-in options" sheet */
+
+.pro-dialog {
+  width: min(448px, calc(100% - 32px));
+  margin: auto;
+  padding: 0;
+  border: 1px solid var(--pro-hairline);
+  border-radius: 12px;
+  background: var(--background);
+  color: var(--foreground);
+  box-shadow: 0 12px 32px rgb(0 0 0 / 18%);
+  font: var(--fc-field-font);
+}
+
+.pro-dialog::backdrop {
+  background: rgb(0 0 0 / 50%);
+}
+
+.pro-dialog__body {
+  padding: 24px;
+}
+
+.pro-dialog .pro-content {
+  margin-top: 20px;
+}
+
+@media (max-width: 640px) {
+  .pro-page {
+    padding-inline: 20px;
+  }
+}
