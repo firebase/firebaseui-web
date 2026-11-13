@@ -17,7 +17,6 @@
 import { useState, type ReactNode } from "react";
 import { FactorId, type MultiFactorInfo, type PhoneMultiFactorInfo } from "firebase/auth";
 import {
-  useMultiFactorAssertionCleanup,
   useSmsMultiFactorAssertionPhoneFormAction,
   useSmsMultiFactorAssertionVerifyFormAction,
   useTotpMultiFactorAssertionFormAction,
@@ -72,8 +71,6 @@ export function MfaChallenge({ frame, onCancel, onResolved }: ChallengeProps) {
   const ui = useUI();
   const hints = ui.multiFactorResolver?.hints ?? [];
   const [hint, setHint] = useState<MultiFactorInfo | null>(hints.length === 1 ? hints[0]! : null);
-
-  useMultiFactorAssertionCleanup();
 
   const links = (
     <>
