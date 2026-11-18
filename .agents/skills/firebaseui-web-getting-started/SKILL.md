@@ -20,7 +20,7 @@ Implement Firebase authentication with FirebaseUI Web (`@firebase-oss/ui-*`). De
 | --- | --- | --- |
 | React | `react` and `react-dom` in `package.json`, no `components.json` | [`references/react.md`](references/react.md), [`references/react-recipes.md`](references/react-recipes.md), [`references/core.md`](references/core.md) |
 | shadcn/ui | `components.json` next to `react` and `tailwindcss` | [`references/shadcn.md`](references/shadcn.md), [`references/shadcn-recipes.md`](references/shadcn-recipes.md), [`references/core.md`](references/core.md) |
-| Angular | `@angular/core` v19+ | [`references/angular.md`](references/angular.md), [`references/angular-recipes.md`](references/angular-recipes.md), [`references/core.md`](references/core.md) |
+| Angular | `@angular/core` v20+ | [`references/angular.md`](references/angular.md), [`references/angular-recipes.md`](references/angular-recipes.md), [`references/core.md`](references/core.md) |
 
 Read only your stack's files, in **one parallel batch** with these project files (those that exist): `package.json`, `firebase.json`; React and shadcn/ui `src/main.tsx`, `src/App.tsx` (shadcn/ui also `components.json`); Angular `angular.json`, `src/app/app.config.ts`, `src/app/app.routes.ts`, `src/app/app.ts`. If the stack is ambiguous, ask the user before installing packages.
 
