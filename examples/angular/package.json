@@ -38,10 +38,10 @@
     "@firebase-oss/ui-styles": "workspace:*",
     "@firebase-oss/ui-translations": "workspace:*",
     "@tailwindcss/postcss": "^4.3.3",
-    "express": "^5.2.1",
+    "express": "^5.3.0",
     "postcss": "catalog:",
     "rxjs": "~7.8.2",
-    "tailwindcss": "^4.3.2",
+    "tailwindcss": "^4.3.3",
     "tslib": "^2.8.1",
     "zone.js": "~0.16.3"
   },
@@ -57,9 +57,9 @@
     "@angular/cli": "catalog:",
     "@angular/compiler-cli": "catalog:",
     "@eslint/js": "^10.0.1",
-    "@tanstack/angular-form": "^1.33.0",
+    "@tanstack/angular-form": "^1.33.5",
     "@types/express": "^5.0.6",
-    "@types/node": "^26.1.0",
+    "@types/node": "^26.6.5",
     "@typescript-eslint/eslint-plugin": "^8.62.1",
     "@typescript-eslint/parser": "^8.62.1",
     "eslint": "^10.6.0",
@@ -74,7 +74,7 @@
     "@testing-library/jest-dom": "^6.9.1",
     "nanostores": "catalog:",
     "ng-packagr": "catalog:",
-    "prettier": "^3.9.6",
+    "prettier": "^3.9.10",
     "rimraf": "catalog:",
     "typescript": "catalog:"
   }
