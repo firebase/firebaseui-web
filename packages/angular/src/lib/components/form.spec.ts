@@ -310,15 +310,15 @@ describe("Form Components", () => {
       showPasswordLabel = signal<string | undefined>("Show password");
     }
 
-    it("keeps the action slot outside the label", async () => {
+    it("keeps the label as the field wrapper", async () => {
       const { container } = await render(TestFormInputHostComponent, {
         imports: [TestFormInputHostComponent],
       });
 
-      const label = container.querySelector('label[for="test"]');
-      expect(label).toHaveTextContent(/^Test Label$/);
-      expect(label).not.toContainElement(screen.getByTestId("test-action"));
-      expect(label).not.toContainElement(container.querySelector('input[name="test"]') as HTMLElement);
+      const input = container.querySelector('input[name="test"]') as HTMLElement;
+      expect(input.closest("label")).toBe(container.querySelector('label[for="test"]'));
+      expect(input).not.toHaveAttribute("aria-labelledby");
+      expect(input).not.toHaveAttribute("aria-describedby");
     });
 
     it("renders a password toggle that reveals and hides the password", async () => {
@@ -401,15 +401,13 @@ describe("Form Components", () => {
       addEventListener.mockRestore();
     });
 
-    it("links the description to the input", async () => {
-      const component = await render(TestFormInputWithDescriptionHostComponent);
+    it("names a password input with a toggle from the label text only", async () => {
+      await render(TestFormPasswordInputHostComponent);
 
-      component.fixture.componentInstance.description.set("Enter a code");
-      component.fixture.detectChanges();
-
-      const input = screen.getByLabelText("Test Label");
-      expect(input).toHaveAttribute("aria-describedby", "test-description");
-      expect(input).toHaveAccessibleDescription("Enter a code");
+      const input = screen.getByLabelText(/password/i);
+      expect(input).toHaveAttribute("id", "password");
+      expect(input).toHaveAccessibleName("Password");
+      expect(screen.getByRole("button", { name: "Show password" })).toBeTruthy();
     });
 
     it("does not render a password toggle without a show password label", async () => {

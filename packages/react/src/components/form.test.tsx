@@ -209,10 +209,10 @@ describe("form export", () => {
       expect(error).toBeInTheDocument();
       expect(error).toHaveClass("fui-error");
     });
-    it("should keep the action and before slots outside the label", () => {
+    it("should keep the label as the field wrapper without extra aria attributes", () => {
       const { result } = renderHook(() => {
         return form.useAppForm({
-          defaultValues: { foo: "bar" },
+          defaultValues: { foo: "" },
         });
       });
 
@@ -220,29 +220,17 @@ describe("form export", () => {
 
       const { container } = render(
         <hook.AppForm>
-          <hook.AppField name="foo">
-            {(field) => (
-              <field.Input
-                label="Foo"
-                before={<select data-testid="test-before" />}
-                action={
-                  <button type="button" data-testid="test-action">
-                    Action
-                  </button>
-                }
-              />
-            )}
-          </hook.AppField>
+          <hook.AppField name="foo">{(field) => <field.Input label="Foo" description="Enter a foo" />}</hook.AppField>
         </hook.AppForm>
       );
 
-      const label = container.querySelector('label[for="foo"]');
-      expect(label).toHaveTextContent(/^Foo$/);
-      expect(label).not.toContainElement(screen.getByTestId("test-action"));
-      expect(label).not.toContainElement(screen.getByTestId("test-before"));
-      expect(label).not.toContainElement(container.querySelector('input[name="foo"]') as HTMLElement);
+      const input = screen.getByLabelText(/Foo/);
+      expect(input.closest("label")).toBe(container.querySelector('label[for="foo"]'));
+      expect(input).not.toHaveAttribute("aria-labelledby");
+      expect(input).not.toHaveAttribute("aria-describedby");
     });
-    it("should link the description and errors to the input", async () => {
+
+    it("should name the input from the label text only and describe it when labelTextOnly is set", async () => {
       const { result } = renderHook(() => {
         return form.useAppForm({
           defaultValues: { foo: "" },
@@ -256,19 +244,26 @@ describe("form export", () => {
 
       render(
         <hook.AppForm>
-          <hook.AppField name="foo">{(field) => <field.Input label="Foo" description="Enter a foo" />}</hook.AppField>
+          <hook.AppField name="foo">
+            {(field) => (
+              <field.Input
+                label="Foo"
+                description="Enter a foo"
+                labelTextOnly
+                action={<button type="button">Action</button>}
+              />
+            )}
+          </hook.AppField>
         </hook.AppForm>
       );
 
-      const input = screen.getByLabelText("Foo");
-      expect(input).toHaveAttribute("aria-describedby", "foo-description");
+      const input = screen.getByRole("textbox", { name: "Foo" });
       expect(input).toHaveAccessibleDescription("Enter a foo");
 
       await act(async () => {
         await hook.handleSubmit();
       });
 
-      expect(input).toHaveAttribute("aria-describedby", "foo-description foo-error");
       expect(input).toHaveAccessibleDescription("Enter a foo Required");
     });
   });
@@ -309,6 +304,15 @@ describe("form export", () => {
       const toggle = screen.getByRole("button", { name: "Show password" });
       expect(toggle).toHaveAttribute("type", "button");
       expect(toggle).toHaveAttribute("aria-controls", "password");
+    });
+
+    it("should keep the input name to the label text and not match the toggle in label queries", () => {
+      renderPasswordInput();
+
+      const input = screen.getByLabelText(/password/i);
+      expect(input).toHaveAttribute("id", "password");
+      expect(input).toHaveAccessibleName("Password");
+      expect(screen.getByRole("button", { name: "Show password" })).toBeInTheDocument();
     });
 
     it("should reveal and hide the password when the toggle is clicked", () => {

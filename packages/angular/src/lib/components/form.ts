@@ -70,9 +70,9 @@ export class FormMetadataComponent {
     style: "display: block;",
   },
   template: `
-    <div data-input-field>
+    <label [for]="field.api.name">
       <div data-input-label>
-        <label [for]="field.api.name">{{ label() }}</label>
+        <div [id]="field.api.name + '-label'">{{ label() }}</div>
         <div><ng-content select="input-action" /></div>
       </div>
       @if (description()) {
@@ -83,7 +83,8 @@ export class FormMetadataComponent {
         <input
           #inputElement
           [attr.aria-invalid]="field.api.state.meta.isTouched && field.api.state.meta.errors.length > 0"
-          [attr.aria-describedby]="describedBy()"
+          [attr.aria-labelledby]="hasPasswordToggle() ? field.api.name + '-label' : null"
+          [attr.aria-describedby]="hasPasswordToggle() ? describedBy() : null"
           [id]="field.api.name"
           [name]="field.api.name"
           [value]="field.api.state.value"
@@ -100,7 +101,6 @@ export class FormMetadataComponent {
           <button
             type="button"
             class="fui-form__password-toggle"
-            [attr.aria-label]="passwordVisible() ? hidePasswordLabel() : showPasswordLabel()"
             [attr.aria-controls]="field.api.name"
             (click)="togglePasswordVisibility()"
           >
@@ -132,6 +132,7 @@ export class FormMetadataComponent {
                 <circle cx="12" cy="12" r="3" />
               }
             </svg>
+            <span class="fui-sr-only">{{ passwordVisible() ? hidePasswordLabel() : showPasswordLabel() }}</span>
           </button>
         }
       </div>
@@ -141,7 +142,7 @@ export class FormMetadataComponent {
         [errors]="field.api.state.meta.errors"
         [errorId]="field.api.name + '-error'"
       ></fui-form-metadata>
-    </div>
+    </label>
   `,
 })
 /**

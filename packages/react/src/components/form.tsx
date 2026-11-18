@@ -59,12 +59,15 @@ type InputProps = PropsWithChildren<
     after?: ReactNode;
     action?: ReactNode;
     description?: ReactNode;
+    /** Names the input from the label text only and links the description and errors with `aria-describedby`. */
+    labelTextOnly?: boolean;
   }
 >;
 
-function Input({ children, before, after, label, action, description, ...props }: InputProps) {
+function Input({ children, before, after, label, action, description, labelTextOnly, ...props }: InputProps) {
   const field = useFieldContext<string>();
   const form = useFormContext();
+  const labelId = `${field.name}-label`;
   const descriptionId = `${field.name}-description`;
   const errorId = `${field.name}-error`;
 
@@ -72,14 +75,16 @@ function Input({ children, before, after, label, action, description, ...props }
     <form.Subscribe selector={(state) => shouldShowValidationErrors(state)}>
       {(showValidation) => {
         const showErrors = (showValidation || field.state.meta.isTouched) && field.state.meta.errors.length > 0;
-        const describedBy = [props["aria-describedby"], description ? descriptionId : null, showErrors ? errorId : null]
-          .filter(Boolean)
-          .join(" ");
+        const describedBy = labelTextOnly
+          ? [props["aria-describedby"], description ? descriptionId : null, showErrors ? errorId : null]
+              .filter(Boolean)
+              .join(" ")
+          : props["aria-describedby"];
 
         return (
-          <div data-input-field>
+          <label htmlFor={field.name}>
             <div data-input-label>
-              <label htmlFor={field.name}>{label}</label>
+              <div id={labelId}>{label}</div>
               {action ? <div>{action}</div> : null}
             </div>
             {description ? (
@@ -91,6 +96,7 @@ function Input({ children, before, after, label, action, description, ...props }
               {before}
               <input
                 {...props}
+                aria-labelledby={labelTextOnly ? labelId : props["aria-labelledby"]}
                 aria-describedby={describedBy || undefined}
                 aria-invalid={showErrors}
                 id={field.name}
@@ -109,7 +115,7 @@ function Input({ children, before, after, label, action, description, ...props }
             </div>
             {children ? <>{children}</> : null}
             {showValidation || field.state.meta.isTouched ? <FieldMetadata field={field} id={errorId} /> : null}
-          </div>
+          </label>
         );
       }}
     </form.Subscribe>
@@ -185,6 +191,7 @@ function PasswordInput({
     <Input
       {...props}
       ref={setRefs}
+      labelTextOnly
       type={visible ? "text" : "password"}
       spellCheck={false}
       autoCapitalize="off"
@@ -193,11 +200,11 @@ function PasswordInput({
         <button
           type="button"
           className="fui-form__password-toggle"
-          aria-label={visible ? hidePasswordLabel : showPasswordLabel}
           aria-controls={field.name}
           onClick={() => setVisible((v) => !v)}
         >
           <EyeIcon off={visible} />
+          <span className="fui-sr-only">{visible ? hidePasswordLabel : showPasswordLabel}</span>
         </button>
       }
     />

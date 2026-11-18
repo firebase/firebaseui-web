@@ -77,11 +77,11 @@ export function PasswordInput({ className, showPasswordLabel, hidePasswordLabel,
         variant="ghost"
         size="icon"
         className="absolute end-0.5 top-1/2 size-8 -translate-y-1/2 text-muted-foreground hover:text-foreground"
-        aria-label={visible ? hidePasswordLabel : showPasswordLabel}
         aria-controls={id}
         onClick={() => setVisible((v) => !v)}
       >
         {visible ? <EyeOffIcon aria-hidden="true" /> : <EyeIcon aria-hidden="true" />}
+        <span className="sr-only">{visible ? hidePasswordLabel : showPasswordLabel}</span>
       </Button>
     </div>
   );
