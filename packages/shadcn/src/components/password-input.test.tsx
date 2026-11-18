@@ -16,8 +16,13 @@
 
 import { describe, it, expect, afterEach, vi } from "vitest";
 import { render, screen, fireEvent, cleanup } from "@testing-library/react";
-import { createRef } from "react";
+import { createRef, type ReactNode } from "react";
+import { FirebaseUIProvider } from "@firebase-oss/ui-react";
 import { PasswordInput } from "./password-input";
+import { createMockUI } from "../../tests/utils";
+
+const ui = createMockUI();
+const wrapper = ({ children }: { children: ReactNode }) => <FirebaseUIProvider ui={ui}>{children}</FirebaseUIProvider>;
 
 describe("<PasswordInput />", () => {
   afterEach(() => {
@@ -35,7 +40,8 @@ describe("<PasswordInput />", () => {
           showPasswordLabel="Show password"
           hidePasswordLabel="Hide password"
         />
-      </>
+      </>,
+      { wrapper }
     );
   }
 
@@ -79,7 +85,8 @@ describe("<PasswordInput />", () => {
       <form onSubmit={(e) => e.preventDefault()} data-testid="form">
         <label htmlFor="password">Password</label>
         <PasswordInput id="password" ref={ref} showPasswordLabel="Show password" hidePasswordLabel="Hide password" />
-      </form>
+      </form>,
+      { wrapper }
     );
 
     const input = screen.getByLabelText("Password");
@@ -93,15 +100,35 @@ describe("<PasswordInput />", () => {
     expect(screen.getByRole("button", { name: "Show password" })).toBeInTheDocument();
   });
 
+  it("hides the password when its form appears after the input mounts", () => {
+    const tree = (withForm: boolean) => (
+      <>
+        <label htmlFor="password">Password</label>
+        <PasswordInput id="password" form="late-form" />
+        {withForm ? <form id="late-form" data-testid="form" onSubmit={(e) => e.preventDefault()} /> : null}
+      </>
+    );
+
+    const { rerender } = render(tree(false), { wrapper });
+    rerender(tree(true));
+
+    const input = screen.getByLabelText("Password");
+    fireEvent.click(screen.getByRole("button", { name: "Show password" }));
+    expect(input).toHaveAttribute("type", "text");
+
+    fireEvent.submit(screen.getByTestId("form"));
+    expect(input).toHaveAttribute("type", "password");
+  });
+
   it("removes the submit listener on unmount", () => {
     const { unmount } = render(
       <form data-testid="form">
         <PasswordInput id="password" showPasswordLabel="Show password" hidePasswordLabel="Hide password" />
-      </form>
+      </form>,
+      { wrapper }
     );
 
-    const form = screen.getByTestId("form");
-    const removeEventListener = vi.spyOn(form, "removeEventListener");
+    const removeEventListener = vi.spyOn(document, "removeEventListener");
     unmount();
 
     expect(removeEventListener).toHaveBeenCalledWith("submit", expect.any(Function), { capture: true });
@@ -110,7 +137,8 @@ describe("<PasswordInput />", () => {
   it("keeps the same ref callback across renders", () => {
     const ref = vi.fn();
     const { rerender } = render(
-      <PasswordInput id="password" ref={ref} showPasswordLabel="Show password" hidePasswordLabel="Hide password" />
+      <PasswordInput id="password" ref={ref} showPasswordLabel="Show password" hidePasswordLabel="Hide password" />,
+      { wrapper }
     );
     rerender(
       <PasswordInput id="password" ref={ref} showPasswordLabel="Show password" hidePasswordLabel="Hide password" />
@@ -122,7 +150,7 @@ describe("<PasswordInput />", () => {
   });
 
   it("links the toggle to the input when no id is passed", () => {
-    render(<PasswordInput showPasswordLabel="Show password" hidePasswordLabel="Hide password" />);
+    render(<PasswordInput showPasswordLabel="Show password" hidePasswordLabel="Hide password" />, { wrapper });
 
     const toggle = screen.getByRole("button", { name: "Show password" });
     const controlled = toggle.getAttribute("aria-controls");

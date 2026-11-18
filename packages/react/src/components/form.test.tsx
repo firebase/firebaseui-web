@@ -17,7 +17,9 @@
 import { describe, it, expect, afterEach, vi, beforeEach } from "vitest";
 import { render, screen, cleanup, renderHook, act, waitFor, fireEvent } from "@testing-library/react";
 import { form } from "./form";
-import { ComponentProps } from "react";
+import { FirebaseUIProvider } from "~/context";
+import { createMockUI } from "~/tests/utils";
+import { ComponentProps, type ReactNode } from "react";
 
 vi.mock("~/components/button", () => {
   return {
@@ -269,6 +271,11 @@ describe("form export", () => {
   });
 
   describe("<PasswordInput />", () => {
+    const ui = createMockUI();
+    const wrapper = ({ children }: { children: ReactNode }) => (
+      <FirebaseUIProvider ui={ui}>{children}</FirebaseUIProvider>
+    );
+
     function renderPasswordInput() {
       const { result } = renderHook(() => {
         return form.useAppForm({
@@ -290,7 +297,8 @@ describe("form export", () => {
               />
             )}
           </hook.AppField>
-        </hook.AppForm>
+        </hook.AppForm>,
+        { wrapper }
       );
     }
 
@@ -359,7 +367,8 @@ describe("form export", () => {
               )}
             </hook.AppField>
           </hook.AppForm>
-        </form>
+        </form>,
+        { wrapper }
       );
 
       const input = screen.getByLabelText("Password");
@@ -369,6 +378,36 @@ describe("form export", () => {
       fireEvent.submit(screen.getByTestId("form"));
       expect(input).toHaveAttribute("type", "password");
       expect(screen.getByRole("button", { name: "Show password" })).toBeInTheDocument();
+    });
+
+    it("should hide the password when its form appears after the input mounts", () => {
+      const { result } = renderHook(() => {
+        return form.useAppForm({
+          defaultValues: { password: "secret" },
+        });
+      });
+
+      const hook = result.current;
+      const tree = (withForm: boolean) => (
+        <>
+          <hook.AppForm>
+            <hook.AppField name="password">
+              {(field) => <field.PasswordInput label="Password" form="late-form" />}
+            </hook.AppField>
+          </hook.AppForm>
+          {withForm ? <form id="late-form" data-testid="form" onSubmit={(e) => e.preventDefault()} /> : null}
+        </>
+      );
+
+      const { rerender } = render(tree(false), { wrapper });
+      rerender(tree(true));
+
+      const input = screen.getByLabelText(/password/i);
+      fireEvent.click(screen.getByRole("button", { name: "Show password" }));
+      expect(input).toHaveAttribute("type", "text");
+
+      fireEvent.submit(screen.getByTestId("form"));
+      expect(input).toHaveAttribute("type", "password");
     });
 
     it("should remove the submit listener on unmount", () => {
@@ -393,11 +432,11 @@ describe("form export", () => {
               )}
             </hook.AppField>
           </hook.AppForm>
-        </form>
+        </form>,
+        { wrapper }
       );
 
-      const formElement = screen.getByTestId("form");
-      const removeEventListener = vi.spyOn(formElement, "removeEventListener");
+      const removeEventListener = vi.spyOn(document, "removeEventListener");
       unmount();
 
       expect(removeEventListener).toHaveBeenCalledWith("submit", expect.any(Function), { capture: true });
@@ -425,7 +464,8 @@ describe("form export", () => {
               />
             )}
           </hook.AppField>
-        </hook.AppForm>
+        </hook.AppForm>,
+        { wrapper }
       );
 
       fireEvent.click(screen.getByRole("button", { name: "Show password" }));

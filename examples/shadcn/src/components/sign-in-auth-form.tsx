@@ -73,12 +73,7 @@ export function SignInAuthForm(props: SignInAuthFormProps) {
                 ) : null}
               </div>
               <FormControl>
-                <PasswordInput
-                  {...field}
-                  autoComplete="current-password"
-                  showPasswordLabel={getTranslation(ui, "labels", "showPassword")}
-                  hidePasswordLabel={getTranslation(ui, "labels", "hidePassword")}
-                />
+                <PasswordInput {...field} autoComplete="current-password" />
               </FormControl>
               <FormMessage />
             </FormItem>

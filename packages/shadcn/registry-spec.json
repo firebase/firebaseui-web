@@ -379,7 +379,7 @@
       "type": "registry:block",
       "title": "Password Input",
       "description": "A password input with a button to show or hide the password.",
-      "dependencies": ["lucide-react"],
+      "dependencies": ["{{ DEP | @firebase-oss/ui-react }}", "lucide-react"],
       "registryDependencies": ["input", "button"],
       "files": [
         {

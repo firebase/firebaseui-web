@@ -18,6 +18,7 @@ import {
   ChangeDetectorRef,
   Component,
   computed,
+  DOCUMENT,
   effect,
   ElementRef,
   inject,
@@ -29,6 +30,7 @@ import {
 } from "@angular/core";
 import { AnyFormState, injectField } from "@tanstack/angular-form";
 import { ButtonComponent } from "./button";
+import { injectTranslation } from "../provider";
 
 @Component({
   selector: "fui-form-metadata",
@@ -132,7 +134,9 @@ export class FormMetadataComponent {
                 <circle cx="12" cy="12" r="3" />
               }
             </svg>
-            <span class="fui-sr-only">{{ passwordVisible() ? hidePasswordLabel() : showPasswordLabel() }}</span>
+            <span class="fui-sr-only">{{
+              passwordVisible() ? resolvedHidePasswordLabel() : resolvedShowPasswordLabel()
+            }}</span>
           </button>
         }
       </div>
@@ -163,17 +167,20 @@ export class FormInputComponent implements OnChanges {
   placeholder = input<string>();
   /** Optional maximum character count accepted by the input. */
   maxlength = input<string | number>();
-  /** Accessible label for the show password button. With `type="password"`, setting both labels renders the toggle. */
+  /** Accessible label for the show password button; defaults to the translated "Show password". */
   showPasswordLabel = input<string>();
-  /** Accessible label for the hide password button. */
+  /** Accessible label for the hide password button; defaults to the translated "Hide password". */
   hidePasswordLabel = input<string>();
+
+  private defaultShowPasswordLabel = injectTranslation("labels", "showPassword");
+  private defaultHidePasswordLabel = injectTranslation("labels", "hidePassword");
+  resolvedShowPasswordLabel = computed(() => this.showPasswordLabel() || this.defaultShowPasswordLabel());
+  resolvedHidePasswordLabel = computed(() => this.hidePasswordLabel() || this.defaultHidePasswordLabel());
 
   private inputElement = viewChild<ElementRef<HTMLInputElement>>("inputElement");
 
   passwordVisible = signal(false);
-  hasPasswordToggle = computed(
-    () => this.type() === "password" && !!this.showPasswordLabel() && !!this.hidePasswordLabel()
-  );
+  hasPasswordToggle = computed(() => this.type() === "password");
   inputType = computed(() => (this.hasPasswordToggle() && this.passwordVisible() ? "text" : this.type()));
 
   togglePasswordVisibility() {
@@ -181,20 +188,19 @@ export class FormInputComponent implements OnChanges {
   }
 
   constructor() {
-    // Hide the password again on submit; re-runs if the toggle appears or disappears after first render.
+    // Hide the password again on submit; the form is checked per event, so it holds however the form mounts.
+    const document = inject(DOCUMENT);
     effect((onCleanup) => {
-      const input = this.inputElement()?.nativeElement;
-      const form = input?.form;
-      if (!input || !form || !this.hasPasswordToggle()) return;
-
-      const hide = () => {
-        if (!this.passwordVisible()) return;
+      if (!this.hasPasswordToggle()) return;
+      const hide = (event: Event) => {
+        const input = this.inputElement()?.nativeElement;
+        if (!input || !this.passwordVisible() || event.target !== input.form) return;
         input.type = "password";
         this.passwordVisible.set(false);
         this.cdr.markForCheck();
       };
-      form.addEventListener("submit", hide, { capture: true });
-      onCleanup(() => form.removeEventListener("submit", hide, { capture: true }));
+      document.addEventListener("submit", hide, { capture: true });
+      onCleanup(() => document.removeEventListener("submit", hide, { capture: true }));
     });
   }
 

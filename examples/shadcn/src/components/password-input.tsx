@@ -2,19 +2,22 @@
 
 import { useCallback, useEffect, useId, useRef, useState, type ComponentProps } from "react";
 import { EyeIcon, EyeOffIcon } from "lucide-react";
+import { getTranslation } from "@firebase-oss/ui-core";
+import { useUI } from "@firebase-oss/ui-react";
 
 import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
 import { cn } from "@/lib/utils";
 
 export type PasswordInputProps = Omit<ComponentProps<"input">, "type"> & {
-  /** Accessible label for the button that reveals the password. */
-  showPasswordLabel: string;
-  /** Accessible label for the button that hides the password. */
-  hidePasswordLabel: string;
+  /** Accessible label for the button that reveals the password; defaults to the translated "Show password". */
+  showPasswordLabel?: string;
+  /** Accessible label for the button that hides the password; defaults to the translated "Hide password". */
+  hidePasswordLabel?: string;
 };
 
 export function PasswordInput({ className, showPasswordLabel, hidePasswordLabel, ref, ...props }: PasswordInputProps) {
+  const ui = useUI();
   const generatedId = useId();
   const id = props.id ?? generatedId;
   const [visible, setVisible] = useState(false);
@@ -30,18 +33,16 @@ export function PasswordInput({ className, showPasswordLabel, hidePasswordLabel,
     [ref]
   );
 
-  // Hide the password again on submit, so it is not left on screen and password managers see a password field.
+  // Hide the password again on submit; checked per event, so it holds however the form mounts.
   useEffect(() => {
-    const input = inputRef.current;
-    const form = input?.form;
-    if (!input || !form) return;
-
-    const hide = () => {
+    const hide = (event: SubmitEvent) => {
+      const input = inputRef.current;
+      if (!input || event.target !== input.form) return;
       input.type = "password";
       setVisible(false);
     };
-    form.addEventListener("submit", hide, { capture: true });
-    return () => form.removeEventListener("submit", hide, { capture: true });
+    document.addEventListener("submit", hide, { capture: true });
+    return () => document.removeEventListener("submit", hide, { capture: true });
   }, []);
 
   return (
@@ -65,7 +66,11 @@ export function PasswordInput({ className, showPasswordLabel, hidePasswordLabel,
         onClick={() => setVisible((v) => !v)}
       >
         {visible ? <EyeOffIcon aria-hidden="true" /> : <EyeIcon aria-hidden="true" />}
-        <span className="sr-only">{visible ? hidePasswordLabel : showPasswordLabel}</span>
+        <span className="sr-only">
+          {visible
+            ? (hidePasswordLabel ?? getTranslation(ui, "labels", "hidePassword"))
+            : (showPasswordLabel ?? getTranslation(ui, "labels", "showPassword"))}
+        </span>
       </Button>
     </div>
   );

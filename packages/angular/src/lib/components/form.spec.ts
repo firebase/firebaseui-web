@@ -242,23 +242,20 @@ describe("Form Components", () => {
             tanstack-app-field
             [tanstackField]="form"
             label="Password"
-            type="password"
-            [showPasswordLabel]="showPasswordLabel()"
-            [hidePasswordLabel]="hidePasswordLabel()"
+            [type]="type()"
           ></fui-form-input>
         </form>
       `,
       standalone: true,
       imports: [FormInputComponent, TanStackAppField],
     })
-    class TestFormLateLabelsHostComponent {
+    class TestFormLateTypeHostComponent {
       form = injectForm({
         defaultValues: {
           password: "secret",
         },
       });
-      showPasswordLabel = signal<string | undefined>(undefined);
-      hidePasswordLabel = signal<string | undefined>(undefined);
+      type = signal("text");
     }
 
     @Component({
@@ -364,15 +361,14 @@ describe("Form Components", () => {
       expect(screen.getByRole("button", { name: "Show password" })).toBeTruthy();
     });
 
-    it("hides the password on submit when the labels arrive after the first render", async () => {
-      const component = await render(TestFormLateLabelsHostComponent);
+    it("hides the password on submit when the field becomes a password field after the first render", async () => {
+      const component = await render(TestFormLateTypeHostComponent);
       expect(screen.queryByRole("button")).toBeNull();
 
-      component.fixture.componentInstance.showPasswordLabel.set("Show password");
-      component.fixture.componentInstance.hidePasswordLabel.set("Hide password");
+      component.fixture.componentInstance.type.set("password");
       component.fixture.detectChanges();
 
-      const input = screen.getByLabelText("Password");
+      const input = screen.getByLabelText(/password/i);
       screen.getByRole("button", { name: "Show password" }).click();
       component.fixture.detectChanges();
       expect(input).toHaveAttribute("type", "text");
@@ -385,18 +381,17 @@ describe("Form Components", () => {
     it("removes the submit listener when destroyed", async () => {
       const component = await render(TestFormPasswordInputInFormHostComponent);
 
-      const form = screen.getByTestId("form");
-      const removeEventListener = jest.spyOn(form, "removeEventListener");
+      const removeEventListener = jest.spyOn(document, "removeEventListener");
       component.fixture.destroy();
 
       expect(removeEventListener).toHaveBeenCalledWith("submit", expect.any(Function), { capture: true });
+      removeEventListener.mockRestore();
     });
 
     it("does not listen for submit on fields without a password toggle", async () => {
-      const addEventListener = jest.spyOn(HTMLFormElement.prototype, "addEventListener");
+      const addEventListener = jest.spyOn(document, "addEventListener");
       await render(TestFormTextInputInFormHostComponent);
 
-      expect(screen.getByLabelText("Test Label").closest("form")).not.toBeNull();
       expect(addEventListener).not.toHaveBeenCalledWith("submit", expect.any(Function), { capture: true });
       addEventListener.mockRestore();
     });
@@ -410,14 +405,14 @@ describe("Form Components", () => {
       expect(screen.getByRole("button", { name: "Show password" })).toBeTruthy();
     });
 
-    it("does not render a password toggle without a show password label", async () => {
-      const component = await render(TestFormPasswordInputHostComponent);
-
-      component.fixture.componentInstance.showPasswordLabel.set(undefined);
+    it("renders the toggle with translated labels when none are passed", async () => {
+      const component = await render(TestFormLateTypeHostComponent);
+      component.fixture.componentInstance.type.set("password");
       component.fixture.detectChanges();
 
-      expect(screen.queryByRole("button")).toBeNull();
-      expect(screen.getByLabelText("Password")).toHaveAttribute("type", "password");
+      screen.getByRole("button", { name: "Show password" }).click();
+      component.fixture.detectChanges();
+      expect(screen.getByRole("button", { name: "Hide password" })).toBeTruthy();
     });
 
     it("renders action content when provided", async () => {

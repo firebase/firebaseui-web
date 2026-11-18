@@ -24,7 +24,9 @@ import {
   useState,
 } from "react";
 import { type AnyFieldApi, createFormHook, createFormHookContexts } from "@tanstack/react-form";
+import { getTranslation } from "@firebase-oss/ui-core";
 import { Button } from "./button";
+import { useUI } from "~/hooks";
 import { cn } from "~/utils/cn";
 
 const { fieldContext, useFieldContext, formContext, useFormContext } = createFormHookContexts();
@@ -158,7 +160,13 @@ function PasswordInput({
   hidePasswordLabel,
   ref,
   ...props
-}: Omit<InputProps, "type" | "after"> & { showPasswordLabel: string; hidePasswordLabel: string }) {
+}: Omit<InputProps, "type" | "after"> & {
+  /** Accessible label for the show password button; defaults to the translated "Show password". */
+  showPasswordLabel?: string;
+  /** Accessible label for the hide password button; defaults to the translated "Hide password". */
+  hidePasswordLabel?: string;
+}) {
+  const ui = useUI();
   const field = useFieldContext<string>();
   const [visible, setVisible] = useState(false);
   const inputRef = useRef<HTMLInputElement | null>(null);
@@ -173,18 +181,16 @@ function PasswordInput({
     [ref]
   );
 
-  // Hide the password again on submit, so it is not left on screen and password managers see a password field.
+  // Hide the password again on submit; checked per event, so it holds however the form mounts.
   useEffect(() => {
-    const input = inputRef.current;
-    const formElement = input?.form;
-    if (!input || !formElement) return;
-
-    const hide = () => {
+    const hide = (event: SubmitEvent) => {
+      const input = inputRef.current;
+      if (!input || event.target !== input.form) return;
       input.type = "password";
       setVisible(false);
     };
-    formElement.addEventListener("submit", hide, { capture: true });
-    return () => formElement.removeEventListener("submit", hide, { capture: true });
+    document.addEventListener("submit", hide, { capture: true });
+    return () => document.removeEventListener("submit", hide, { capture: true });
   }, []);
 
   return (
@@ -204,7 +210,11 @@ function PasswordInput({
           onClick={() => setVisible((v) => !v)}
         >
           <EyeIcon off={visible} />
-          <span className="fui-sr-only">{visible ? hidePasswordLabel : showPasswordLabel}</span>
+          <span className="fui-sr-only">
+            {visible
+              ? (hidePasswordLabel ?? getTranslation(ui, "labels", "hidePassword"))
+              : (showPasswordLabel ?? getTranslation(ui, "labels", "showPassword"))}
+          </span>
         </button>
       }
     />

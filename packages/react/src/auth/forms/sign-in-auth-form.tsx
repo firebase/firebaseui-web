@@ -121,8 +121,6 @@ export function SignInAuthForm({ onSignIn, onForgotPasswordClick, onSignUpClick 
               <field.PasswordInput
                 label={getTranslation(ui, "labels", "password")}
                 autoComplete="current-password"
-                showPasswordLabel={getTranslation(ui, "labels", "showPassword")}
-                hidePasswordLabel={getTranslation(ui, "labels", "hidePassword")}
                 action={
                   onForgotPasswordClick ? (
                     <form.Action onClick={onForgotPasswordClick}>

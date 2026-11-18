@@ -93,8 +93,6 @@ export function SignInAuthForm(props: SignInAuthFormProps) {
                 id="password"
                 autoComplete="current-password"
                 aria-invalid={!!fieldState.error}
-                showPasswordLabel={getTranslation(ui, "labels", "showPassword")}
-                hidePasswordLabel={getTranslation(ui, "labels", "hidePassword")}
               />
               {fieldState.error && <FieldError>{fieldState.error.message}</FieldError>}
             </Field>

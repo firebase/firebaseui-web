@@ -84,12 +84,7 @@ export function SignUpAuthForm(props: SignUpAuthFormProps) {
             <FormItem>
               <FormLabel>{getTranslation(ui, "labels", "password")}</FormLabel>
               <FormControl>
-                <PasswordInput
-                  {...field}
-                  autoComplete="new-password"
-                  showPasswordLabel={getTranslation(ui, "labels", "showPassword")}
-                  hidePasswordLabel={getTranslation(ui, "labels", "hidePassword")}
-                />
+                <PasswordInput {...field} autoComplete="new-password" />
               </FormControl>
               <FormMessage />
             </FormItem>
