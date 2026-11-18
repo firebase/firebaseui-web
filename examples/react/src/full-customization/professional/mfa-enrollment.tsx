@@ -177,7 +177,8 @@ function SmsSetup({
   withReauth: WithReauth;
   onCodeSent: (verificationId: string, phoneNumber: string) => void;
 }) {
-  const [country, setCountry] = useState<CountryData>(useDefaultCountry());
+  const defaultCountry = useDefaultCountry();
+  const [country, setCountry] = useState<CountryData>(defaultCountry);
   const [phone, setPhone] = useState("");
   const recaptcha = useResettableRecaptcha();
   const sendCode = useSmsMultiFactorEnrollmentPhoneAuthFormAction();
