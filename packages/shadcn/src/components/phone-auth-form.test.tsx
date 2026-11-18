@@ -38,6 +38,7 @@ vi.mock("@firebase-oss/ui-core", async (importOriginal) => {
     }),
     getTranslation: vi.fn((_, category, key) => {
       if (category === "labels" && key === "sendCode") return "Send Code";
+      if (category === "labels" && key === "sending") return "Sending...";
       if (category === "labels" && key === "phoneNumber") return "Phone Number";
       if (category === "labels" && key === "verificationCode") return "Verification Code";
       if (category === "labels" && key === "verifyCode") return "Verify Code";
@@ -422,7 +423,7 @@ describe("<PhoneAuthForm />", () => {
     expect(await screen.findByText("Error: Invalid phone number format")).toBeInTheDocument();
   });
 
-  it("should disable submit button when UI state is not idle", () => {
+  it("should disable submit button without the sending label when another request is pending", () => {
     // Mock useUI to return pending state
     vi.mocked(useUI).mockReturnValue({
       state: "pending",
@@ -448,6 +449,7 @@ describe("<PhoneAuthForm />", () => {
 
     const submitButton = container.querySelector("button[type='submit']")!;
     expect(submitButton).toBeDisabled();
+    expect(submitButton).toHaveTextContent("Send Code");
   });
 
   it.skip("should format phone number with country code before submission", async () => {

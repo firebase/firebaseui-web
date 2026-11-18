@@ -169,8 +169,8 @@ function PhoneNumberForm(props: PhoneNumberFormProps) {
         />
         <div ref={recaptchaContainerRef} />
         <Policies />
-        <Button type="submit" disabled={ui.state !== "idle"}>
-          {getTranslation(ui, "labels", "sendCode")}
+        <Button type="submit" disabled={ui.state !== "idle"} aria-busy={form.formState.isSubmitting}>
+          {getTranslation(ui, "labels", form.formState.isSubmitting ? "sending" : "sendCode")}
         </Button>
         {form.formState.errors.root && <FieldError>{form.formState.errors.root.message}</FieldError>}
       </form>

@@ -58,7 +58,7 @@ describe("<EmailLinkAuthScreen />", () => {
           signIn: "Sign In",
         },
         prompts: {
-          signInToAccount: "Sign in to your account",
+          enterEmailForLink: "Enter your email to receive a sign-in link",
         },
       }),
     });
@@ -70,7 +70,7 @@ describe("<EmailLinkAuthScreen />", () => {
     );
 
     expect(screen.getByText("Sign In")).toBeInTheDocument();
-    expect(screen.getByText("Sign in to your account")).toBeInTheDocument();
+    expect(screen.getByText("Enter your email to receive a sign-in link")).toBeInTheDocument();
     expect(screen.getByTestId("email-link-auth-form")).toBeInTheDocument();
   });
 
@@ -81,7 +81,7 @@ describe("<EmailLinkAuthScreen />", () => {
           signIn: "Sign In",
         },
         prompts: {
-          signInToAccount: "Sign in to your account",
+          enterEmailForLink: "Enter your email to receive a sign-in link",
         },
         messages: {
           dividerOr: "or",
@@ -98,7 +98,7 @@ describe("<EmailLinkAuthScreen />", () => {
     );
 
     expect(screen.getByText("Sign In")).toBeInTheDocument();
-    expect(screen.getByText("Sign in to your account")).toBeInTheDocument();
+    expect(screen.getByText("Enter your email to receive a sign-in link")).toBeInTheDocument();
     expect(screen.getByTestId("email-link-auth-form")).toBeInTheDocument();
     expect(screen.getByTestId("child-component")).toBeInTheDocument();
   });
@@ -110,7 +110,7 @@ describe("<EmailLinkAuthScreen />", () => {
           signIn: "Sign In",
         },
         prompts: {
-          signInToAccount: "Sign in to your account",
+          enterEmailForLink: "Enter your email to receive a sign-in link",
         },
       }),
     });
@@ -133,7 +133,7 @@ describe("<EmailLinkAuthScreen />", () => {
           signIn: "Sign In",
         },
         prompts: {
-          signInToAccount: "Sign in to your account",
+          enterEmailForLink: "Enter your email to receive a sign-in link",
         },
         messages: {
           dividerOr: "or",
@@ -148,7 +148,7 @@ describe("<EmailLinkAuthScreen />", () => {
     );
 
     expect(screen.getByText("Sign In")).toBeInTheDocument();
-    expect(screen.getByText("Sign in to your account")).toBeInTheDocument();
+    expect(screen.getByText("Enter your email to receive a sign-in link")).toBeInTheDocument();
     expect(screen.getByTestId("email-link-auth-form")).toBeInTheDocument();
     expect(screen.queryByText("or")).not.toBeInTheDocument();
   });
@@ -165,7 +165,7 @@ describe("<EmailLinkAuthScreen />", () => {
           signIn: "Sign In",
         },
         prompts: {
-          signInToAccount: "Sign in to your account",
+          enterEmailForLink: "Enter your email to receive a sign-in link",
         },
       }),
     });
@@ -193,7 +193,7 @@ describe("<EmailLinkAuthScreen />", () => {
           signIn: "Sign In",
         },
         prompts: {
-          signInToAccount: "Sign in to your account",
+          enterEmailForLink: "Enter your email to receive a sign-in link",
         },
         messages: {
           dividerOr: "or",
@@ -223,7 +223,7 @@ describe("<EmailLinkAuthScreen />", () => {
           signIn: "Sign In",
         },
         prompts: {
-          signInToAccount: "Sign in to your account",
+          enterEmailForLink: "Enter your email to receive a sign-in link",
         },
       }),
     });

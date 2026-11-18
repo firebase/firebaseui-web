@@ -101,7 +101,7 @@ describe("<fui-email-link-auth-screen>", () => {
           signIn: "Sign In",
         },
         prompts: {
-          signInToAccount: "Sign in to your account",
+          enterEmailForLink: "Enter your email to receive a sign-in link",
         },
       };
       return () => mockTranslations[category]?.[key] || `${category}.${key}`;
@@ -135,7 +135,7 @@ describe("<fui-email-link-auth-screen>", () => {
     });
 
     expect(screen.getByText("Sign In")).toBeInTheDocument();
-    expect(screen.getByText("Sign in to your account")).toBeInTheDocument();
+    expect(screen.getByText("Enter your email to receive a sign-in link")).toBeInTheDocument();
   });
 
   it("includes the EmailLinkAuthForm component", async () => {
@@ -232,7 +232,7 @@ describe("<fui-email-link-auth-screen>", () => {
     });
 
     expect(injectTranslation).toHaveBeenCalledWith("labels", "signIn");
-    expect(injectTranslation).toHaveBeenCalledWith("prompts", "signInToAccount");
+    expect(injectTranslation).toHaveBeenCalledWith("prompts", "enterEmailForLink");
   });
 
   it("renders MFA assertion form when MFA resolver is present", async () => {

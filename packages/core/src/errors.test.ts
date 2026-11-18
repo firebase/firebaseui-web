@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-import { beforeEach, describe, expect, it, vi } from "vitest";
+import { afterEach, beforeEach, describe, expect, it, vi } from "vitest";
 import { FirebaseError } from "firebase/app";
 import { Auth, AuthCredential, MultiFactorResolver } from "firebase/auth";
 import { ERROR_CODE_MAP } from "@firebase-oss/ui-translations";
@@ -63,12 +63,18 @@ beforeEach(() => {
   });
 });
 
+afterEach(() => {
+  vi.restoreAllMocks();
+});
+
 describe("FirebaseUIError", () => {
   it("creates a FirebaseUIError with translated message", () => {
     const mockUI = createMockUI();
     const mockFirebaseError = new FirebaseError("auth/user-not-found", "User not found");
 
-    vi.mocked(getTranslation).mockReturnValue("User not found (translated)");
+    vi.mocked(getTranslation).mockImplementation((_ui, _category, key) =>
+      key === ERROR_CODE_MAP["auth/user-not-found"] ? "User not found (translated)" : ""
+    );
 
     const error = new FirebaseUIError(mockUI, mockFirebaseError);
 
@@ -88,6 +94,45 @@ describe("FirebaseUIError", () => {
 
     expect(error.code).toBe("auth/unknown-error");
     expect(error.message).toBe("Unknown error (translated)");
+  });
+
+  it("prefers a translation keyed by the error code over the named key", () => {
+    const mockUI = createMockUI();
+    const mockFirebaseError = new FirebaseError("auth/user-not-found", "User not found");
+
+    vi.mocked(getTranslation).mockImplementation((_ui, _category, key) =>
+      key === "auth/user-not-found" ? "Keyed by code" : "Keyed by name"
+    );
+
+    const error = new FirebaseUIError(mockUI, mockFirebaseError);
+
+    expect(error.message).toBe("Keyed by code");
+    expect(getTranslation).toHaveBeenCalledWith(mockUI, "errors", "auth/user-not-found");
+  });
+
+  it("falls back to the Firebase message when an unmapped code has no translation", () => {
+    const mockUI = createMockUI();
+    const mockFirebaseError = new FirebaseError("auth/api-key-expired", "Firebase: Error (auth/api-key-expired).");
+
+    vi.mocked(getTranslation).mockReturnValue("");
+
+    const error = new FirebaseUIError(mockUI, mockFirebaseError);
+
+    expect(error.code).toBe("auth/api-key-expired");
+    expect(error.message).toBe("Firebase: Error (auth/api-key-expired).");
+  });
+
+  it("keeps the original Firebase error as the cause", () => {
+    const mockUI = createMockUI();
+    const mockFirebaseError = new FirebaseError("auth/api-key-expired", "Firebase: Error (auth/api-key-expired).");
+
+    vi.mocked(getTranslation).mockReturnValue("There is a configuration issue.");
+
+    const error = new FirebaseUIError(mockUI, mockFirebaseError);
+
+    expect(error.message).toBe("There is a configuration issue.");
+    expect(error.cause).toBe(mockFirebaseError);
+    expect(error.cause.message).toBe("Firebase: Error (auth/api-key-expired).");
   });
 });
 
@@ -123,6 +168,48 @@ describe("handleFirebaseError", () => {
       expect((error as FirebaseUIError).code).toBe("auth/user-not-found");
       expect((error as FirebaseUIError).message).toBe("User not found (translated)");
     }
+  });
+
+  it("warns with the original message for configuration error codes", async () => {
+    const mockUI = createMockUI();
+    const mockFirebaseError = new FirebaseError("auth/api-key-expired", "Firebase: Error (auth/api-key-expired).");
+    const warnSpy = vi.spyOn(console, "warn").mockImplementation(() => {});
+
+    vi.mocked(getTranslation).mockReturnValue("There is a configuration issue.");
+
+    await expect(handleFirebaseError(mockUI, mockFirebaseError)).rejects.toBeInstanceOf(FirebaseUIError);
+    expect(warnSpy).toHaveBeenCalledWith(
+      "[FirebaseUI] Firebase configuration error (auth/api-key-expired): Firebase: Error (auth/api-key-expired)."
+    );
+  });
+
+  it.each([
+    "auth/wrong-password",
+    "auth/multi-factor-auth-required",
+    "auth/popup-closed-by-user",
+    "auth/expired-action-code",
+    "auth/password-does-not-meet-requirements",
+    "auth/internal-error",
+    "auth/invalid-app-credential",
+  ])("does not warn for non-configuration error code %s", async (code) => {
+    const mockUI = createMockUI();
+    const warnSpy = vi.spyOn(console, "warn").mockImplementation(() => {});
+
+    await expect(handleFirebaseError(mockUI, new FirebaseError(code, "Expected"))).rejects.toBeInstanceOf(
+      FirebaseUIError
+    );
+    expect(warnSpy).not.toHaveBeenCalled();
+  });
+
+  it("rethrows a FirebaseUIError as-is without wrapping or warning again", async () => {
+    const mockUI = createMockUI();
+    const mockFirebaseError = new FirebaseError("auth/api-key-expired", "Firebase: Error (auth/api-key-expired).");
+    const uiError = new FirebaseUIError(mockUI, mockFirebaseError);
+    const warnSpy = vi.spyOn(console, "warn").mockImplementation(() => {});
+
+    await expect(handleFirebaseError(mockUI, uiError)).rejects.toBe(uiError);
+    expect(uiError.cause).toBe(mockFirebaseError);
+    expect(warnSpy).not.toHaveBeenCalled();
   });
 
   it("stores credential in sessionStorage for account-exists-with-different-credential by default", async () => {

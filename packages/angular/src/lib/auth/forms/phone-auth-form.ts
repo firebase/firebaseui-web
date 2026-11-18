@@ -73,7 +73,7 @@ import {
       <fui-policies />
       <fieldset>
         <fui-form-submit [state]="state()" [disabled]="!recaptchaVerifier()">
-          {{ sendCodeLabel() }}
+          {{ state().isSubmitting ? sendingLabel() : sendCodeLabel() }}
         </fui-form-submit>
         <fui-form-error-message [state]="state()" />
       </fieldset>
@@ -94,6 +94,7 @@ export class PhoneNumberFormComponent {
 
   phoneNumberLabel = injectTranslation("labels", "phoneNumber");
   sendCodeLabel = injectTranslation("labels", "sendCode");
+  sendingLabel = injectTranslation("labels", "sending");
   unknownErrorLabel = injectTranslation("errors", "unknownError");
 
   recaptchaContainer = viewChild.required<ElementRef<HTMLDivElement>>("recaptchaContainer");

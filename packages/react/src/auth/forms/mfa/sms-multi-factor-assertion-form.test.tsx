@@ -356,4 +356,38 @@ describe("<SmsMultiFactorAssertionForm />", () => {
       expect.objectContaining({ user: expect.objectContaining({ uid: "sms-cred-user" }) })
     );
   });
+
+  it("should show the sending label while the verification code is being sent", async () => {
+    let resolveVerify: (verificationId: string) => void = () => {};
+    vi.mocked(verifyPhoneNumber).mockReturnValue(new Promise<string>((resolve) => (resolveVerify = resolve)));
+    const mockUI = createMockUI({
+      locale: registerLocale("test", {
+        labels: {
+          sendCode: "sendCode",
+          sending: "sending",
+        },
+      }),
+    });
+
+    const mockHint = {
+      factorId: "phone" as const,
+      phoneNumber: "+123456789",
+      uid: "test-uid",
+      enrollmentTime: "2023-01-01T00:00:00Z",
+    };
+
+    render(
+      createFirebaseUIProvider({
+        children: <SmsMultiFactorAssertionForm hint={mockHint} />,
+        ui: mockUI,
+      })
+    );
+
+    fireEvent.click(screen.getByRole("button", { name: "sendCode" }));
+
+    expect(await screen.findByRole("button", { name: "sending" })).toBeDisabled();
+    await waitFor(() => expect(verifyPhoneNumber).toHaveBeenCalled());
+
+    await act(async () => resolveVerify("vid-123"));
+  });
 });

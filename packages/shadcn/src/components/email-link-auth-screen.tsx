@@ -31,7 +31,7 @@ export function EmailLinkAuthScreen({ children, onSignIn, ...props }: EmailLinkA
   const ui = useUI();
 
   const titleText = getTranslation(ui, "labels", "signIn");
-  const subtitleText = getTranslation(ui, "prompts", "signInToAccount");
+  const subtitleText = getTranslation(ui, "prompts", "enterEmailForLink");
 
   useOnUserAuthenticated(onSignIn);
 

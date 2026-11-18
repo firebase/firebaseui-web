@@ -15,7 +15,7 @@
  */
 
 import { describe, it, expect, vi, beforeEach, afterEach } from "vitest";
-import { render, screen, fireEvent, renderHook, cleanup } from "@testing-library/react";
+import { render, screen, fireEvent, renderHook, cleanup, waitFor, within } from "@testing-library/react";
 import {
   ForgotPasswordAuthForm,
   useForgotPasswordAuthForm,
@@ -217,5 +217,33 @@ describe("<ForgotPasswordAuthForm />", () => {
     });
 
     expect(screen.getByText("Please enter a valid email address")).toBeInTheDocument();
+  });
+
+  it("should show the sending label while the password reset email is being sent", async () => {
+    let resolveSend: () => void = () => {};
+    vi.mocked(sendPasswordResetEmail).mockReturnValue(new Promise<void>((resolve) => (resolveSend = resolve)));
+    const mockUI = createMockUI({
+      locale: registerLocale("test", {
+        labels: {
+          resetPassword: "resetPassword",
+          sending: "sending",
+        },
+      }),
+    });
+
+    const { container } = render(
+      <FirebaseUIProvider ui={mockUI}>
+        <ForgotPasswordAuthForm />
+      </FirebaseUIProvider>
+    );
+    const view = within(container);
+
+    fireEvent.change(container.querySelector("input[type='email']")!, { target: { value: "test@example.com" } });
+    fireEvent.click(view.getByRole("button", { name: "resetPassword" }));
+
+    expect(await view.findByRole("button", { name: "sending" })).toBeDisabled();
+    await waitFor(() => expect(sendPasswordResetEmail).toHaveBeenCalledWith(mockUI.get(), "test@example.com"));
+
+    await act(async () => resolveSend());
   });
 });

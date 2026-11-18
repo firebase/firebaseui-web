@@ -68,7 +68,7 @@ import { injectForgotPasswordAuthFormSchema, injectTranslation, injectUI } from 
 
         <fieldset>
           <fui-form-submit [state]="state()">
-            {{ resetPasswordLabel() }}
+            {{ state().isSubmitting ? sendingLabel() : resetPasswordLabel() }}
           </fui-form-submit>
           <fui-form-error-message [state]="state()" />
         </fieldset>
@@ -93,6 +93,7 @@ export class ForgotPasswordAuthFormComponent {
 
   emailLabel = injectTranslation("labels", "emailAddress");
   resetPasswordLabel = injectTranslation("labels", "resetPassword");
+  sendingLabel = injectTranslation("labels", "sending");
   backToSignInLabel = injectTranslation("labels", "backToSignIn");
   checkEmailForResetMessage = injectTranslation("messages", "checkEmailForReset");
   unknownErrorLabel = injectTranslation("errors", "unknownError");

@@ -503,6 +503,34 @@ describe("<PhoneNumberForm />", () => {
 
     expect(screen.getByText("Please provide a phone number")).toBeInTheDocument();
   });
+
+  it("should show the sending label while the verification code is being sent", async () => {
+    let resolveVerify: (verificationId: string) => void = () => {};
+    vi.mocked(verifyPhoneNumber).mockReturnValue(new Promise<string>((resolve) => (resolveVerify = resolve)));
+    const mockUI = createMockUI({
+      locale: registerLocale("test", {
+        labels: {
+          sendCode: "sendCode",
+          phoneNumber: "phoneNumber",
+          sending: "sending",
+        },
+      }),
+    });
+
+    render(
+      <FirebaseUIProvider ui={mockUI}>
+        <PhoneNumberForm onSubmit={vi.fn()} />
+      </FirebaseUIProvider>
+    );
+
+    fireEvent.change(screen.getByRole("textbox", { name: /phoneNumber/i }), { target: { value: "1234567890" } });
+    fireEvent.click(screen.getByRole("button", { name: "sendCode" }));
+
+    expect(await screen.findByRole("button", { name: "sending" })).toBeDisabled();
+    await waitFor(() => expect(verifyPhoneNumber).toHaveBeenCalled());
+
+    await act(async () => resolveVerify("test-verification-id"));
+  });
 });
 
 describe("<PhoneAuthForm />", () => {

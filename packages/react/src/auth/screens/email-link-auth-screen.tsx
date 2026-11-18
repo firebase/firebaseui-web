@@ -43,7 +43,7 @@ export function EmailLinkAuthScreen({ children, onEmailSent, onSignIn }: EmailLi
   const ui = useUI();
 
   const titleText = getTranslation(ui, "labels", "signIn");
-  const subtitleText = getTranslation(ui, "prompts", "signInToAccount");
+  const subtitleText = getTranslation(ui, "prompts", "enterEmailForLink");
   const mfaResolver = ui.multiFactorResolver;
 
   useOnUserAuthenticated(onSignIn);

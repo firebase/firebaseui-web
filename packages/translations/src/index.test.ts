@@ -802,6 +802,23 @@ describe("index.ts", () => {
       expect(customLocale.translations.labels?.emailAddress).toBe("Adresse e-mail");
     });
 
+    it("should translate an error keyed by its Firebase code", () => {
+      const customLocale = registerLocale("en-US", {
+        errors: { "auth/api-key-expired": "There is a configuration issue." },
+      });
+
+      expect(getTranslation(customLocale, "errors", "auth/api-key-expired")).toBe("There is a configuration issue.");
+      expect(getTranslation(enUs, "errors", "auth/api-key-expired")).toBe("");
+    });
+
+    it("should keep error codes out of ErrorKey while accepting them as translation keys", () => {
+      const codeKey: types.TranslationKey<"errors"> = "auth/api-key-expired";
+      // @ts-expect-error ErrorKey only contains named keys
+      const errorKey: types.ErrorKey = "auth/api-key-expired";
+
+      expect(codeKey).toBe(errorKey);
+    });
+
     it("should maintain type safety across all exports", () => {
       const mockTranslations: Translations = {
         errors: {

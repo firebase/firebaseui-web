@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-import { render, screen, waitFor } from "@testing-library/angular";
+import { render, screen, fireEvent, waitFor } from "@testing-library/angular";
 import { CommonModule } from "@angular/common";
 import { TanStackField, TanStackAppField } from "@tanstack/angular-form";
 import { PhoneAuthFormComponent, PhoneNumberFormComponent, VerificationFormComponent } from "./phone-auth-form";
@@ -407,5 +407,34 @@ describe("<fui-phone-auth-form />", () => {
 
     expect(container.querySelector('input[name="phoneNumber"]')).toBeInTheDocument();
     expect(screen.queryByLabelText("Verification Code")).toBeNull();
+  });
+
+  it("should show the sending label and aria-busy while the verification code is being sent", async () => {
+    let resolveVerify: (verificationId: string) => void = () => {};
+    mockVerifyPhoneNumber.mockReturnValue(new Promise<string>((resolve) => (resolveVerify = resolve)));
+
+    const { container } = await render(PhoneAuthFormComponent, {
+      imports: [
+        CommonModule,
+        PhoneAuthFormComponent,
+        TanStackField,
+        TanStackAppField,
+        FormInputComponent,
+        FormSubmitComponent,
+        FormErrorMessageComponent,
+        FormActionComponent,
+      ],
+    });
+
+    fireEvent.input(container.querySelector('input[name="phoneNumber"]')!, { target: { value: "1234567890" } });
+    fireEvent.click(screen.getByRole("button", { name: "Send Verification Code" }));
+
+    await waitFor(() => expect(mockVerifyPhoneNumber).toHaveBeenCalled());
+    const button = container.querySelector("fui-form-submit button")!;
+    await waitFor(() => expect(button).toHaveTextContent("Sending..."));
+    expect(button).toHaveAttribute("aria-busy", "true");
+    expect(button).toBeDisabled();
+
+    resolveVerify("test-verification-id");
   });
 });

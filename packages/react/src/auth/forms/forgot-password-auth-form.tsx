@@ -121,7 +121,11 @@ export function ForgotPasswordAuthForm({ onBackToSignInClick, onPasswordSent }: 
         </fieldset>
         <Policies />
         <fieldset>
-          <form.SubmitButton>{getTranslation(ui, "labels", "resetPassword")}</form.SubmitButton>
+          <form.SubmitButton>
+            <form.Subscribe selector={(state) => state.isSubmitting}>
+              {(isSubmitting) => getTranslation(ui, "labels", isSubmitting ? "sending" : "resetPassword")}
+            </form.Subscribe>
+          </form.SubmitButton>
           <form.ErrorMessage />
         </fieldset>
         {onBackToSignInClick ? (

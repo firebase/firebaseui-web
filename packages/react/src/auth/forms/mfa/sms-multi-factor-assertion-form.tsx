@@ -139,7 +139,9 @@ function SmsMultiFactorAssertionPhoneForm(props: SmsMultiFactorAssertionPhoneFor
         </fieldset>
         <fieldset>
           <form.SubmitButton disabled={!recaptchaVerifier}>
-            {getTranslation(ui, "labels", "sendCode")}
+            <form.Subscribe selector={(state) => state.isSubmitting}>
+              {(isSubmitting) => getTranslation(ui, "labels", isSubmitting ? "sending" : "sendCode")}
+            </form.Subscribe>
           </form.SubmitButton>
           <form.ErrorMessage />
         </fieldset>
