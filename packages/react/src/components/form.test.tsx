@@ -17,7 +17,9 @@
 import { describe, it, expect, afterEach, vi, beforeEach } from "vitest";
 import { render, screen, cleanup, renderHook, act, waitFor, fireEvent } from "@testing-library/react";
 import { form } from "./form";
-import { ComponentProps } from "react";
+import { FirebaseUIProvider } from "~/context";
+import { createMockUI } from "~/tests/utils";
+import { ComponentProps, type ReactNode } from "react";
 
 vi.mock("~/components/button", () => {
   return {
@@ -208,6 +210,280 @@ describe("form export", () => {
       const error = screen.getByRole("alert");
       expect(error).toBeInTheDocument();
       expect(error).toHaveClass("fui-error");
+    });
+    it("should keep the label as the field wrapper without extra aria attributes", () => {
+      const { result } = renderHook(() => {
+        return form.useAppForm({
+          defaultValues: { foo: "" },
+        });
+      });
+
+      const hook = result.current;
+
+      const { container } = render(
+        <hook.AppForm>
+          <hook.AppField name="foo">{(field) => <field.Input label="Foo" description="Enter a foo" />}</hook.AppField>
+        </hook.AppForm>
+      );
+
+      const input = screen.getByLabelText(/Foo/);
+      expect(input.closest("label")).toBe(container.querySelector('label[for="foo"]'));
+      expect(input).not.toHaveAttribute("aria-labelledby");
+      expect(input).not.toHaveAttribute("aria-describedby");
+    });
+
+    it("should name the input from the label text only and describe it when labelTextOnly is set", async () => {
+      const { result } = renderHook(() => {
+        return form.useAppForm({
+          defaultValues: { foo: "" },
+          validators: {
+            onSubmit: ({ value }) => (value.foo ? undefined : { fields: { foo: { message: "Required" } } }),
+          },
+        });
+      });
+
+      const hook = result.current;
+
+      render(
+        <hook.AppForm>
+          <hook.AppField name="foo">
+            {(field) => (
+              <field.Input
+                label="Foo"
+                description="Enter a foo"
+                labelTextOnly
+                action={<button type="button">Action</button>}
+              />
+            )}
+          </hook.AppField>
+        </hook.AppForm>
+      );
+
+      const input = screen.getByRole("textbox", { name: "Foo" });
+      expect(input).toHaveAccessibleDescription("Enter a foo");
+
+      await act(async () => {
+        await hook.handleSubmit();
+      });
+
+      expect(input).toHaveAccessibleDescription("Enter a foo Required");
+    });
+  });
+
+  describe("<PasswordInput />", () => {
+    const ui = createMockUI();
+    const wrapper = ({ children }: { children: ReactNode }) => (
+      <FirebaseUIProvider ui={ui}>{children}</FirebaseUIProvider>
+    );
+
+    function renderPasswordInput() {
+      const { result } = renderHook(() => {
+        return form.useAppForm({
+          defaultValues: { password: "secret" },
+        });
+      });
+
+      const hook = result.current;
+
+      return render(
+        <hook.AppForm>
+          <hook.AppField name="password">
+            {(field) => (
+              <field.PasswordInput
+                label="Password"
+                autoComplete="current-password"
+                showPasswordLabel="Show password"
+                hidePasswordLabel="Hide password"
+              />
+            )}
+          </hook.AppField>
+        </hook.AppForm>,
+        { wrapper }
+      );
+    }
+
+    it("should render a hidden password with a show toggle", () => {
+      renderPasswordInput();
+
+      const input = screen.getByLabelText("Password");
+      expect(input).toHaveAttribute("type", "password");
+      expect(input).toHaveAttribute("autocomplete", "current-password");
+
+      const toggle = screen.getByRole("button", { name: "Show password" });
+      expect(toggle).toHaveAttribute("type", "button");
+      expect(toggle).toHaveAttribute("aria-controls", "password");
+    });
+
+    it("should keep the input name to the label text and not match the toggle in label queries", () => {
+      renderPasswordInput();
+
+      const input = screen.getByLabelText(/password/i);
+      expect(input).toHaveAttribute("id", "password");
+      expect(input).toHaveAccessibleName("Password");
+      expect(screen.getByRole("button", { name: "Show password" })).toBeInTheDocument();
+    });
+
+    it("should reveal and hide the password when the toggle is clicked", () => {
+      renderPasswordInput();
+
+      const input = screen.getByLabelText("Password");
+
+      fireEvent.click(screen.getByRole("button", { name: "Show password" }));
+      expect(input).toHaveAttribute("type", "text");
+      expect(input).toHaveValue("secret");
+
+      fireEvent.click(screen.getByRole("button", { name: "Hide password" }));
+      expect(input).toHaveAttribute("type", "password");
+    });
+
+    it("should turn off spellcheck and autocorrect on the password input", () => {
+      renderPasswordInput();
+
+      const input = screen.getByLabelText("Password");
+      expect(input).toHaveAttribute("spellcheck", "false");
+      expect(input).toHaveAttribute("autocapitalize", "off");
+      expect(input).toHaveAttribute("autocorrect", "off");
+    });
+
+    it("should hide the password again when the form is submitted", () => {
+      const { result } = renderHook(() => {
+        return form.useAppForm({
+          defaultValues: { password: "secret" },
+        });
+      });
+
+      const hook = result.current;
+
+      render(
+        <form onSubmit={(e) => e.preventDefault()} data-testid="form">
+          <hook.AppForm>
+            <hook.AppField name="password">
+              {(field) => (
+                <field.PasswordInput
+                  label="Password"
+                  showPasswordLabel="Show password"
+                  hidePasswordLabel="Hide password"
+                />
+              )}
+            </hook.AppField>
+          </hook.AppForm>
+        </form>,
+        { wrapper }
+      );
+
+      const input = screen.getByLabelText("Password");
+      fireEvent.click(screen.getByRole("button", { name: "Show password" }));
+      expect(input).toHaveAttribute("type", "text");
+
+      fireEvent.submit(screen.getByTestId("form"));
+      expect(input).toHaveAttribute("type", "password");
+      expect(screen.getByRole("button", { name: "Show password" })).toBeInTheDocument();
+    });
+
+    it("should hide the password when its form appears after the input mounts", () => {
+      const { result } = renderHook(() => {
+        return form.useAppForm({
+          defaultValues: { password: "secret" },
+        });
+      });
+
+      const hook = result.current;
+      const tree = (withForm: boolean) => (
+        <>
+          <hook.AppForm>
+            <hook.AppField name="password">
+              {(field) => <field.PasswordInput label="Password" form="late-form" />}
+            </hook.AppField>
+          </hook.AppForm>
+          {withForm ? <form id="late-form" data-testid="form" onSubmit={(e) => e.preventDefault()} /> : null}
+        </>
+      );
+
+      const { rerender } = render(tree(false), { wrapper });
+      rerender(tree(true));
+
+      const input = screen.getByLabelText(/password/i);
+      fireEvent.click(screen.getByRole("button", { name: "Show password" }));
+      expect(input).toHaveAttribute("type", "text");
+
+      fireEvent.submit(screen.getByTestId("form"));
+      expect(input).toHaveAttribute("type", "password");
+    });
+
+    it("should remove the submit listener on unmount", () => {
+      const { result } = renderHook(() => {
+        return form.useAppForm({
+          defaultValues: { password: "secret" },
+        });
+      });
+
+      const hook = result.current;
+
+      const { unmount } = render(
+        <form data-testid="form">
+          <hook.AppForm>
+            <hook.AppField name="password">
+              {(field) => (
+                <field.PasswordInput
+                  label="Password"
+                  showPasswordLabel="Show password"
+                  hidePasswordLabel="Hide password"
+                />
+              )}
+            </hook.AppField>
+          </hook.AppForm>
+        </form>,
+        { wrapper }
+      );
+
+      const removeEventListener = vi.spyOn(document, "removeEventListener");
+      unmount();
+
+      expect(removeEventListener).toHaveBeenCalledWith("submit", expect.any(Function), { capture: true });
+    });
+
+    it("should forward the ref to the input and keep it stable across renders", () => {
+      const ref = vi.fn();
+      const { result } = renderHook(() => {
+        return form.useAppForm({
+          defaultValues: { password: "secret" },
+        });
+      });
+
+      const hook = result.current;
+
+      render(
+        <hook.AppForm>
+          <hook.AppField name="password">
+            {(field) => (
+              <field.PasswordInput
+                ref={ref}
+                label="Password"
+                showPasswordLabel="Show password"
+                hidePasswordLabel="Hide password"
+              />
+            )}
+          </hook.AppField>
+        </hook.AppForm>,
+        { wrapper }
+      );
+
+      fireEvent.click(screen.getByRole("button", { name: "Show password" }));
+      fireEvent.change(screen.getByLabelText("Password"), { target: { value: "secret123" } });
+
+      expect(ref).toHaveBeenCalledTimes(1);
+      expect(ref).toHaveBeenCalledWith(screen.getByLabelText("Password"));
+    });
+
+    it("should keep the value typed while the password is visible", () => {
+      renderPasswordInput();
+
+      const input = screen.getByLabelText("Password");
+      fireEvent.click(screen.getByRole("button", { name: "Show password" }));
+      fireEvent.change(input, { target: { value: "secret123" } });
+
+      expect(input).toHaveAttribute("type", "text");
+      expect(input).toHaveValue("secret123");
     });
   });
 

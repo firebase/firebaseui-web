@@ -65,6 +65,8 @@ export const nlNL = {
     password: "Wachtwoord",
     displayName: "Weergavenaam",
     forgotPassword: "Wachtwoord vergeten?",
+    showPassword: "Wachtwoord tonen",
+    hidePassword: "Wachtwoord verbergen",
     signUp: "Aanmelden",
     signIn: "Inloggen",
     resetPassword: "Wachtwoord opnieuw instellen",

@@ -63,6 +63,8 @@ export const thTH = {
     password: "รหัสผ่าน",
     displayName: "ชื่อที่แสดง",
     forgotPassword: "ลืมรหัสผ่าน?",
+    showPassword: "แสดงรหัสผ่าน",
+    hidePassword: "ซ่อนรหัสผ่าน",
     signUp: "สมัครสมาชิก",
     signIn: "ลงชื่อเข้าใช้",
     resetPassword: "รีเซ็ตรหัสผ่าน",

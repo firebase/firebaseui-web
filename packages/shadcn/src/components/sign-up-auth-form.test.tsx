@@ -71,6 +71,7 @@ describe("<SignUpAuthForm />", () => {
     // here is offered back on sign-in; `new-password` asks for a fresh suggestion rather than a fill.
     expect(container.querySelector("input[name='email']")).toHaveAttribute("autocomplete", "username");
     expect(container.querySelector("input[name='password']")).toHaveAttribute("autocomplete", "new-password");
+    expect(screen.getByRole("button", { name: "Show password" })).toHaveAttribute("aria-controls", "password");
   });
 
   it("should render with back to sign in callback", () => {
@@ -86,15 +87,14 @@ describe("<SignUpAuthForm />", () => {
       }),
     });
 
-    const { container } = render(
+    render(
       <FirebaseUIProvider ui={mockUI}>
         <SignUpAuthForm onSignInClick={onSignInClickMock} />
       </FirebaseUIProvider>
     );
 
-    const button = container.querySelector("button[type='button']");
-    expect(button).toBeInTheDocument();
-    expect(button).toHaveTextContent("haveAccount signIn");
+    const button = screen.getByRole("button", { name: "haveAccount signIn" });
+    expect(button).toHaveAttribute("type", "button");
 
     act(() => {
       fireEvent.click(button!);

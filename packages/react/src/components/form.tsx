@@ -14,9 +14,19 @@
  * limitations under the License.
  */
 
-import { type ComponentProps, type PropsWithChildren, type ReactNode } from "react";
+import {
+  type ComponentProps,
+  type PropsWithChildren,
+  type ReactNode,
+  useCallback,
+  useEffect,
+  useRef,
+  useState,
+} from "react";
 import { type AnyFieldApi, createFormHook, createFormHookContexts } from "@tanstack/react-form";
+import { getTranslation } from "@firebase-oss/ui-core";
 import { Button } from "./button";
+import { useUI } from "~/hooks";
 import { cn } from "~/utils/cn";
 
 const { fieldContext, useFieldContext, formContext, useFormContext } = createFormHookContexts();
@@ -44,51 +54,170 @@ function FieldMetadata({ className, ...props }: ComponentProps<"div"> & { field:
   );
 }
 
-function Input({
-  children,
-  before,
-  label,
-  action,
-  description,
-  ...props
-}: PropsWithChildren<
-  ComponentProps<"input"> & { label: string; before?: ReactNode; action?: ReactNode; description?: ReactNode }
->) {
+type InputProps = PropsWithChildren<
+  ComponentProps<"input"> & {
+    label: string;
+    before?: ReactNode;
+    after?: ReactNode;
+    action?: ReactNode;
+    description?: ReactNode;
+    /** Names the input from the label text only and links the description and errors with `aria-describedby`. */
+    labelTextOnly?: boolean;
+  }
+>;
+
+function Input({ children, before, after, label, action, description, labelTextOnly, ...props }: InputProps) {
   const field = useFieldContext<string>();
   const form = useFormContext();
+  const labelId = `${field.name}-label`;
+  const descriptionId = `${field.name}-description`;
+  const errorId = `${field.name}-error`;
 
   return (
     <form.Subscribe selector={(state) => shouldShowValidationErrors(state)}>
-      {(showValidation) => (
-        <label htmlFor={field.name}>
-          <div data-input-label>
-            <div>{label}</div>
-            {action ? <div>{action}</div> : null}
-          </div>
-          {description ? <div data-input-description>{description}</div> : null}
-          <div data-input-group>
-            {before}
-            <input
-              {...props}
-              aria-invalid={(showValidation || field.state.meta.isTouched) && field.state.meta.errors.length > 0}
-              id={field.name}
-              name={field.name}
-              value={field.state.value}
-              onChange={(e) => {
-                field.handleChange(e.target.value);
-                // Clear form-level submission errors when user starts typing
-                const errorMap = form.state.errorMap;
-                if (errorMap?.onSubmit) {
-                  form.setErrorMap({});
-                }
-              }}
-            />
-          </div>
-          {children ? <>{children}</> : null}
-          {showValidation || field.state.meta.isTouched ? <FieldMetadata field={field} /> : null}
-        </label>
-      )}
+      {(showValidation) => {
+        const showErrors = (showValidation || field.state.meta.isTouched) && field.state.meta.errors.length > 0;
+        const describedBy = labelTextOnly
+          ? [props["aria-describedby"], description ? descriptionId : null, showErrors ? errorId : null]
+              .filter(Boolean)
+              .join(" ")
+          : props["aria-describedby"];
+
+        return (
+          <label htmlFor={field.name}>
+            <div data-input-label>
+              <div id={labelId}>{label}</div>
+              {action ? <div>{action}</div> : null}
+            </div>
+            {description ? (
+              <div data-input-description id={descriptionId}>
+                {description}
+              </div>
+            ) : null}
+            <div data-input-group>
+              {before}
+              <input
+                {...props}
+                aria-labelledby={labelTextOnly ? labelId : props["aria-labelledby"]}
+                aria-describedby={describedBy || undefined}
+                aria-invalid={showErrors}
+                id={field.name}
+                name={field.name}
+                value={field.state.value}
+                onChange={(e) => {
+                  field.handleChange(e.target.value);
+                  // Clear form-level submission errors when user starts typing
+                  const errorMap = form.state.errorMap;
+                  if (errorMap?.onSubmit) {
+                    form.setErrorMap({});
+                  }
+                }}
+              />
+              {after}
+            </div>
+            {children ? <>{children}</> : null}
+            {showValidation || field.state.meta.isTouched ? <FieldMetadata field={field} id={errorId} /> : null}
+          </label>
+        );
+      }}
     </form.Subscribe>
+  );
+}
+
+// Icon paths from Lucide (ISC), inlined so the package needs no icon dependency.
+function EyeIcon({ off }: { off?: boolean }) {
+  return (
+    <svg
+      xmlns="http://www.w3.org/2000/svg"
+      viewBox="0 0 24 24"
+      fill="none"
+      stroke="currentColor"
+      strokeWidth="2"
+      strokeLinecap="round"
+      strokeLinejoin="round"
+      aria-hidden="true"
+      focusable="false"
+    >
+      {off ? (
+        <>
+          <path d="M10.733 5.076a10.744 10.744 0 0 1 11.205 6.575 1 1 0 0 1 0 .696 10.747 10.747 0 0 1-1.444 2.49" />
+          <path d="M14.084 14.158a3 3 0 0 1-4.242-4.242" />
+          <path d="M17.479 17.499a10.75 10.75 0 0 1-15.417-5.151 1 1 0 0 1 0-.696 10.75 10.75 0 0 1 4.446-5.143" />
+          <path d="m2 2 20 20" />
+        </>
+      ) : (
+        <>
+          <path d="M2.062 12.348a1 1 0 0 1 0-.696 10.75 10.75 0 0 1 19.876 0 1 1 0 0 1 0 .696 10.75 10.75 0 0 1-19.876 0" />
+          <circle cx="12" cy="12" r="3" />
+        </>
+      )}
+    </svg>
+  );
+}
+
+function PasswordInput({
+  showPasswordLabel,
+  hidePasswordLabel,
+  ref,
+  ...props
+}: Omit<InputProps, "type" | "after"> & {
+  /** Accessible label for the show password button; defaults to the translated "Show password". */
+  showPasswordLabel?: string;
+  /** Accessible label for the hide password button; defaults to the translated "Hide password". */
+  hidePasswordLabel?: string;
+}) {
+  const ui = useUI();
+  const field = useFieldContext<string>();
+  const [visible, setVisible] = useState(false);
+  const inputRef = useRef<HTMLInputElement | null>(null);
+
+  // Keep one ref callback across renders, so a caller's ref is not detached on every render.
+  const setRefs = useCallback(
+    (element: HTMLInputElement | null) => {
+      inputRef.current = element;
+      if (typeof ref === "function") ref(element);
+      else if (ref) ref.current = element;
+    },
+    [ref]
+  );
+
+  // Hide the password again on submit; checked per event, so it holds however the form mounts.
+  useEffect(() => {
+    const hide = (event: SubmitEvent) => {
+      const input = inputRef.current;
+      if (!input || event.target !== input.form) return;
+      input.type = "password";
+      setVisible(false);
+    };
+    document.addEventListener("submit", hide, { capture: true });
+    return () => document.removeEventListener("submit", hide, { capture: true });
+  }, []);
+
+  return (
+    <Input
+      {...props}
+      ref={setRefs}
+      labelTextOnly
+      type={visible ? "text" : "password"}
+      spellCheck={false}
+      autoCapitalize="off"
+      autoCorrect="off"
+      after={
+        <button
+          type="button"
+          className="fui-form__password-toggle"
+          aria-controls={field.name}
+          onClick={() => setVisible((v) => !v)}
+        >
+          <EyeIcon off={visible} />
+          <span className="fui-sr-only">
+            {visible
+              ? (hidePasswordLabel ?? getTranslation(ui, "labels", "hidePassword"))
+              : (showPasswordLabel ?? getTranslation(ui, "labels", "showPassword"))}
+          </span>
+        </button>
+      }
+    />
   );
 }
 
@@ -128,12 +257,13 @@ function ErrorMessage() {
 /**
  * A form hook factory for creating forms with validation and error handling.
  *
- * Provides field components (Input) and form components (SubmitButton, ErrorMessage, Action)
+ * Provides field components (Input, PasswordInput) and form components (SubmitButton, ErrorMessage, Action)
  * for building accessible forms with TanStack Form.
  */
 export const form = createFormHook({
   fieldComponents: {
     Input,
+    PasswordInput,
   },
   formComponents: {
     SubmitButton,

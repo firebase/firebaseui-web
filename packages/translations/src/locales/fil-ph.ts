@@ -66,6 +66,8 @@ export const filPH = {
     password: "Password",
     displayName: "Display Name",
     forgotPassword: "Nakalimutan ang Password?",
+    showPassword: "Ipakita ang password",
+    hidePassword: "Itago ang password",
     signUp: "Mag-sign Up",
     signIn: "Mag-sign In",
     resetPassword: "I-reset ang Password",

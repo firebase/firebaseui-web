@@ -281,6 +281,9 @@ describe("<SignUpAuthForm />", () => {
     expect(screen.getByRole("textbox", { name: /emailAddress/ })).toHaveAttribute("autocomplete", "username");
     expect(screen.getByLabelText(/password/)).toHaveAttribute("autocomplete", "new-password");
 
+    // The password can be revealed; untranslated keys fall back to en-US
+    expect(screen.getByRole("button", { name: "Show password" })).toHaveAttribute("aria-controls", "password");
+
     // Ensure the "Create Account" button is present and is a submit button
     const createAccountButton = screen.getByRole("button", { name: "createAccount" });
     expect(createAccountButton).toBeInTheDocument();

@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-import { render, screen } from "@testing-library/angular";
+import { fireEvent, render, screen } from "@testing-library/angular";
 import { Component, signal } from "@angular/core";
 import { injectForm, TanStackAppField } from "@tanstack/angular-form";
 
@@ -216,6 +216,204 @@ describe("Form Components", () => {
       placeholder = signal<string | undefined>(undefined);
       maxlength = signal<string | number | undefined>(undefined);
     }
+
+    @Component({
+      template: `
+        <form>
+          <fui-form-input name="test" tanstack-app-field [tanstackField]="form" label="Test Label"></fui-form-input>
+        </form>
+      `,
+      standalone: true,
+      imports: [FormInputComponent, TanStackAppField],
+    })
+    class TestFormTextInputInFormHostComponent {
+      form = injectForm({
+        defaultValues: {
+          test: "",
+        },
+      });
+    }
+
+    @Component({
+      template: `
+        <form (submit)="$event.preventDefault()" data-testid="form">
+          <fui-form-input
+            name="password"
+            tanstack-app-field
+            [tanstackField]="form"
+            label="Password"
+            [type]="type()"
+          ></fui-form-input>
+        </form>
+      `,
+      standalone: true,
+      imports: [FormInputComponent, TanStackAppField],
+    })
+    class TestFormLateTypeHostComponent {
+      form = injectForm({
+        defaultValues: {
+          password: "secret",
+        },
+      });
+      type = signal("text");
+    }
+
+    @Component({
+      template: `
+        <form (submit)="$event.preventDefault()" data-testid="form">
+          <fui-form-input
+            name="password"
+            tanstack-app-field
+            [tanstackField]="form"
+            label="Password"
+            type="password"
+            showPasswordLabel="Show password"
+            hidePasswordLabel="Hide password"
+          ></fui-form-input>
+        </form>
+      `,
+      standalone: true,
+      imports: [FormInputComponent, TanStackAppField],
+    })
+    class TestFormPasswordInputInFormHostComponent {
+      form = injectForm({
+        defaultValues: {
+          password: "secret",
+        },
+      });
+    }
+
+    @Component({
+      template: `
+        <fui-form-input
+          name="password"
+          tanstack-app-field
+          [tanstackField]="form"
+          label="Password"
+          type="password"
+          [showPasswordLabel]="showPasswordLabel()"
+          hidePasswordLabel="Hide password"
+        ></fui-form-input>
+      `,
+      standalone: true,
+      imports: [FormInputComponent, TanStackAppField],
+    })
+    class TestFormPasswordInputHostComponent {
+      form = injectForm({
+        defaultValues: {
+          password: "secret",
+        },
+      });
+      showPasswordLabel = signal<string | undefined>("Show password");
+    }
+
+    it("keeps the label as the field wrapper", async () => {
+      const { container } = await render(TestFormInputHostComponent, {
+        imports: [TestFormInputHostComponent],
+      });
+
+      const input = container.querySelector('input[name="test"]') as HTMLElement;
+      expect(input.closest("label")).toBe(container.querySelector('label[for="test"]'));
+      expect(input).not.toHaveAttribute("aria-labelledby");
+      expect(input).not.toHaveAttribute("aria-describedby");
+    });
+
+    it("renders a password toggle that reveals and hides the password", async () => {
+      const component = await render(TestFormPasswordInputHostComponent);
+
+      const input = screen.getByLabelText("Password");
+      expect(input).toHaveAttribute("type", "password");
+
+      const toggle = screen.getByRole("button", { name: "Show password" });
+      expect(toggle).toHaveAttribute("type", "button");
+      expect(toggle).toHaveAttribute("aria-controls", "password");
+
+      toggle.click();
+      component.fixture.detectChanges();
+      expect(input).toHaveAttribute("type", "text");
+      expect(input).toHaveValue("secret");
+
+      screen.getByRole("button", { name: "Hide password" }).click();
+      component.fixture.detectChanges();
+      expect(input).toHaveAttribute("type", "password");
+    });
+
+    it("turns off spellcheck and autocorrect when the toggle is shown", async () => {
+      await render(TestFormPasswordInputHostComponent);
+
+      const input = screen.getByLabelText("Password");
+      expect(input).toHaveAttribute("spellcheck", "false");
+      expect(input).toHaveAttribute("autocapitalize", "off");
+      expect(input).toHaveAttribute("autocorrect", "off");
+    });
+
+    it("hides the password again when the form is submitted", async () => {
+      const component = await render(TestFormPasswordInputInFormHostComponent);
+
+      const input = screen.getByLabelText("Password");
+      screen.getByRole("button", { name: "Show password" }).click();
+      component.fixture.detectChanges();
+      expect(input).toHaveAttribute("type", "text");
+
+      fireEvent.submit(screen.getByTestId("form"));
+      component.fixture.detectChanges();
+      expect(input).toHaveAttribute("type", "password");
+      expect(screen.getByRole("button", { name: "Show password" })).toBeTruthy();
+    });
+
+    it("hides the password on submit when the field becomes a password field after the first render", async () => {
+      const component = await render(TestFormLateTypeHostComponent);
+      expect(screen.queryByRole("button")).toBeNull();
+
+      component.fixture.componentInstance.type.set("password");
+      component.fixture.detectChanges();
+
+      const input = screen.getByLabelText(/password/i);
+      screen.getByRole("button", { name: "Show password" }).click();
+      component.fixture.detectChanges();
+      expect(input).toHaveAttribute("type", "text");
+
+      fireEvent.submit(screen.getByTestId("form"));
+      component.fixture.detectChanges();
+      expect(input).toHaveAttribute("type", "password");
+    });
+
+    it("removes the submit listener when destroyed", async () => {
+      const component = await render(TestFormPasswordInputInFormHostComponent);
+
+      const removeEventListener = jest.spyOn(document, "removeEventListener");
+      component.fixture.destroy();
+
+      expect(removeEventListener).toHaveBeenCalledWith("submit", expect.any(Function), { capture: true });
+      removeEventListener.mockRestore();
+    });
+
+    it("does not listen for submit on fields without a password toggle", async () => {
+      const addEventListener = jest.spyOn(document, "addEventListener");
+      await render(TestFormTextInputInFormHostComponent);
+
+      expect(addEventListener).not.toHaveBeenCalledWith("submit", expect.any(Function), { capture: true });
+      addEventListener.mockRestore();
+    });
+
+    it("names a password input with a toggle from the label text only", async () => {
+      await render(TestFormPasswordInputHostComponent);
+
+      const input = screen.getByLabelText(/password/i);
+      expect(input).toHaveAttribute("id", "password");
+      expect(input).toHaveAccessibleName("Password");
+      expect(screen.getByRole("button", { name: "Show password" })).toBeTruthy();
+    });
+
+    it("renders the toggle with translated labels when none are passed", async () => {
+      const component = await render(TestFormLateTypeHostComponent);
+      component.fixture.componentInstance.type.set("password");
+      component.fixture.detectChanges();
+
+      screen.getByRole("button", { name: "Show password" }).click();
+      component.fixture.detectChanges();
+      expect(screen.getByRole("button", { name: "Hide password" })).toBeTruthy();
+    });
 
     it("renders action content when provided", async () => {
       await render(TestFormInputHostComponent, {

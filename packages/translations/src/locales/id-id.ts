@@ -63,6 +63,8 @@ export const idID = {
     password: "Kata Sandi",
     displayName: "Nama Tampilan",
     forgotPassword: "Lupa Kata Sandi?",
+    showPassword: "Tampilkan kata sandi",
+    hidePassword: "Sembunyikan kata sandi",
     signUp: "Daftar",
     signIn: "Masuk",
     resetPassword: "Reset Kata Sandi",

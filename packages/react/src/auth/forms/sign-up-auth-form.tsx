@@ -139,11 +139,7 @@ export function SignUpAuthForm({ onSignInClick, onSignUp }: SignUpAuthFormProps)
         <fieldset>
           <form.AppField name="password">
             {(field) => (
-              <field.Input
-                label={getTranslation(ui, "labels", "password")}
-                type="password"
-                autoComplete="new-password"
-              />
+              <field.PasswordInput label={getTranslation(ui, "labels", "password")} autoComplete="new-password" />
             )}
           </form.AppField>
         </fieldset>
