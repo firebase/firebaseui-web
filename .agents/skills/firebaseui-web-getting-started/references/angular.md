@@ -182,7 +182,7 @@ Buttons emit `(signIn)` with `UserCredential`: `<fui-google-sign-in-button>`, `-
 
 ## 5. Layout pieces and helpers
 
-- `<button fui-button [variant]="'primary' | 'secondary'">`, `<fui-card>`, `<fui-card-header>`, `<fui-card-title>`, `<fui-card-subtitle>`, `<fui-card-content>`, `<fui-divider [label]>`, `<fui-policies>`, `<fui-redirect-error>`, `<fui-country-selector [(value)]>` (classes `ButtonComponent`, `CardComponent`, `CardHeaderComponent`, `CardTitleComponent`, `CardSubtitleComponent`, `CardContentComponent`, `DividerComponent`, `PoliciesComponent`, `RedirectErrorComponent`, `CountrySelectorComponent`). Wrap a hand-made card in `<div class="fui-screen">` to match the screens' width and centring.
+- `<button fui-button variant="primary">` (`variant` is `primary` or `secondary`), `<fui-card>`, `<fui-card-header>`, `<fui-card-title>`, `<fui-card-subtitle>`, `<fui-card-content>`, `<fui-divider [label]>`, `<fui-policies>`, `<fui-redirect-error>`, `<fui-country-selector [(value)]>` (classes `ButtonComponent`, `CardComponent`, `CardHeaderComponent`, `CardTitleComponent`, `CardSubtitleComponent`, `CardContentComponent`, `DividerComponent`, `PoliciesComponent`, `RedirectErrorComponent`, `CountrySelectorComponent`). Wrap a hand-made card in `<div class="fui-screen">` to match the screens' width and centring.
 - `injectUI(): Signal<FirebaseUI>` (field initialiser or constructor only), `injectUserAuthenticated((user: User) => void)` (non-anonymous users only), `injectRedirectError(): Signal<string | undefined>`, `injectPolicies()`, `injectRecaptchaVerifier(() => ElementRef<HTMLDivElement>)`.
 
 ## 6. Build
