@@ -26,7 +26,8 @@ import { ProButton, ProCodeField, ProError, ProPage, ProPhoneField } from "./kit
 
 export function ProPhone() {
   const navigate = useNavigate();
-  const [country, setCountry] = useState<CountryData>(useDefaultCountry());
+  const defaultCountry = useDefaultCountry();
+  const [country, setCountry] = useState<CountryData>(defaultCountry);
   const [phone, setPhone] = useState("");
   const [code, setCode] = useState("");
   const [verificationId, setVerificationId] = useState<string | null>(null);
