@@ -7,7 +7,8 @@ Companion to [`angular.md`](angular.md) (setup, provider config, screens, styles
 Connect it inside `provideAuth` in `app.config.ts`, so it happens once, before `provideFirebaseUI` builds its store (which reads the same `Auth`). Do not call `connectAuthEmulator` anywhere else.
 
 ```ts
-import { connectAuthEmulator, getAuth, provideAuth } from '@angular/fire/auth';
+import { getAuth, provideAuth } from '@angular/fire/auth';
+import { connectAuthEmulator } from 'firebase/auth';
 
 provideAuth(() => {
   const auth = getAuth();
