@@ -1,6 +1,6 @@
 # FirebaseUI Web: Angular Reference (`@firebase-oss/ui-angular`)
 
-Standalone components for Angular 19+ (written against `@firebase-oss/ui-angular@7.1.0`, `@angular/fire@20`). Read this file first. Email link, anonymous upgrade, MFA, the Auth emulator and headless forms are in [`angular-recipes.md`](angular-recipes.md). Core actions are in [`core.md`](core.md).
+Standalone components for Angular 20+ (written against `@firebase-oss/ui-angular@7.1.0`, `@angular/fire@20`). Read this file first. Email link, anonymous upgrade, MFA, the Auth emulator and headless forms are in [`angular-recipes.md`](angular-recipes.md). Core actions are in [`core.md`](core.md).
 
 Every selector, input and output below was checked against the package's type declarations, so do not search `node_modules` for them.
 

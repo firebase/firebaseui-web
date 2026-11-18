@@ -77,7 +77,7 @@ All FirebaseUI screens, forms, and OAuth buttons call these functions under the 
 
 **Sign-out is not in `ui-core`.** The sign-out call is `signOut(ui.get().auth)` from `firebase/auth`.
 
-**Anonymous sign-in does not fire `onSignIn`.** Screen callbacks that follow auth state (`onSignIn` and friends) run for non-anonymous users only, and linking a credential to a guest emits no auth-state change, so they do not fire when `autoUpgradeAnonymousUsers()` upgrades a guest either. Navigate yourself after `signInAnonymously`. Which outputs receive the credential directly is in the stack's reference.
+**Anonymous sign-in does not fire `onSignIn`.** Screen callbacks driven by the auth-state listener (`onSignIn` on the sign-in, OAuth, phone and email-link screens) run for non-anonymous users only, and linking a credential to a guest emits no auth-state change, so they do not fire when `autoUpgradeAnonymousUsers()` upgrades a guest either. `onSignUp` on the sign-up screen is called from the form's credential, so it does fire on a guest upgrade. Navigate yourself after `signInAnonymously`. Which outputs receive the credential directly is in the stack's reference.
 
 
 - **Email & Password:**

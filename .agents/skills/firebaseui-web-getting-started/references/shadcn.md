@@ -67,16 +67,16 @@ Put the Firebase module, emulator connection and `<FirebaseUIProvider>` wiring i
 
 ## 4. Props of the Copied Components
 
-The copies re-export their prop types from `@firebase-oss/ui-react`, so the definitions are not in `src/components`. Use these tables. `User` and `UserCredential` are from `firebase/auth`.
+Most copies re-export their prop types from `@firebase-oss/ui-react`; `PhoneAuthScreen` and `OAuthScreen` declare their own. Use these tables. `User` and `UserCredential` are from `firebase/auth`.
 
 | Component | Props |
 | --- | --- |
-| `SignInAuthScreen` | `onSignIn?(user: User)`, `onForgotPasswordClick?()`, `onSignUpClick?()`, `showLegacySignInRecovery?: boolean`, `children?` (OAuth buttons) |
+| `SignInAuthScreen` | `onSignIn?(user: User)`, `onForgotPasswordClick?()`, `onSignUpClick?()`, `children?` (OAuth buttons). `showLegacySignInRecovery` type-checks but the copy never renders the recovery UI |
 | `SignUpAuthScreen` | `onSignUp?(user: User)`, `onSignInClick?()`, `children?` |
 | `ForgotPasswordAuthScreen` | `onPasswordSent?()`, `onBackToSignInClick?()` |
 | `EmailLinkAuthScreen` | `onEmailSent?()`, `onSignIn?(user: User)`, `children?` |
 | `PhoneAuthScreen` | `onSignIn?(user: User)`, `children?` |
-| `OAuthScreen` | `onSignIn?(user: User)`, `showLegacySignInRecovery?: boolean`, `children?` |
+| `OAuthScreen` | `onSignIn?(user: User)`, `children?` |
 | `MultiFactorAuthEnrollmentScreen` | `onEnrollment?()`, `hints?: Hint[]` (`FactorId.PHONE`, `FactorId.TOTP` from `firebase/auth`; default both, empty is an error) |
 | `GoogleSignInButton` (and the other branded buttons) | `provider?`, `themed?: boolean \| 'neutral'`, `onSignIn?(credential: UserCredential)` |
 | `OAuthButton` | `provider` (required `AuthProvider`), `themed?`, `onSignIn?(credential)`, `children` (label) |

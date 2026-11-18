@@ -76,9 +76,9 @@ Use `*AuthForm` components when you want FirebaseUI's form state, validation, lo
 | `PhoneAuthForm` | `{ onSignIn?: (credential: UserCredential) => void }` |
 | `MultiFactorAuthEnrollmentForm` | `{ onEnrollment?: () => void, hints?: Hint[] }` |
 | `MultiFactorAuthAssertionForm` | `{ onSuccess?: (credential: UserCredential) => void }` |
-| `SmsMultiFactorEnrollmentForm` | `{ onEnrollment?: () => void }` |
+| `SmsMultiFactorEnrollmentForm` | `{ onSuccess?: () => void }` (not `onEnrollment`) |
 | `SmsMultiFactorAssertionForm` | `{ hint: MultiFactorInfo, onSuccess?: (credential: UserCredential) => void }` |
-| `TotpMultiFactorEnrollmentForm` | `{ onEnrollment?: () => void }` |
+| `TotpMultiFactorEnrollmentForm` | `{ onSuccess?: () => void }` (not `onEnrollment`) |
 | `TotpMultiFactorAssertionForm` | `{ hint: MultiFactorInfo, onSuccess?: (credential: UserCredential) => void }` |
 
 ## 4. Hooks & UI Utilities
