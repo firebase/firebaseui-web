@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-import { type Translations } from "../types";
+import { type CompleteTranslationsWithoutLegacy } from "../types";
 
 /** Ukrainian UA (uk-UA) translation set. */
 export const ukUA = {
@@ -85,12 +85,12 @@ export const ukUA = {
     signInWithYahoo: "Увійти через Yahoo",
     signInWithTwitter: "Увійти через X",
     signInWithEmailLink: "Увійти за посиланням з електронної пошти",
-    signInWithEmail: "Увійти через електронну пошту",
     sendSignInLink: "Надіслати посилання для входу",
     termsOfService: "Умови використання",
     privacyPolicy: "Політика конфіденційності",
     resendCode: "Надіслати код повторно",
     sending: "Надсилання...",
+    dismiss: "Закрити",
     multiFactorEnrollment: "Реєстрація багатофакторної автентифікації",
     multiFactorAssertion: "Багатофакторна автентифікація",
     mfaTotpVerification: "Підтвердження TOTP",
@@ -113,4 +113,4 @@ export const ukUA = {
     mfaTotpQrCodePrompt: "Відскануйте цей QR-код за допомогою програми автентифікації",
     mfaTotpEnrollmentVerificationPrompt: "Додайте код, згенерований вашою програмою автентифікації",
   },
-} satisfies Translations;
+} satisfies CompleteTranslationsWithoutLegacy;
