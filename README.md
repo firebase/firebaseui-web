@@ -571,7 +571,7 @@ const enUsCustom = registerLocale('en-US', {
 });
 ```
 
-Firebase errors thrown by FirebaseUI are `FirebaseUIError`s that keep the original Firebase error as `cause`, so you can still log or report the untranslated message. Errors caused by a configuration issue, such as `auth/api-key-expired` or `auth/unauthorized-domain`, are also logged with `console.warn`; errors caused by the user, such as a wrong password, are not.
+Firebase errors thrown by FirebaseUI are `FirebaseUIError`s that keep the original Firebase error as `cause`, so you can still log or report the untranslated message. An error that is not from Firebase is a `FirebaseUIError` with the code `ui/unknown-error` and the translated `unknownError` message; its `cause` has the original error's untranslated message, and the original error itself is at `cause.cause`. Errors caused by a configuration issue, such as `auth/api-key-expired` or `auth/unauthorized-domain`, are also logged with `console.warn`; errors caused by the user, such as a wrong password, are not.
 
 ## Reference
 
@@ -888,6 +888,17 @@ Firebase errors thrown by FirebaseUI are `FirebaseUIError`s that keep the origin
   **`FirebaseUIError`**
 
   A custom error class that extends FirebaseError with localized error messages.
+
+  **`createUnknownFirebaseUIError`**
+
+  Creates a `FirebaseUIError` with the code `ui/unknown-error` and the translated `unknownError` message for an error that is not a Firebase error.
+
+  | Argument |        Type       | Description                        |
+  |----------|:-----------------:|------------------------------------|
+  | ui       | FirebaseUI        | The Firebase UI instance.  |
+  | error    | unknown           | The original error, kept at `cause.cause`. |
+
+  Returns `FirebaseUIError`.
 
   **`handleFirebaseError`**
 
@@ -1422,7 +1433,7 @@ Firebase errors thrown by FirebaseUI are `FirebaseUIError`s that keep the origin
 
   Hook for sign-in form submission action.
 
-  Returns async action handler.
+  Returns async action handler, which rejects with a `FirebaseUIError` (code `ui/unknown-error` for errors that are not from Firebase).
 
   **`useSignUpAuthForm`**
 
@@ -1434,7 +1445,7 @@ Firebase errors thrown by FirebaseUI are `FirebaseUIError`s that keep the origin
 
   Hook for sign-up form submission action.
 
-  Returns async action handler.
+  Returns async action handler, which rejects with a `FirebaseUIError` (code `ui/unknown-error` for errors that are not from Firebase).
 
   **`useRequireDisplayName`**
 
@@ -1452,7 +1463,7 @@ Firebase errors thrown by FirebaseUI are `FirebaseUIError`s that keep the origin
 
   Hook for forgot password form submission action.
 
-  Returns async action handler.
+  Returns async action handler, which rejects with a `FirebaseUIError` (code `ui/unknown-error` for errors that are not from Firebase).
 
   **`useEmailLinkAuthForm`**
 
@@ -1464,7 +1475,7 @@ Firebase errors thrown by FirebaseUI are `FirebaseUIError`s that keep the origin
 
   Hook for email link auth form submission action.
 
-  Returns async action handler.
+  Returns async action handler, which rejects with a `FirebaseUIError` (code `ui/unknown-error` for errors that are not from Firebase).
 
   **`useEmailLinkAuthFormCompleteSignIn`**
 

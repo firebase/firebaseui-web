@@ -16,7 +16,13 @@
 
 "use client";
 
-import { FirebaseUIError, getTranslation, createUserWithEmailAndPassword, hasBehavior } from "@firebase-oss/ui-core";
+import {
+  createUnknownFirebaseUIError,
+  FirebaseUIError,
+  getTranslation,
+  createUserWithEmailAndPassword,
+  hasBehavior,
+} from "@firebase-oss/ui-core";
 import type { UserCredential } from "firebase/auth";
 import { useSignUpAuthFormSchema, useUI } from "~/hooks";
 import { form } from "~/components/form";
@@ -56,11 +62,11 @@ export function useSignUpAuthFormAction() {
         return await createUserWithEmailAndPassword(ui, email, password, displayName);
       } catch (error) {
         if (error instanceof FirebaseUIError) {
-          throw new Error(error.message);
+          throw error;
         }
 
         console.error(error);
-        throw new Error(getTranslation(ui, "errors", "unknownError"));
+        throw createUnknownFirebaseUIError(ui, error);
       }
     },
     [ui]

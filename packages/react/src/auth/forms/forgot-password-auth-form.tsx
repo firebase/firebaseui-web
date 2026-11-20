@@ -16,7 +16,12 @@
 
 "use client";
 
-import { FirebaseUIError, getTranslation, sendPasswordResetEmail } from "@firebase-oss/ui-core";
+import {
+  createUnknownFirebaseUIError,
+  FirebaseUIError,
+  getTranslation,
+  sendPasswordResetEmail,
+} from "@firebase-oss/ui-core";
 import { useForgotPasswordAuthFormSchema, useUI } from "~/hooks";
 import { form } from "~/components/form";
 import { Policies } from "~/components/policies";
@@ -44,11 +49,11 @@ export function useForgotPasswordAuthFormAction() {
         return await sendPasswordResetEmail(ui, email);
       } catch (error) {
         if (error instanceof FirebaseUIError) {
-          throw new Error(error.message);
+          throw error;
         }
 
         console.error(error);
-        throw new Error(getTranslation(ui, "errors", "unknownError"));
+        throw createUnknownFirebaseUIError(ui, error);
       }
     },
     [ui]
