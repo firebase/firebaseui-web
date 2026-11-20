@@ -65,6 +65,8 @@ export const itIT = {
     password: "Password",
     displayName: "Nome visualizzato",
     forgotPassword: "Password dimenticata?",
+    showPassword: "Mostra password",
+    hidePassword: "Nascondi password",
     signUp: "Registrati",
     signIn: "Accedi",
     resetPassword: "Reimposta password",

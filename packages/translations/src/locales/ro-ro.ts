@@ -64,6 +64,8 @@ export const roRO = {
     password: "Parolă",
     displayName: "Nume de afișare",
     forgotPassword: "Ați uitat parola?",
+    showPassword: "Afișați parola",
+    hidePassword: "Ascundeți parola",
     signUp: "Înregistrare",
     signIn: "Conectare",
     resetPassword: "Resetați parola",

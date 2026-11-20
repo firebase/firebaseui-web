@@ -64,6 +64,8 @@ export const fiFI = {
     password: "Salasana",
     displayName: "Näyttönimi",
     forgotPassword: "Unohditko salasanasi?",
+    showPassword: "Näytä salasana",
+    hidePassword: "Piilota salasana",
     signUp: "Rekisteröidy",
     signIn: "Kirjaudu sisään",
     resetPassword: "Palauta salasana",

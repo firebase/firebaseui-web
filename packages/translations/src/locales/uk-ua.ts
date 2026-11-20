@@ -65,6 +65,8 @@ export const ukUA = {
     password: "Пароль",
     displayName: "Ім'я для відображення",
     forgotPassword: "Забули пароль?",
+    showPassword: "Показати пароль",
+    hidePassword: "Приховати пароль",
     signUp: "Зареєструватися",
     signIn: "Увійти",
     resetPassword: "Скинути пароль",

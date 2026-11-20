@@ -14,9 +14,23 @@
  * limitations under the License.
  */
 
-import { ChangeDetectorRef, Component, computed, inject, input, OnChanges, SimpleChanges } from "@angular/core";
+import {
+  ChangeDetectorRef,
+  Component,
+  computed,
+  DOCUMENT,
+  effect,
+  ElementRef,
+  inject,
+  input,
+  OnChanges,
+  signal,
+  SimpleChanges,
+  viewChild,
+} from "@angular/core";
 import { AnyFormState, injectField } from "@tanstack/angular-form";
 import { ButtonComponent } from "./button";
+import { injectTranslation } from "../provider";
 
 @Component({
   selector: "fui-form-metadata",
@@ -27,7 +41,7 @@ import { ButtonComponent } from "./button";
   template: `
     @if (isTouched() && errors().length > 0) {
       <div>
-        <div role="alert" aria-live="polite" class="fui-error">
+        <div role="alert" aria-live="polite" class="fui-error" [attr.id]="errorId()">
           {{ errorMessage() }}
         </div>
       </div>
@@ -40,6 +54,8 @@ import { ButtonComponent } from "./button";
 export class FormMetadataComponent {
   isTouched = input.required<boolean>();
   errors = input.required<Array<{ message: string }>>();
+  /** Optional id for the error element, so the input can reference it with `aria-describedby`. */
+  errorId = input<string>();
 
   errorMessage(): string {
     return this.errors()
@@ -58,30 +74,77 @@ export class FormMetadataComponent {
   template: `
     <label [for]="field.api.name">
       <div data-input-label>
-        <div>{{ label() }}</div>
+        <div [id]="field.api.name + '-label'">{{ label() }}</div>
         <div><ng-content select="input-action" /></div>
       </div>
       @if (description()) {
-        <div data-input-description>{{ description() }}</div>
+        <div data-input-description [id]="field.api.name + '-description'">{{ description() }}</div>
       }
       <div data-input-group>
         <ng-content select="input-before" />
         <input
+          #inputElement
           [attr.aria-invalid]="field.api.state.meta.isTouched && field.api.state.meta.errors.length > 0"
+          [attr.aria-labelledby]="hasPasswordToggle() ? field.api.name + '-label' : null"
+          [attr.aria-describedby]="hasPasswordToggle() ? describedBy() : null"
           [id]="field.api.name"
           [name]="field.api.name"
           [value]="field.api.state.value"
           (input)="handleInput($event)"
-          [type]="type()"
+          [type]="inputType()"
           [attr.autocomplete]="autocomplete()"
           [attr.placeholder]="placeholder()"
           [attr.maxlength]="maxlength()"
+          [attr.spellcheck]="hasPasswordToggle() ? 'false' : null"
+          [attr.autocapitalize]="hasPasswordToggle() ? 'off' : null"
+          [attr.autocorrect]="hasPasswordToggle() ? 'off' : null"
         />
+        @if (hasPasswordToggle()) {
+          <button
+            type="button"
+            class="fui-form__password-toggle"
+            [attr.aria-controls]="field.api.name"
+            (click)="togglePasswordVisibility()"
+          >
+            <!-- Icon paths from Lucide (ISC). -->
+            <svg
+              xmlns="http://www.w3.org/2000/svg"
+              viewBox="0 0 24 24"
+              fill="none"
+              stroke="currentColor"
+              stroke-width="2"
+              stroke-linecap="round"
+              stroke-linejoin="round"
+              aria-hidden="true"
+              focusable="false"
+            >
+              @if (passwordVisible()) {
+                <path
+                  d="M10.733 5.076a10.744 10.744 0 0 1 11.205 6.575 1 1 0 0 1 0 .696 10.747 10.747 0 0 1-1.444 2.49"
+                />
+                <path d="M14.084 14.158a3 3 0 0 1-4.242-4.242" />
+                <path
+                  d="M17.479 17.499a10.75 10.75 0 0 1-15.417-5.151 1 1 0 0 1 0-.696 10.75 10.75 0 0 1 4.446-5.143"
+                />
+                <path d="m2 2 20 20" />
+              } @else {
+                <path
+                  d="M2.062 12.348a1 1 0 0 1 0-.696 10.75 10.75 0 0 1 19.876 0 1 1 0 0 1 0 .696 10.75 10.75 0 0 1-19.876 0"
+                />
+                <circle cx="12" cy="12" r="3" />
+              }
+            </svg>
+            <span class="fui-sr-only">{{
+              passwordVisible() ? resolvedHidePasswordLabel() : resolvedShowPasswordLabel()
+            }}</span>
+          </button>
+        }
       </div>
       <ng-content></ng-content>
       <fui-form-metadata
         [isTouched]="field.api.state.meta.isTouched"
         [errors]="field.api.state.meta.errors"
+        [errorId]="field.api.name + '-error'"
       ></fui-form-metadata>
     </label>
   `,
@@ -104,6 +167,51 @@ export class FormInputComponent implements OnChanges {
   placeholder = input<string>();
   /** Optional maximum character count accepted by the input. */
   maxlength = input<string | number>();
+  /** Accessible label for the show password button; defaults to the translated "Show password". */
+  showPasswordLabel = input<string>();
+  /** Accessible label for the hide password button; defaults to the translated "Hide password". */
+  hidePasswordLabel = input<string>();
+
+  private defaultShowPasswordLabel = injectTranslation("labels", "showPassword");
+  private defaultHidePasswordLabel = injectTranslation("labels", "hidePassword");
+  resolvedShowPasswordLabel = computed(() => this.showPasswordLabel() || this.defaultShowPasswordLabel());
+  resolvedHidePasswordLabel = computed(() => this.hidePasswordLabel() || this.defaultHidePasswordLabel());
+
+  private inputElement = viewChild<ElementRef<HTMLInputElement>>("inputElement");
+
+  passwordVisible = signal(false);
+  hasPasswordToggle = computed(() => this.type() === "password");
+  inputType = computed(() => (this.hasPasswordToggle() && this.passwordVisible() ? "text" : this.type()));
+
+  togglePasswordVisibility() {
+    this.passwordVisible.update((visible) => !visible);
+  }
+
+  constructor() {
+    // Hide the password again on submit; the form is checked per event, so it holds however the form mounts.
+    const document = inject(DOCUMENT);
+    effect((onCleanup) => {
+      if (!this.hasPasswordToggle()) return;
+      const hide = (event: Event) => {
+        const input = this.inputElement()?.nativeElement;
+        if (!input || !this.passwordVisible() || event.target !== input.form) return;
+        input.type = "password";
+        this.passwordVisible.set(false);
+        this.cdr.markForCheck();
+      };
+      document.addEventListener("submit", hide, { capture: true });
+      onCleanup(() => document.removeEventListener("submit", hide, { capture: true }));
+    });
+  }
+
+  describedBy(): string | null {
+    const meta = this.field.api.state.meta;
+    const ids = [
+      this.description() ? `${this.field.api.name}-description` : null,
+      meta.isTouched && meta.errors.length > 0 ? `${this.field.api.name}-error` : null,
+    ].filter(Boolean);
+    return ids.length ? ids.join(" ") : null;
+  }
 
   handleInput(event: Event) {
     const value = (event.target as HTMLInputElement | null)?.value ?? "";

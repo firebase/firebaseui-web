@@ -139,6 +139,31 @@
     @apply flex items-center gap-2;
   }
 
+  :where(.fui-form fieldset label div[data-input-group]:has(.fui-form__password-toggle)) {
+    @apply relative;
+  }
+
+  :where(.fui-form fieldset label div[data-input-group]:has(.fui-form__password-toggle) input) {
+    @apply pe-10;
+  }
+
+  /* Hide Edge's built-in reveal button so there is only one toggle. */
+  :where(.fui-form [data-input-group]:has(.fui-form__password-toggle) input)::-ms-reveal {
+    display: none;
+  }
+
+  :where(.fui-form .fui-form__password-toggle) {
+    @apply absolute end-1 top-1/2 -translate-y-1/2 flex items-center justify-center size-8 rounded text-text-muted hover:text-text hover:cursor-pointer focus-visible:outline-2 focus-visible:outline-primary;
+  }
+
+  :where(.fui-form .fui-form__password-toggle svg) {
+    @apply size-4;
+  }
+
+  :where(.fui-sr-only) {
+    @apply sr-only;
+  }
+
   :where(.fui-form .fui-qr-code-container) {
     @apply flex flex-col items-center gap-4 text-text-muted text-xs;
   }

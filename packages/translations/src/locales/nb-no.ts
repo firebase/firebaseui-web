@@ -65,6 +65,8 @@ export const nbNO = {
     password: "Passord",
     displayName: "Visningsnavn",
     forgotPassword: "Glemt passord?",
+    showPassword: "Vis passord",
+    hidePassword: "Skjul passord",
     signUp: "Registrer deg",
     signIn: "Logg inn",
     resetPassword: "Tilbakestill passord",
