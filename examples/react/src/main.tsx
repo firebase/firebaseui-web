@@ -93,11 +93,15 @@ class ChunkErrorBoundary extends Component<{ children: ReactNode }, { failed: bo
     return { failed: true };
   }
 
+  componentDidCatch(error: unknown) {
+    console.error(error);
+  }
+
   render() {
     if (!this.state.failed) return this.props.children;
     return (
       <p className="p-8 text-sm">
-        The demo failed to load.{" "}
+        Something went wrong.{" "}
         <button className="underline" onClick={() => window.location.reload()}>
           Reload
         </button>
