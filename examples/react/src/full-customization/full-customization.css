@@ -22,7 +22,7 @@
  */
 
 @import url("https://fonts.googleapis.com/css2?family=Bagel+Fat+One&family=Chivo+Mono:wght@500&family=JetBrains+Mono:wght@400;500&family=Onest:wght@500;700&family=Roboto+Mono:wght@500&family=Roboto:wght@500;600&family=Rowdies:wght@300;400&display=swap");
-@import url("https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@24,400..700,0..1,0&icon_names=alternate_email,arrow_back,check,chevron_left,chevron_right,coffee,drafts,error,key,lock,mail,more_horiz,palette,person,phone,qr_code_2,shield,sms,smartphone,tag,verified_user,visibility,visibility_off&display=block");
+@import url("https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@24,400..700,0..1,0&icon_names=alternate_email,arrow_back,check,chevron_left,chevron_right,coffee,dark_mode,drafts,error,key,light_mode,lock,mail,more_horiz,palette,person,phone,qr_code_2,shield,smartphone,sms,tag,verified_user,visibility,visibility_off&display=block");
 
 /* Doggo: Figma 20:6031 */
 .fc-root[data-theme="doggo"] {
@@ -712,6 +712,16 @@
   color: #ffffff;
 }
 
+.fc-theme-switcher button.fc-theme-switcher__mode {
+  display: grid;
+  place-items: center;
+  padding: 6px 8px;
+}
+
+.fc-theme-switcher__mode .fc-icon {
+  font-size: 18px;
+}
+
 .fc-exit {
   position: fixed;
   z-index: 10;
@@ -732,6 +742,10 @@
 
 .fc-exit .fc-icon {
   font-size: 18px;
+}
+
+.fc-label--short {
+  display: none;
 }
 
 @media (max-width: 640px) {
@@ -757,8 +771,24 @@
     max-width: none;
   }
 
+  /* Stay clear of the back button, scrolling as a last resort. */
+  .fc-theme-switcher {
+    max-width: calc(100vw - 80px);
+    overflow-x: auto;
+    scrollbar-width: none;
+  }
+
   .fc-theme-switcher button {
-    padding: 6px 8px;
+    flex: none;
+    padding: 6px 7px;
+  }
+
+  .fc-label--long {
+    display: none;
+  }
+
+  .fc-label--short {
+    display: inline;
   }
 
   .fc-theme-switcher > .fc-icon,

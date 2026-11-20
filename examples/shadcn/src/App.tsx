@@ -59,7 +59,7 @@ function UnauthenticatedApp() {
         <ItemContent>
           <ItemTitle>Full Customization Demo</ItemTitle>
           <ItemDescription className="text-xs">
-            A complete sign in flow built from this example's shadcn/ui components, with three switchable themes.
+            A complete sign in flow built from this example's shadcn/ui components, with four switchable themes.
           </ItemDescription>
         </ItemContent>
         <ItemActions>
