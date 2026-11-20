@@ -35,7 +35,8 @@ import { paths } from "../state";
 
 export function PhoneStep() {
   const navigate = useNavigate();
-  const [country, setCountry] = useState<CountryData>(useDefaultCountry());
+  const defaultCountry = useDefaultCountry();
+  const [country, setCountry] = useState<CountryData>(defaultCountry);
   const [phone, setPhone] = useState("");
   const [verificationId, setVerificationId] = useState<string | null>(null);
 

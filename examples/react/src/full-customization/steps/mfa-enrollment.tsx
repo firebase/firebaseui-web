@@ -40,7 +40,7 @@ import {
   useResettableRecaptcha,
 } from "../components";
 import { paths } from "../state";
-import { useReauth } from "./reauth";
+import { useReauth } from "../reauth";
 
 type Step =
   | { kind: "select" }
@@ -138,7 +138,8 @@ function SmsSetup({
   withReauth: WithReauth;
   onCodeSent: (verificationId: string, phoneNumber: string) => void;
 }) {
-  const [country, setCountry] = useState<CountryData>(useDefaultCountry());
+  const defaultCountry = useDefaultCountry();
+  const [country, setCountry] = useState<CountryData>(defaultCountry);
   const [phone, setPhone] = useState("");
   const recaptcha = useResettableRecaptcha();
   const sendCode = useSmsMultiFactorEnrollmentPhoneAuthFormAction();

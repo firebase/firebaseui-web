@@ -18,12 +18,17 @@ import { useEffect, useState, type ReactElement } from "react";
 import { Link, Navigate, Route, Routes } from "react-router";
 import type { User } from "firebase/auth";
 import { completeEmailLinkSignIn } from "@firebase-oss/ui-core";
-import { useUI } from "@firebase-oss/ui-react";
+import { useMultiFactorAssertionCleanup, useUI } from "@firebase-oss/ui-react";
 
 import { useUser } from "~/firebase/hooks";
 import "./full-customization.css";
 import { DemoProvider, paths } from "./state";
-import { ThemeArt, ThemeSwitcher, useTheme } from "./theme";
+import { ProAccount } from "./professional/account";
+import { ProMfaChallengeStep } from "./professional/mfa-challenge";
+import { ProMfaEnrollment } from "./professional/mfa-enrollment";
+import { ProPhone } from "./professional/phone";
+import { ProEmailLink, ProResetPassword, ProSignIn, ProSignUp } from "./professional/sign-in";
+import { ThemeArt, ThemeIdContext, ThemeSwitcher, useTheme } from "./theme";
 import { AccountStep } from "./steps/account";
 import { EmailEntryStep } from "./steps/email-entry";
 import { LoginStep } from "./steps/login";
@@ -31,6 +36,12 @@ import { MfaChallengeStep } from "./steps/mfa-challenge";
 import { MfaEnrollmentStep } from "./steps/mfa-enrollment";
 import { PhoneStep } from "./steps/phone";
 import { SignUpStep } from "./steps/sign-up";
+
+/** Owns the sign-in resolver, so switching theme mid-challenge swaps the screen without cancelling the sign in. */
+function SignInChallenge({ children }: { children: ReactElement }) {
+  useMultiFactorAssertionCleanup();
+  return children;
+}
 
 /**
  * A complete sign in flow with its own UI, where FirebaseUI supplies only the auth logic through
@@ -55,42 +66,62 @@ export default function FullCustomizationDemo() {
   const signedOut = (step: ReactElement) => (user ? <Navigate to={paths.account} replace /> : step);
   const signedIn = (step: (user: User) => ReactElement) => (user ? step(user) : <Navigate to={paths.email} replace />);
 
+  // Professional brings its own screens; the other themes share one set and differ only in styling.
+  const pro = theme === "professional";
+  const screens = pro
+    ? {
+        email: <ProSignIn />,
+        login: <ProSignIn />,
+        signUp: <ProSignUp />,
+        phone: <ProPhone />,
+        resetPassword: <ProResetPassword />,
+        emailLink: <ProEmailLink />,
+        account: (u: User) => <ProAccount user={u} />,
+        twoFactor: (u: User) => <ProMfaEnrollment user={u} />,
+        challenge: <ProMfaChallengeStep />,
+      }
+    : {
+        email: <EmailEntryStep />,
+        login: <LoginStep />,
+        signUp: <SignUpStep />,
+        phone: <PhoneStep />,
+        resetPassword: <LoginStep />,
+        emailLink: <LoginStep />,
+        account: (u: User) => <AccountStep user={u} />,
+        twoFactor: (u: User) => <MfaEnrollmentStep user={u} />,
+        challenge: <MfaChallengeStep />,
+      };
+
   return (
-    <div className="fc-root" data-theme={theme}>
-      <ThemeArt theme={theme} />
-      <Link className="fc-exit" to="/" aria-label="All examples">
-        <span className="fc-icon" aria-hidden="true">
-          arrow_back
-        </span>
-        <span className="fc-exit__label">All examples</span>
-      </Link>
-      <ThemeSwitcher theme={theme} onChange={setTheme} />
-      <DemoProvider linkError={linkError}>
-        {/* A signed-in user with a resolver is reauthenticating; the reauth dialog completes that one. */}
-        {ui.multiFactorResolver && !user ? (
-          <MfaChallengeStep />
-        ) : (
-          <Routes>
-            <Route index element={signedOut(<EmailEntryStep />)} />
-            <Route path="login" element={signedOut(<LoginStep />)} />
-            <Route path="sign-up" element={signedOut(<SignUpStep />)} />
-            <Route path="phone" element={signedOut(<PhoneStep />)} />
-            <Route
-              path="account"
-              element={signedIn((u) => (
-                <AccountStep user={u} />
-              ))}
-            />
-            <Route
-              path="account/two-factor"
-              element={signedIn((u) => (
-                <MfaEnrollmentStep user={u} />
-              ))}
-            />
-            <Route path="*" element={<Navigate to={paths.email} replace />} />
-          </Routes>
-        )}
-      </DemoProvider>
-    </div>
+    <ThemeIdContext.Provider value={theme}>
+      <div className="fc-root" data-theme={theme}>
+        <ThemeArt theme={theme} />
+        <Link className="fc-exit" to="/" aria-label="All examples">
+          <span className="fc-icon" aria-hidden="true">
+            arrow_back
+          </span>
+          <span className="fc-exit__label">All examples</span>
+        </Link>
+        <ThemeSwitcher theme={theme} onChange={setTheme} />
+        <DemoProvider linkError={linkError}>
+          {/* A signed-in user with a resolver is reauthenticating; the reauth dialog completes that one. */}
+          {ui.multiFactorResolver && !user ? (
+            <SignInChallenge>{screens.challenge}</SignInChallenge>
+          ) : (
+            <Routes>
+              <Route index element={signedOut(screens.email)} />
+              <Route path="login" element={signedOut(screens.login)} />
+              <Route path="sign-up" element={signedOut(screens.signUp)} />
+              <Route path="phone" element={signedOut(screens.phone)} />
+              <Route path="reset-password" element={signedOut(screens.resetPassword)} />
+              <Route path="email-link" element={signedOut(screens.emailLink)} />
+              <Route path="account" element={signedIn(screens.account)} />
+              <Route path="account/two-factor" element={signedIn(screens.twoFactor)} />
+              <Route path="*" element={<Navigate to={paths.email} replace />} />
+            </Routes>
+          )}
+        </DemoProvider>
+      </div>
+    </ThemeIdContext.Provider>
   );
 }
