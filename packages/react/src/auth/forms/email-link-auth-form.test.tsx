@@ -171,7 +171,11 @@ describe("useEmailLinkAuthFormAction", () => {
     }).rejects.toMatchObject({
       code: "ui/unknown-error",
       message: "unknownError",
-      cause: { cause: expect.objectContaining({ message: "Unknown error" }) },
+      cause: {
+        code: "ui/unknown-error",
+        message: "Unknown error",
+        cause: expect.objectContaining({ message: "Unknown error" }),
+      },
     });
 
     expect(sendSignInLinkToEmailMock).toHaveBeenCalledWith(mockUI.get(), "test@example.com");

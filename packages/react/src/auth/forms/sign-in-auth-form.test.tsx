@@ -132,7 +132,11 @@ describe("useSignInAuthFormAction", () => {
     }).rejects.toMatchObject({
       code: "ui/unknown-error",
       message: "unknownError",
-      cause: { cause: expect.objectContaining({ message: "Unknown error" }) },
+      cause: {
+        code: "ui/unknown-error",
+        message: "Unknown error",
+        cause: expect.objectContaining({ message: "Unknown error" }),
+      },
     });
 
     expect(signInWithEmailAndPasswordMock).toHaveBeenCalledWith(mockUI.get(), "test@example.com", "password123");

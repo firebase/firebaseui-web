@@ -16,10 +16,14 @@
 
 "use client";
 
-import { FirebaseUIError, getTranslation, signInWithEmailAndPassword } from "@firebase-oss/ui-core";
+import {
+  createUnknownFirebaseUIError,
+  FirebaseUIError,
+  getTranslation,
+  signInWithEmailAndPassword,
+} from "@firebase-oss/ui-core";
 import type { UserCredential } from "firebase/auth";
 import { useSignInAuthFormSchema, useUI } from "~/hooks";
-import { createUnknownFirebaseUIError } from "~/utils/errors";
 import { form } from "~/components/form";
 import { Policies } from "~/components/policies";
 import { useCallback } from "react";

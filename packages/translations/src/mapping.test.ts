@@ -97,6 +97,7 @@ describe("mapping.ts", () => {
         "accountExistsWithDifferentCredential",
         "displayNameRequired",
         "secondFactorAlreadyInUse",
+        "unknownError",
       ];
 
       errorKeys.forEach((key) => {

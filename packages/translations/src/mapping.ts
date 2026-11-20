@@ -18,7 +18,7 @@ import { enUS } from "./locales/en-us";
 import { type RegisteredLocale } from ".";
 import type { ErrorKey, TranslationCategory, TranslationKey, TranslationSet } from "./types";
 
-/** Maps Firebase authentication error codes to translation keys. */
+/** Maps Firebase authentication error codes, and FirebaseUI's own `ui/unknown-error`, to translation keys. */
 export const ERROR_CODE_MAP = {
   "auth/user-not-found": "userNotFound",
   "auth/wrong-password": "wrongPassword",
@@ -48,6 +48,7 @@ export const ERROR_CODE_MAP = {
   "auth/account-exists-with-different-credential": "accountExistsWithDifferentCredential",
   "auth/display-name-required": "displayNameRequired",
   "auth/second-factor-already-in-use": "secondFactorAlreadyInUse",
+  "ui/unknown-error": "unknownError",
 } satisfies Record<string, ErrorKey>;
 
 /** Firebase authentication error code type. */
