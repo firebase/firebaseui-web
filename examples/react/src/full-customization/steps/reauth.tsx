@@ -14,107 +14,19 @@
  * limitations under the License.
  */
 
-import { useCallback, useEffect, useRef, useState } from "react";
-import { FirebaseError } from "firebase/app";
-import {
-  EmailAuthProvider,
-  getMultiFactorResolver,
-  GoogleAuthProvider,
-  reauthenticateWithCredential,
-  reauthenticateWithPopup,
-  type MultiFactorError,
-} from "firebase/auth";
-import { useUI } from "@firebase-oss/ui-react";
+import { useEffect, useRef } from "react";
 
-import {
-  Actions,
-  Button,
-  ErrorText,
-  Links,
-  ProviderButton,
-  ReauthCancelledError,
-  TextField,
-  TextLink,
-  useAuthTask,
-} from "../components";
+import { Actions, Button, ErrorText, Links, ProviderButton, TextField, TextLink } from "../components";
+import type { ReauthDialogProps, ReauthFlow } from "../reauth";
 import { MfaChallenge } from "./mfa-challenge";
 
-type Pending = { reason: string; resolve: () => void; reject: (error: Error) => void };
-
-/**
- * FirebaseUI has no reauthentication API yet, so this calls firebase/auth directly.
- *
- * `withReauth(reason, task)` runs the task, and when Firebase answers `auth/requires-recent-login`
- * it opens the dialog, waits for the user to confirm who they are, then runs the task again.
- */
-export function useReauth() {
-  const [pending, setPending] = useState<Pending | null>(null);
-
-  const withReauth = useCallback(async <T,>(reason: string, task: () => Promise<T>): Promise<T> => {
-    try {
-      return await task();
-    } catch (error) {
-      if (!(error instanceof FirebaseError) || error.code !== "auth/requires-recent-login") throw error;
-      await new Promise<void>((resolve, reject) => setPending({ reason, resolve, reject }));
-      return await task();
-    }
-  }, []);
-
-  const dialog = pending && (
-    <ReauthDialog
-      reason={pending.reason}
-      onConfirmed={() => {
-        pending.resolve();
-        setPending(null);
-      }}
-      onCancel={() => {
-        pending.reject(new ReauthCancelledError());
-        setPending(null);
-      }}
-    />
-  );
-
-  return { withReauth, dialog };
-}
-
-function ReauthDialog({
-  reason,
-  onConfirmed,
-  onCancel,
-}: {
-  reason: string;
-  onConfirmed: () => void;
-  onCancel: () => void;
-}) {
-  const ui = useUI();
-  const user = ui.auth.currentUser!;
+export function ThemedReauthDialog({ reason, onConfirmed, onCancel, flow }: ReauthDialogProps & { flow: ReauthFlow }) {
+  const { password, setPassword, secondFactor, task, hasPassword, hasGoogle } = flow;
   const ref = useRef<HTMLDialogElement>(null);
-  const [password, setPassword] = useState("");
-  const [secondFactor, setSecondFactor] = useState(false);
-  const task = useAuthTask();
-
-  const providers = user.providerData.map((p) => p.providerId);
-  const hasPassword = providers.includes(EmailAuthProvider.PROVIDER_ID) && user.email;
-  const hasGoogle = providers.includes(GoogleAuthProvider.PROVIDER_ID);
 
   useEffect(() => {
     ref.current?.showModal();
   }, []);
-
-  const confirm = (reauthenticate: () => Promise<unknown>) =>
-    task.run(async () => {
-      try {
-        await reauthenticate();
-      } catch (error) {
-        if (!(error instanceof FirebaseError) || error.code !== "auth/multi-factor-auth-required") throw error;
-        // With a second factor enrolled, reauthentication needs it too. Putting the resolver on the UI state
-        // lets the same challenge screens finish it; the demo root only takes over for signed-out users.
-        ui.setMultiFactorResolver(getMultiFactorResolver(ui.auth, error as MultiFactorError));
-        setSecondFactor(true);
-        return;
-      }
-      onConfirmed();
-    });
 
   return (
     <dialog
@@ -147,7 +59,7 @@ function ReauthDialog({
           className="fc-card"
           onSubmit={(event) => {
             event.preventDefault();
-            void confirm(() => reauthenticateWithCredential(user, EmailAuthProvider.credential(user.email!, password)));
+            void flow.confirmPassword();
           }}
         >
           <p id="fc-reauth-title" className="fc-prompt">
@@ -166,10 +78,7 @@ function ReauthDialog({
             />
           )}
           {hasGoogle && (
-            <ProviderButton
-              provider="google"
-              onClick={() => confirm(() => reauthenticateWithPopup(user, new GoogleAuthProvider()))}
-            >
+            <ProviderButton provider="google" onClick={() => void flow.confirmGoogle()}>
               Continue with Google
             </ProviderButton>
           )}

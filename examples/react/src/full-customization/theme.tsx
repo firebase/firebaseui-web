@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-import { useState } from "react";
+import { createContext, useContext, useState } from "react";
 
 import doggoPattern from "./assets/doggo-pattern.svg";
 import gridPattern from "./assets/grid-pattern.svg";
@@ -22,11 +22,19 @@ import sparkBlob from "./assets/spark-blob.webp";
 
 export const themes = [
   { id: "doggo", label: "Doggo" },
-  { id: "spark", label: "Coffee Spark" },
+  { id: "spark", label: "Coffee Spark", short: "Spark" },
   { id: "grid", label: "Grid" },
+  { id: "professional", label: "Professional" },
 ] as const;
 
 export type ThemeId = (typeof themes)[number]["id"];
+
+/** The active theme, for the screens whose layout differs per theme (Professional has its own). */
+export const ThemeIdContext = createContext<ThemeId>("doggo");
+
+export function useThemeId() {
+  return useContext(ThemeIdContext);
+}
 
 const STORAGE_KEY = "firebaseui:full-customization:theme";
 
@@ -60,12 +68,48 @@ export function ThemeSwitcher({ theme, onChange }: { theme: ThemeId; onChange: (
       <span className="fc-icon" aria-hidden="true">
         palette
       </span>
-      {themes.map(({ id, label }) => (
-        <button key={id} type="button" aria-pressed={theme === id} onClick={() => onChange(id)}>
-          {label}
+      {themes.map((t) => (
+        <button key={t.id} type="button" aria-pressed={theme === t.id} onClick={() => onChange(t.id)}>
+          {"short" in t ? (
+            <>
+              <span className="fc-label--long">{t.label}</span>
+              <span className="fc-label--short">{t.short}</span>
+            </>
+          ) : (
+            t.label
+          )}
         </button>
       ))}
+      {theme === "professional" && <DarkModeToggle />}
     </div>
+  );
+}
+
+/** The example's light/dark toggle is hidden on this route, so Professional, which follows it, gets its own. */
+function DarkModeToggle() {
+  const [dark, setDark] = useState(() => document.documentElement.classList.contains("dark"));
+
+  return (
+    <button
+      type="button"
+      className="fc-theme-switcher__mode"
+      aria-pressed={dark}
+      aria-label="Dark mode"
+      onClick={() => {
+        const next = !dark;
+        document.documentElement.classList.toggle("dark", next);
+        try {
+          window.localStorage.setItem("theme", next ? "dark" : "light");
+        } catch {
+          // Storage can be unavailable (private mode), the switch still works for this visit.
+        }
+        setDark(next);
+      }}
+    >
+      <span className="fc-icon" aria-hidden="true">
+        {dark ? "dark_mode" : "light_mode"}
+      </span>
+    </button>
   );
 }
 
