@@ -34,6 +34,13 @@ export const routes: Routes = [
     })),
   },
   {
+    path: "full-customization",
+    loadComponent: () =>
+      import("./full-customization/full-customization.component").then((m) => m.FullCustomizationComponent),
+    // The demo routes its own screens from the URL, so every path below it renders the same component.
+    children: [{ path: "**", children: [] }],
+  },
+  {
     path: "**",
     redirectTo: "",
   },
