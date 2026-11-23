@@ -55,7 +55,7 @@ function UnauthenticatedApp() {
         <div className="space-y-1">
           <h2 className="font-medium text-sm">Full Customization Demo</h2>
           <p className="text-xs text-gray-400 dark:text-gray-300">
-            A complete sign in flow with its own UI and three switchable themes, built on the ui-react hooks.
+            A complete sign in flow with its own UI and four switchable themes, built on the ui-react hooks.
           </p>
         </div>
         <div className="text-neutral-600 dark:text-neutral-400">

@@ -15,8 +15,10 @@
  */
 
 import { Component, computed, inject, input } from "@angular/core";
-import { RouterModule, Router } from "@angular/router";
-import { CommonModule } from "@angular/common";
+import { toSignal } from "@angular/core/rxjs-interop";
+import { NavigationEnd, RouterModule, Router } from "@angular/router";
+import { filter, map } from "rxjs";
+import { CommonModule, Location } from "@angular/common";
 import { Auth, multiFactor, sendEmailVerification, signOut, type User } from "@angular/fire/auth";
 import { routes } from "./routes";
 import { ThemeToggleComponent } from "./components/theme-toggle/theme-toggle.component";
@@ -40,6 +42,20 @@ import { injectUI } from "@firebase-oss/ui-angular";
             Welcome to Firebase UI, choose an example screen below to get started!
           </p>
         </div>
+        <a
+          routerLink="/full-customization"
+          class="flex items-center justify-between border border-neutral-200 dark:border-neutral-800 rounded hover:bg-neutral-100 dark:bg-neutral-900 dark:hover:bg-neutral-800 p-4"
+        >
+          <div class="space-y-1">
+            <h2 class="font-medium text-sm">Full Customization Demo</h2>
+            <p class="text-xs text-gray-400 dark:text-gray-300">
+              A complete sign in flow with its own UI and four switchable themes, built on ui-angular and ui-core.
+            </p>
+          </div>
+          <div class="text-neutral-600 dark:text-neutral-400">
+            <span class="text-xl">&rarr;</span>
+          </div>
+        </a>
         <div
           class="border border-neutral-200 dark:border-neutral-800 rounded divide-y divide-neutral-200 dark:divide-neutral-800 overflow-hidden"
         >
@@ -135,4 +151,16 @@ export class AuthenticatedAppComponent {
   imports: [CommonModule, RouterModule, ThemeToggleComponent, PirateToggleComponent],
   templateUrl: "./app.component.html",
 })
-export class AppComponent {}
+export class AppComponent {
+  private router = inject(Router);
+  private url = toSignal(
+    this.router.events.pipe(
+      filter((event) => event instanceof NavigationEnd),
+      map(() => this.router.url)
+    ),
+    // router.url is still "/" before the first navigation ends; the location already has the real path.
+    { initialValue: inject(Location).path() }
+  );
+  // The full customization demo draws its own chrome, so the example-wide toggles stay out of its way.
+  showToggles = computed(() => !this.url().startsWith("/full-customization"));
+}
