@@ -45,6 +45,21 @@ export class FirebaseUIError extends FirebaseError {
   }
 }
 
+/**
+ * Creates a FirebaseUIError with the code `ui/unknown-error` for an error that is not a Firebase error.
+ *
+ * Its message is the translated `unknownError`. Its `cause` is a FirebaseError with the original error's untranslated message, and the original error as its own `cause`.
+ *
+ * @param ui - The FirebaseUI instance.
+ * @param error - The original error.
+ * @returns A FirebaseUIError for the unknown error.
+ */
+export function createUnknownFirebaseUIError(ui: FirebaseUI, error: unknown): FirebaseUIError {
+  const unknownError = new FirebaseError("ui/unknown-error", error instanceof Error ? error.message : String(error));
+  unknownError.cause = error;
+  return new FirebaseUIError(ui, unknownError);
+}
+
 // Codes caused by app or project misconfiguration rather than the user, which are logged for the developer.
 const CONFIGURATION_ERROR_CODES = new Set([
   "auth/admin-restricted-operation",

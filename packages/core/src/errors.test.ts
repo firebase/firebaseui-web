@@ -18,7 +18,7 @@ import { afterEach, beforeEach, describe, expect, it, vi } from "vitest";
 import { FirebaseError } from "firebase/app";
 import { Auth, AuthCredential, MultiFactorResolver } from "firebase/auth";
 import { ERROR_CODE_MAP } from "@firebase-oss/ui-translations";
-import { FirebaseUIError, handleFirebaseError } from "./errors";
+import { createUnknownFirebaseUIError, FirebaseUIError, handleFirebaseError } from "./errors";
 import { PENDING_CREDENTIAL_STORAGE_KEY } from "./behaviors/legacy-fetch-sign-in-with-email";
 import { createMockUI } from "~/tests/utils";
 
@@ -133,6 +133,38 @@ describe("FirebaseUIError", () => {
     expect(error.message).toBe("There is a configuration issue.");
     expect(error.cause).toBe(mockFirebaseError);
     expect(error.cause.message).toBe("Firebase: Error (auth/api-key-expired).");
+  });
+});
+
+describe("createUnknownFirebaseUIError", () => {
+  it("creates a ui/unknown-error with the translated message and the original error as cause", () => {
+    const mockUI = createMockUI();
+    const originalError = new Error("Something broke");
+
+    vi.mocked(getTranslation).mockImplementation((_ui, _category, key) =>
+      key === ERROR_CODE_MAP["ui/unknown-error"] ? "An unknown error occurred" : ""
+    );
+
+    const error = createUnknownFirebaseUIError(mockUI, originalError);
+
+    expect(error).toBeInstanceOf(FirebaseUIError);
+    expect(error.code).toBe("ui/unknown-error");
+    expect(error.message).toBe("An unknown error occurred");
+    expect(error.cause).toBeInstanceOf(FirebaseError);
+    expect(error.cause.code).toBe("ui/unknown-error");
+    expect(error.cause.message).toBe("Something broke");
+    expect(error.cause.cause).toBe(originalError);
+  });
+
+  it("uses the string form of a non-Error value as the untranslated message", () => {
+    const mockUI = createMockUI();
+
+    vi.mocked(getTranslation).mockReturnValue("An unknown error occurred");
+
+    const error = createUnknownFirebaseUIError(mockUI, "Something broke");
+
+    expect(error.cause.message).toBe("Something broke");
+    expect(error.cause.cause).toBe("Something broke");
   });
 });
 
